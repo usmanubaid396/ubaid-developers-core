@@ -4,12 +4,12 @@ import {
   Code, Cpu, Terminal, Zap, Activity, Server, ArrowUpRight, 
   Database, Crosshair, Mail, Phone, MapPin, Box, Layers, Shield, 
   CpuIcon, Globe, TerminalSquare, Workflow, Flame, CheckCircle2,
-  Layers3, Sparkles, Command, GitBranch, Layers as LayersIcon, Eye,
-  Maximize2, RefreshCw, Compass, BoxSelect, Cpu as CpuSymbol
+  Layers3, Sparkles, Command, GitBranch, Eye, Maximize2, RefreshCw, 
+  Compass, BoxSelect, Cpu as CpuSymbol, Play, Pause, ChevronRight
 } from 'lucide-react';
 
 /* ==========================================================================
-   ADVANCED 60FPS WEBGL & THREE.JS SPATIAL ENGINE
+   ADVANCED 60FPS WEBGL & THREE.JS CINEMATIC SPATIAL ENGINE
    ================================================================---------- */
 const WebGLEngine = () => {
   const mountRef = useRef(null);
@@ -19,59 +19,59 @@ const WebGLEngine = () => {
     const h = window.innerHeight;
     
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x000000, 0.008);
+    scene.fog = new THREE.FogExp2(0x000000, 0.007);
     
     const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 1000);
-    camera.position.z = 45;
+    camera.position.z = 40;
     
     const renderer = new THREE.WebGLRenderer({ alpha: false, antialias: true, powerPreference: "high-performance" });
     renderer.setSize(w, h);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     if (mountRef.current) mountRef.current.appendChild(renderer.domElement);
 
-    const ambientLight = new THREE.AmbientLight(0x111111, 2.0);
+    const ambientLight = new THREE.AmbientLight(0x151515, 2.5);
     scene.add(ambientLight);
 
-    const pointLight1 = new THREE.PointLight(0xdc2626, 8, 180);
-    pointLight1.position.set(25, 25, 35);
+    const pointLight1 = new THREE.PointLight(0xdc2626, 9, 200);
+    pointLight1.position.set(30, 30, 40);
     scene.add(pointLight1);
 
-    const pointLight2 = new THREE.PointLight(0x3b82f6, 6, 180);
-    pointLight2.position.set(-25, -25, 25);
+    const pointLight2 = new THREE.PointLight(0x3b82f6, 7, 200);
+    pointLight2.position.set(-30, -30, 30);
     scene.add(pointLight2);
 
-    // Multi-Layered 3D Core Architecture
+    // Dynamic Multi-Layered 3D Core Matrix
     const coreGroup = new THREE.Group();
     
-    const coreGeo = new THREE.IcosahedronGeometry(9, 2);
+    const coreGeo = new THREE.IcosahedronGeometry(8.5, 2);
     const coreMat = new THREE.MeshStandardMaterial({ 
-      color: 0x020202, 
+      color: 0x010101, 
       roughness: 0.1, 
-      metalness: 0.98
+      metalness: 0.99
     });
     const coreMeshSolid = new THREE.Mesh(coreGeo, coreMat);
     
-    const wireMat = new THREE.MeshBasicMaterial({ color: 0xdc2626, wireframe: true, transparent: true, opacity: 0.85 });
+    const wireMat = new THREE.MeshBasicMaterial({ color: 0xdc2626, wireframe: true, transparent: true, opacity: 0.9 });
     const coreMeshWire = new THREE.Mesh(coreGeo, wireMat);
 
-    const innerGeo = new THREE.IcosahedronGeometry(5.5, 1);
-    const innerMat = new THREE.MeshBasicMaterial({ color: 0x3b82f6, wireframe: true, transparent: true, opacity: 0.6 });
+    const innerGeo = new THREE.IcosahedronGeometry(5, 1);
+    const innerMat = new THREE.MeshBasicMaterial({ color: 0x3b82f6, wireframe: true, transparent: true, opacity: 0.7 });
     const innerMesh = new THREE.Mesh(innerGeo, innerMat);
 
-    const ringGeo1 = new THREE.TorusGeometry(14, 0.06, 16, 100);
-    const ringMat1 = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.35 });
+    const ringGeo1 = new THREE.TorusGeometry(13, 0.05, 16, 100);
+    const ringMat1 = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.4 });
     const ring1 = new THREE.Mesh(ringGeo1, ringMat1);
     ring1.rotation.x = Math.PI / 3;
 
-    const ringGeo2 = new THREE.TorusGeometry(17, 0.04, 16, 100);
+    const ringGeo2 = new THREE.TorusGeometry(16, 0.035, 16, 100);
     const ring2 = new THREE.Mesh(ringGeo2, ringMat1);
     ring2.rotation.y = Math.PI / 4;
 
-    const ringGeo3 = new THREE.TorusGeometry(20, 0.03, 16, 100);
+    const ringGeo3 = new THREE.TorusGeometry(19, 0.025, 16, 100);
     const ring3 = new THREE.Mesh(ringGeo3, ringMat1);
     ring3.rotation.z = Math.PI / 6;
 
-    const hitBoxGeo = new THREE.SphereGeometry(13, 16, 16);
+    const hitBoxGeo = new THREE.SphereGeometry(12, 16, 16);
     const hitBoxMat = new THREE.MeshBasicMaterial({ visible: false });
     const coreHitBox = new THREE.Mesh(hitBoxGeo, hitBoxMat);
 
@@ -86,16 +86,16 @@ const WebGLEngine = () => {
 
     // Interactive Floating Shards Field
     const shardsGroup = new THREE.Group();
-    const shardGeo = new THREE.TetrahedronGeometry(1.1, 0);
-    const shardMat = new THREE.MeshStandardMaterial({ color: 0xdc2626, roughness: 0.2, metalness: 0.85 });
+    const shardGeo = new THREE.TetrahedronGeometry(1.0, 0);
+    const shardMat = new THREE.MeshStandardMaterial({ color: 0xdc2626, roughness: 0.15, metalness: 0.9 });
     const shards = [];
     
-    for(let i = 0; i < 60; i++) {
+    for(let i = 0; i < 70; i++) {
       const shard = new THREE.Mesh(shardGeo, shardMat);
-      shard.position.set((Math.random() - 0.5) * 90, (Math.random() - 0.5) * 90, (Math.random() - 0.5) * 70);
+      shard.position.set((Math.random() - 0.5) * 100, (Math.random() - 0.5) * 100, (Math.random() - 0.5) * 80);
       shard.userData = {
-        rotSpeedX: (Math.random() - 0.5) * 0.07,
-        rotSpeedY: (Math.random() - 0.5) * 0.07,
+        rotSpeedX: (Math.random() - 0.5) * 0.08,
+        rotSpeedY: (Math.random() - 0.5) * 0.08,
         originX: shard.position.x,
         originY: shard.position.y,
         originZ: shard.position.z,
@@ -106,14 +106,14 @@ const WebGLEngine = () => {
     }
     scene.add(shardsGroup);
 
-    // High-Density Particle Matrix
-    const particleCount = 4000;
+    // Dense High-Performance Particle Matrix
+    const particleCount = 4500;
     const particleGeo = new THREE.BufferGeometry();
     const particlePos = new Float32Array(particleCount * 3);
     const particleOriginalPos = new Float32Array(particleCount * 3);
     
     for(let i = 0; i < particleCount * 3; i += 3) {
-      const r = 18 + Math.random() * 65;
+      const r = 15 + Math.random() * 70;
       const theta = 2 * Math.PI * Math.random();
       const phi = Math.acos(2 * Math.random() - 1);
       
@@ -126,7 +126,7 @@ const WebGLEngine = () => {
     }
     
     particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePos, 3));
-    const particleMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.16, transparent: true, opacity: 0.8 });
+    const particleMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.15, transparent: true, opacity: 0.85 });
     const particles = new THREE.Points(particleGeo, particleMat);
     scene.add(particles);
 
@@ -165,24 +165,25 @@ const WebGLEngine = () => {
       rafId = requestAnimationFrame(animate);
       const time = clock.getElapsedTime();
       
-      currentScroll += (targetScroll - currentScroll) * 0.07;
+      currentScroll += (targetScroll - currentScroll) * 0.06;
       
-      const targetCoreScale = isCoreHovered ? 1.45 : 1.0;
-      const pulse = Math.sin(time * 4.5) * 0.08;
+      const targetCoreScale = isCoreHovered ? 1.5 : 1.0;
+      const pulse = Math.sin(time * 5) * 0.09;
       
       coreTargetScale.setScalar(targetCoreScale + pulse);
       coreGroup.scale.lerp(coreTargetScale, 0.12);
       
-      coreGroup.rotation.y = time * 0.35 + (currentScroll * 0.002);
-      coreGroup.rotation.x = Math.sin(time * 0.25) * 0.25 + (currentScroll * 0.001);
-      innerMesh.rotation.x = -time * 0.6;
-      ring1.rotation.z = time * 0.45;
-      ring2.rotation.y = -time * 0.35;
-      ring3.rotation.x = time * 0.25;
+      coreGroup.rotation.y = time * 0.4 + (currentScroll * 0.0025);
+      coreGroup.rotation.x = Math.sin(time * 0.3) * 0.3 + (currentScroll * 0.0015);
+      innerMesh.rotation.x = -time * 0.7;
+      ring1.rotation.z = time * 0.5;
+      ring2.rotation.y = -time * 0.4;
+      ring3.rotation.x = time * 0.3;
       
-      const camTargetX = (mouse.x * 14);
-      const camTargetY = (-(currentScroll * 0.016) + (mouse.y * 14));
-      const camTargetZ = 45 - (currentScroll * 0.025);
+      // Cinematic Camera Parallax & Scroll Integration (Camera flies through 3D space with scroll)
+      const camTargetX = (mouse.x * 16);
+      const camTargetY = (-(currentScroll * 0.022) + (mouse.y * 16));
+      const camTargetZ = 40 - (currentScroll * 0.035);
       
       camera.position.x += (camTargetX - camera.position.x) * 0.08;
       camera.position.y += (camTargetY - camera.position.y) * 0.08;
@@ -192,15 +193,15 @@ const WebGLEngine = () => {
       shards.forEach((shard) => {
         shard.rotation.x += shard.userData.rotSpeedX;
         shard.rotation.y += shard.userData.rotSpeedY;
-        shard.position.y = shard.userData.originY + Math.sin(time * 3.5 + shard.userData.phase) * 2.8;
+        shard.position.y = shard.userData.originY + Math.sin(time * 4 + shard.userData.phase) * 3.2;
         
         const distToMouse = shard.position.distanceTo(targetMouse);
-        if(distToMouse < 25) {
+        if(distToMouse < 28) {
           const dir = shard.position.clone().sub(targetMouse).normalize();
-          shard.position.add(dir.multiplyScalar(0.4));
+          shard.position.add(dir.multiplyScalar(0.45));
         } else {
-          shard.position.x += (shard.userData.originX - shard.position.x) * 0.07;
-          shard.position.z += (shard.userData.originZ - shard.position.z) * 0.07;
+          shard.position.x += (shard.userData.originX - shard.position.x) * 0.08;
+          shard.position.z += (shard.userData.originZ - shard.position.z) * 0.08;
         }
       });
 
@@ -214,19 +215,19 @@ const WebGLEngine = () => {
         const dz = pz - targetMouse.z;
         const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
 
-        if(dist < 20) {
-          const force = (20 - dist) * 0.2;
+        if(dist < 22) {
+          const force = (22 - dist) * 0.22;
           positions[i] += (dx / dist) * force;
           positions[i+1] += (dy / dist) * force;
           positions[i+2] += (dz / dist) * force;
         }
 
-        positions[i] += (particleOriginalPos[i] - positions[i]) * 0.08;
-        positions[i+1] += (particleOriginalPos[i+1] - positions[i+1]) * 0.08;
-        positions[i+2] += (particleOriginalPos[i+2] - positions[i+2]) * 0.08;
+        positions[i] += (particleOriginalPos[i] - positions[i]) * 0.09;
+        positions[i+1] += (particleOriginalPos[i+1] - positions[i+1]) * 0.09;
+        positions[i+2] += (particleOriginalPos[i+2] - positions[i+2]) * 0.09;
       }
       particleGeo.attributes.position.needsUpdate = true;
-      particles.rotation.y = time * 0.06;
+      particles.rotation.y = time * 0.07;
 
       renderer.render(scene, camera);
     };
@@ -262,8 +263,8 @@ const TiltCard = ({ children, className }) => {
     const rect = cardRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -16;
-    const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 16;
+    const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -18;
+    const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 18;
     cardRef.current.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.04, 1.04, 1.04)`;
   };
   const handleMouseLeave = () => {
@@ -280,7 +281,7 @@ const SystemStatus = () => (
   <div className="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-md border-b border-neutral-800/80 text-[10px] sm:text-xs uppercase flex justify-between items-center px-4 py-3 font-light tracking-widest text-neutral-400">
     <div className="flex items-center gap-2 text-white font-bold">
       <div className="w-2 h-2 bg-[#dc2626] rounded-full animate-pulse shadow-[0_0_15px_#dc2626]"></div>
-      USMAN_UBAID // 60FPS KERNEL ACTIVE
+      USMAN_UBAID // IMMERSIVE SCROLL KERNEL 60FPS
     </div>
     <div className="text-[#3b82f6] font-bold hidden sm:block">LAHORE, PK [31.5204° N, 74.3587° E]</div>
   </div>
@@ -292,10 +293,10 @@ const Navigation = () => (
       <h1 className="text-2xl font-bold tracking-tighter text-white flex items-center gap-2">
         Usman Ubaid <span className="text-[#dc2626]">.</span>
       </h1>
-      <p className="text-xs text-neutral-400 tracking-widest mt-1 uppercase">Full-Stack SaaS Architect & ML Systems Engineer</p>
+      <p className="text-xs text-neutral-400 tracking-widest mt-1 uppercase">Full-Stack SaaS Architect & 3D Interactive Systems</p>
     </div>
     <div className="flex gap-6 text-xs font-bold tracking-[0.2em] uppercase items-center">
-      {['Work', 'Showcase', 'Ecosystem', 'Expertise', 'Contact'].map((item, idx) => (
+      {['Work', 'Showcase', 'Scrollytelling', 'Ecosystem', 'Contact'].map((item, idx) => (
         <a key={idx} href={`#${item.toLowerCase()}`} className="text-neutral-400 hover:text-[#dc2626] transition-colors">
           [{item}]
         </a>
@@ -311,7 +312,7 @@ const Hero = () => (
   <section id="index" className="relative z-10 w-full px-4 sm:px-8 pt-24 pb-32 border-b border-neutral-800/80 bg-gradient-to-b from-transparent via-black/80 to-black">
     <div className="max-w-6xl">
       <p className="text-[#dc2626] text-xs sm:text-sm tracking-[0.3em] mb-8 font-bold flex items-center gap-2">
-        <Crosshair size={16} /> FULL-STACK SaaS & DYNAMIC PLATFORMS
+        <Crosshair size={16} /> FULL-STACK SaaS & 3D IMMERSIVE WORKSPACE
       </p>
       <h2 className="text-5xl sm:text-7xl md:text-9xl font-black tracking-tighter uppercase leading-[0.85] text-white">
         I build high-end <br /><span className="stroke-text">SaaS products</span> & web apps that scale.
@@ -416,7 +417,7 @@ const Works = () => {
 };
 
 /* ==========================================================================
-   NEW MANDATORY TEMPLATE: HORIZONTAL SCROLLING SHOWCASE
+   HORIZONTAL SCROLLING SHOWCASE TEMPLATE
    ================================================================---------- */
 const HorizontalShowcase = () => {
   const containerRef = useRef(null);
@@ -437,7 +438,7 @@ const HorizontalShowcase = () => {
   }, []);
 
   return (
-    <section ref={containerRef} id="showcase" className="relative h-[300vh] bg-black">
+    <section ref={containerRef} id="showcase" className="relative h-[350vh] bg-black">
       <div className="sticky top-0 h-screen overflow-hidden flex items-center">
         <div className="absolute top-12 left-8 md:left-16 z-20">
           <p className="text-[#3b82f6] text-xs font-bold tracking-[0.3em] uppercase mb-2">// HORIZONTAL SCROLLING KERNEL</p>
@@ -466,6 +467,68 @@ const HorizontalShowcase = () => {
             </div>
           ))}
         </div>
+      </div>
+    </section>
+  );
+};
+
+/* ==========================================================================
+   NEW MANDATORY TEMPLATE: SCROLLYTELLING NARRATIVE MILESTONES
+   ================================================================---------- */
+const ScrollytellingSection = () => {
+  const [activeStep, setActiveStep] = useState(0);
+  const stepsRef = useRef([]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      stepsRef.current.forEach((el, index) => {
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= window.innerHeight * 0.5 && rect.bottom >= window.innerHeight * 0.2) {
+          setActiveStep(index);
+        }
+      });
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const milestones = [
+    { phase: "PHASE_01 // ARCHITECTING", title: "System Scoping & Database Modeling", desc: "Defining high-throughput database schemas in PostgreSQL, establishing secure REST endpoints, and designing component hierarchies." },
+    { phase: "PHASE_02 // ENGINEERING", title: "Full-Stack React & Next.js Build", desc: "Developing responsive SaaS interfaces using Tailwind CSS, implementing server actions, and configuring lightning-fast Vercel edge deployment." },
+    { phase: "PHASE_03 // 3D KERNEL INTEGRATION", title: "WebGL Shaders & Spatial Shards", desc: "Embedding Three.js particle matrices, raycasted mouse physics, and hardware-accelerated 60FPS visual depth into user interfaces." },
+    { phase: "PHASE_04 // DEPLOYMENT & SCALE", title: "Production Launch & AI Pipelines", desc: "Connecting Python machine learning models, optimizing performance metrics, and pushing live to production environments." }
+  ];
+
+  return (
+    <section id="scrollytelling" className="relative z-10 w-full py-32 bg-black border-b border-neutral-800 px-4 sm:px-8">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+        
+        {/* Sticky Visual Indicator Column */}
+        <div className="lg:col-span-5 sticky top-32 border border-neutral-800 bg-neutral-950 p-8 sm:p-10 backdrop-blur-xl">
+          <p className="text-[#dc2626] text-xs font-bold tracking-[0.3em] uppercase mb-4">// NARRATIVE KERNEL PROGRESSION</p>
+          <h3 className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-white mb-6">Development Lifecycle</h3>
+          <div className="space-y-4 font-mono text-xs">
+            {milestones.map((m, idx) => (
+              <div key={idx} className={`p-4 border transition-all flex items-center justify-between ${activeStep === idx ? 'border-[#dc2626] bg-neutral-900 text-white' : 'border-neutral-900 bg-black text-neutral-500'}`}>
+                <span>{m.phase}</span>
+                {activeStep === idx && <div className="w-2 h-2 bg-[#dc2626] rounded-full animate-ping"></div>}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Scrolling Narrative Steps Column */}
+        <div className="lg:col-span-7 space-y-32">
+          {milestones.map((m, idx) => (
+            <div key={idx} ref={el => stepsRef.current[idx] = el} className="min-h-[60vh] flex flex-col justify-center border-l-2 border-neutral-800 pl-8 sm:pl-12">
+              <span className="text-xs font-mono text-[#dc2626] mb-3 tracking-widest">{m.phase}</span>
+              <h4 className="text-4xl sm:text-6xl font-black uppercase tracking-tighter text-white mb-6 leading-none">{m.title}</h4>
+              <p className="text-base text-neutral-400 font-mono leading-relaxed">{m.desc}</p>
+            </div>
+          ))}
+        </div>
+
       </div>
     </section>
   );
@@ -594,6 +657,7 @@ export default function App() {
         <Hero />
         <Works />
         <HorizontalShowcase />
+        <ScrollytellingSection />
         <EcosystemTemplates />
         <Capabilities />
         <Footer />
