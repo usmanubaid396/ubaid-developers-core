@@ -6,7 +6,7 @@ import {
   CpuIcon, Globe, TerminalSquare, Workflow, Flame, CheckCircle2,
   Layers3, Sparkles, Command, GitBranch, Eye, Maximize2, RefreshCw, 
   Compass, BoxSelect, Cpu as CpuSymbol, Play, Pause, ChevronRight,
-  Radio, CpuShare, Terminal as TerminalIcon, Cpu as Microchip
+  Radio, CpuShare, Terminal as TerminalIcon, Cpu as Microchip, Hexagon, Network
 } from 'lucide-react';
 
 /* ==========================================================================
@@ -41,15 +41,9 @@ const WebGLEngine = () => {
     pointLight2.position.set(-30, -30, 30);
     scene.add(pointLight2);
 
-    // Dynamic Multi-Layered 3D Core Matrix
     const coreGroup = new THREE.Group();
-    
     const coreGeo = new THREE.IcosahedronGeometry(8.5, 2);
-    const coreMat = new THREE.MeshStandardMaterial({ 
-      color: 0x010101, 
-      roughness: 0.1, 
-      metalness: 0.99
-    });
+    const coreMat = new THREE.MeshStandardMaterial({ color: 0x010101, roughness: 0.1, metalness: 0.99 });
     const coreMeshSolid = new THREE.Mesh(coreGeo, coreMat);
     
     const wireMat = new THREE.MeshBasicMaterial({ color: 0xdc2626, wireframe: true, transparent: true, opacity: 0.9 });
@@ -68,10 +62,6 @@ const WebGLEngine = () => {
     const ring2 = new THREE.Mesh(ringGeo2, ringMat1);
     ring2.rotation.y = Math.PI / 4;
 
-    const ringGeo3 = new THREE.TorusGeometry(19, 0.025, 16, 100);
-    const ring3 = new THREE.Mesh(ringGeo3, ringMat1);
-    ring3.rotation.z = Math.PI / 6;
-
     const hitBoxGeo = new THREE.SphereGeometry(12, 16, 16);
     const hitBoxMat = new THREE.MeshBasicMaterial({ visible: false });
     const coreHitBox = new THREE.Mesh(hitBoxGeo, hitBoxMat);
@@ -81,11 +71,9 @@ const WebGLEngine = () => {
     coreGroup.add(innerMesh);
     coreGroup.add(ring1);
     coreGroup.add(ring2);
-    coreGroup.add(ring3);
     coreGroup.add(coreHitBox);
     scene.add(coreGroup);
 
-    // Interactive Floating Shards Field
     const shardsGroup = new THREE.Group();
     const shardGeo = new THREE.TetrahedronGeometry(1.0, 0);
     const shardMat = new THREE.MeshStandardMaterial({ color: 0xdc2626, roughness: 0.15, metalness: 0.9 });
@@ -107,7 +95,6 @@ const WebGLEngine = () => {
     }
     scene.add(shardsGroup);
 
-    // Dense High-Performance Particle Matrix
     const particleCount = 4500;
     const particleGeo = new THREE.BufferGeometry();
     const particlePos = new Float32Array(particleCount * 3);
@@ -117,11 +104,9 @@ const WebGLEngine = () => {
       const r = 15 + Math.random() * 70;
       const theta = 2 * Math.PI * Math.random();
       const phi = Math.acos(2 * Math.random() - 1);
-      
       const x = r * Math.sin(phi) * Math.cos(theta);
       const y = r * Math.sin(phi) * Math.sin(theta);
       const z = r * Math.cos(phi);
-      
       particlePos[i] = x; particlePos[i+1] = y; particlePos[i+2] = z;
       particleOriginalPos[i] = x; particleOriginalPos[i+1] = y; particleOriginalPos[i+2] = z;
     }
@@ -144,10 +129,8 @@ const WebGLEngine = () => {
       mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
       raycaster.setFromCamera(mouse, camera);
-      
       const planeIntersects = raycaster.intersectObject(interactionPlane);
       if (planeIntersects.length > 0) targetMouse.copy(planeIntersects[0].point);
-      
       const coreIntersects = raycaster.intersectObject(coreHitBox);
       isCoreHovered = coreIntersects.length > 0;
     };
@@ -165,12 +148,10 @@ const WebGLEngine = () => {
     const animate = () => {
       rafId = requestAnimationFrame(animate);
       const time = clock.getElapsedTime();
-      
       currentScroll += (targetScroll - currentScroll) * 0.06;
       
       const targetCoreScale = isCoreHovered ? 1.5 : 1.0;
       const pulse = Math.sin(time * 5) * 0.09;
-      
       coreTargetScale.setScalar(targetCoreScale + pulse);
       coreGroup.scale.lerp(coreTargetScale, 0.12);
       
@@ -179,7 +160,6 @@ const WebGLEngine = () => {
       innerMesh.rotation.x = -time * 0.7;
       ring1.rotation.z = time * 0.5;
       ring2.rotation.y = -time * 0.4;
-      ring3.rotation.x = time * 0.3;
       
       const camTargetX = (mouse.x * 16);
       const camTargetY = (-(currentScroll * 0.022) + (mouse.y * 16));
@@ -194,7 +174,6 @@ const WebGLEngine = () => {
         shard.rotation.x += shard.userData.rotSpeedX;
         shard.rotation.y += shard.userData.rotSpeedY;
         shard.position.y = shard.userData.originY + Math.sin(time * 4 + shard.userData.phase) * 3.2;
-        
         const distToMouse = shard.position.distanceTo(targetMouse);
         if(distToMouse < 28) {
           const dir = shard.position.clone().sub(targetMouse).normalize();
@@ -221,7 +200,6 @@ const WebGLEngine = () => {
           positions[i+1] += (dy / dist) * force;
           positions[i+2] += (dz / dist) * force;
         }
-
         positions[i] += (particleOriginalPos[i] - positions[i]) * 0.09;
         positions[i+1] += (particleOriginalPos[i+1] - positions[i+1]) * 0.09;
         positions[i+2] += (particleOriginalPos[i+2] - positions[i+2]) * 0.09;
@@ -281,7 +259,7 @@ const SystemStatus = () => (
   <div className="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-md border-b border-neutral-800/80 text-[10px] sm:text-xs uppercase flex justify-between items-center px-4 py-3 font-light tracking-widest text-neutral-400">
     <div className="flex items-center gap-2 text-white font-bold">
       <div className="w-2 h-2 bg-[#dc2626] rounded-full animate-pulse shadow-[0_0_15px_#dc2626]"></div>
-      USMAN_UBAID // IMMERSIVE SCROLL KERNEL 60FPS
+      USMAN_UBAID // DYNAMIC RADIAL KERNEL 60FPS
     </div>
     <div className="text-[#3b82f6] font-bold hidden sm:block">LAHORE, PK [31.5204° N, 74.3587° E]</div>
   </div>
@@ -321,7 +299,6 @@ const Hero = () => (
         I'm Usman Ubaid — a full-stack engineer turning complex startup ideas, medical architectures, and AI/ML model integrations into production-ready web platforms using Next.js, React, SQL, Python, and Vercel.
       </p>
 
-      {/* Stats Counter Bar */}
       <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl">
         <div className="border border-neutral-800 bg-neutral-950/90 p-6 backdrop-blur-xl">
           <div className="text-4xl sm:text-5xl font-black text-white mb-1">4+</div>
@@ -416,9 +393,6 @@ const Works = () => {
   );
 };
 
-/* ==========================================================================
-   HORIZONTAL SCROLLING SHOWCASE TEMPLATE
-   ================================================================---------- */
 const HorizontalShowcase = () => {
   const containerRef = useRef(null);
   const trackRef = useRef(null);
@@ -473,148 +447,137 @@ const HorizontalShowcase = () => {
 };
 
 /* ==========================================================================
-   ULTRA-CREATIVE SCROLLYTELLING ECOSYSTEM (NEW IMMERSIVE MATRIX ARCHITECTURE)
+   RADIAL ORBITAL ROTATING SCROLLYTELLING TEMPLATE (COMPLETELY UNIQUE DESIGN)
    ================================================================---------- */
-const ImmersiveEcosystemScrollytelling = () => {
-  const [activeLayer, setActiveLayer] = useState(0);
-  const sectionRef = useRef(null);
-  const layersRef = useRef([]);
+const RadialOrbitalScrollytelling = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const containerRef = useRef(null);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      layersRef.current.forEach((el, index) => {
-        if (!el) return;
-        const rect = el.getBoundingClientRect();
-        if (rect.top <= window.innerHeight * 0.45 && rect.bottom >= window.innerHeight * 0.2) {
-          setActiveLayer(index);
-        }
-      });
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const ecosystemLayers = [
+  const modules = [
     {
-      id: "LAYER_01",
+      id: "NODE_01",
       title: "Frontend & Reactive UI Architecture",
-      subtitle: "Immersive User Engagement",
+      category: "CLIENT KERNEL",
       icon: Code,
-      accent: "#dc2626",
-      desc: "Crafting blazing-fast reactive interfaces using React, Next.js, and Tailwind CSS. Every microinteraction and magnetic hover state is engineered to maximize user session time and engagement.",
-      metrics: ["60 FPS Rendering", "Sub-100ms TTI", "Zero-Latency UI"],
-      codeSnippet: `export default function ReactiveClient() {\n  return <motion.div whileHover={{ scale: 1.05 }}>\n    <InteractiveMesh />\n  </motion.div>;\n}`
+      color: "#dc2626",
+      desc: "Engineered with React, Next.js, and Tailwind CSS. Implements butter-smooth custom magnetic cursors, perspective tilt cards, and GPU-accelerated spatial transformations.",
+      stats: "60 FPS Render Rate"
     },
     {
-      id: "LAYER_02",
+      id: "NODE_02",
       title: "Secure SQL & Relational Databases",
-      subtitle: "High-Throughput Data Integrity",
+      category: "BACKEND INTEGRATION",
       icon: Database,
-      accent: "#3b82f6",
-      desc: "Designing bulletproof relational database schemas in PostgreSQL and MySQL. Tailored specifically for healthcare records, financial ledgers, and enterprise multi-tenant SaaS hubs.",
-      metrics: ["ACID Compliance", "Optimized Query Indexing", "Encrypted State"],
-      codeSnippet: `CREATE TABLE clinical_records (\n  id SERIAL PRIMARY KEY,\n  patient_hash VARCHAR(64) UNIQUE,\n  telemetry JSONB,\n  created_at TIMESTAMPTZ DEFAULT NOW()\n);`
+      color: "#3b82f6",
+      desc: "Robust PostgreSQL and MySQL schemas optimized for high-throughput multi-tenant SaaS platforms, medical record indexes, and secure authentication pipelines.",
+      stats: "ACID Compliant Storage"
     },
     {
-      id: "LAYER_03",
-      title: "Python ML & AI Model Integration",
-      subtitle: "Autonomous Decision Pipelines",
+      id: "NODE_03",
+      title: "Python Machine Learning & AI",
+      category: "INTELLIGENT PIPELINES",
       icon: Cpu,
       accent: "#10b981",
-      desc: "Integrating custom machine learning models and predictive analytics into web apps. Powering automated legal contract generation and clinical pattern recognition seamlessly.",
-      metrics: ["Real-time Inference", "PyTorch / Scikit Pipelines", "Automated Synthesis"],
-      codeSnippet: `import torch\nimport torch.nn as nn\n\nclass MedicalPredictor(nn.Module):\n    def __init__(self):\n        super().__init__()\n        self.layer = nn.Linear(512, 128)`
+      color: "#10b981",
+      desc: "Advanced neural networks and automated contract generation systems built with Python, PyTorch, and Vercel Edge functions for real-time inference.",
+      stats: "Real-time AI Synthesis"
     },
     {
-      id: "LAYER_04",
-      title: "Vercel Edge & Cloud Deployment",
-      subtitle: "Global Low-Latency Distribution",
+      id: "NODE_04",
+      title: "Global Vercel Edge Infrastructure",
+      category: "CLOUD DEPLOYMENT",
       icon: Globe,
-      accent: "#f59e0b",
-      desc: "Deploying enterprise-grade microservices and serverless functions directly to global edge networks. Ensuring lightning-fast asset delivery and 99.99% uptime for startups.",
-      metrics: ["Edge Computing", "Global CDN Caching", "Instant Invalidation"],
-      codeSnippet: `export const config = { runtime: 'edge' };\n\nexport default async function handler(req) {\n  return new Response(JSON.stringify({ status: 'OK' }));\n}`
+      color: "#f59e0b",
+      desc: "Low-latency serverless architecture ensuring global distribution, instant cache invalidation, and bulletproof uptime for production startup applications.",
+      stats: "99.99% Edge Uptime"
     }
   ];
 
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!containerRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      const totalHeight = rect.height - window.innerHeight;
+      const currentProgress = Math.max(0, Math.min(1, -rect.top / totalHeight));
+      const newIndex = Math.min(modules.length - 1, Math.floor(currentProgress * modules.length));
+      setActiveIndex(newIndex);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [modules.length]);
+
   return (
-    <section ref={sectionRef} id="ecosystem" className="relative z-10 w-full py-36 bg-black border-b border-neutral-800 px-4 sm:px-8">
-      <div className="max-w-7xl mx-auto">
+    <section ref={containerRef} id="ecosystem" className="relative h-[400vh] bg-black">
+      <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-between px-4 sm:px-16 py-20">
         
-        {/* Header */}
-        <div className="mb-24 text-center max-w-3xl mx-auto">
-          <p className="text-[#dc2626] text-xs font-bold tracking-[0.4em] uppercase mb-4">// IMMERSIVE ECOSYSTEM MATRIX</p>
-          <h3 className="text-4xl sm:text-6xl font-black uppercase tracking-tighter text-white">Full-Stack Scrollytelling Architecture</h3>
-          <p className="text-sm text-neutral-400 font-mono mt-4">Scroll down to inspect each layer of the technical stack in real-time execution.</p>
+        {/* Top Header */}
+        <div className="flex justify-between items-center border-b border-neutral-800 pb-6">
+          <div>
+            <p className="text-[#dc2626] text-xs font-bold tracking-[0.3em] uppercase mb-1">// RADIAL ORBITAL ECOSYSTEM</p>
+            <h3 className="text-2xl sm:text-4xl font-black uppercase tracking-tight text-white">Interactive Architectural Matrix</h3>
+          </div>
+          <div className="text-right font-mono text-xs text-neutral-400">
+            ACTIVE_INDEX: <span className="text-white font-bold">0{activeIndex + 1} / 0{modules.length}</span>
+          </div>
         </div>
 
-        {/* Dynamic Scrollytelling Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start relative">
+        {/* Central Radial Stage */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-auto">
           
-          {/* Left Sticky Interactive Terminal / Console */}
-          <div className="lg:col-span-5 sticky top-32 border border-neutral-800 bg-neutral-950 p-6 sm:p-8 backdrop-blur-2xl shadow-2xl">
-            <div className="flex justify-between items-center pb-4 mb-6 border-b border-neutral-900">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
-                <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
-                <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
-              </div>
-              <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest">{ecosystemLayers[activeLayer].id} // INSPECTOR</span>
+          {/* Left Rotating Status Ring & Icon Indicator */}
+          <div className="lg:col-span-5 flex flex-col items-center justify-center relative">
+            <div className="absolute w-72 h-72 rounded-full border border-neutral-800 animate-spin" style={{ animationDuration: '25s' }}></div>
+            <div className="absolute w-52 h-52 rounded-full border border-dashed border-neutral-700 animate-spin" style={{ animationDuration: '15s', animationDirection: 'reverse' }}></div>
+            
+            <div className="w-36 h-36 rounded-full bg-neutral-950 border-2 border-[#dc2626] flex items-center justify-center shadow-[0_0_50px_rgba(220,38,38,0.4)] relative z-10 transition-all duration-500">
+              {React.createElement(modules[activeIndex].icon, { size: 48, style: { color: modules[activeIndex].color } })}
             </div>
-
-            <div className="mb-6">
-              <span className="text-xs font-mono px-3 py-1 bg-neutral-900 border border-neutral-800 text-neutral-300 inline-block mb-3">
-                {ecosystemLayers[activeLayer].subtitle}
+            
+            <div className="mt-8 text-center relative z-10">
+              <span className="text-xs font-mono px-3 py-1 bg-neutral-900 border border-neutral-800 text-neutral-300 uppercase">
+                {modules[activeIndex].category}
               </span>
-              <h4 className="text-2xl font-bold uppercase text-white tracking-tight">{ecosystemLayers[activeLayer].title}</h4>
-            </div>
-
-            {/* Live Metrics Grid */}
-            <div className="grid grid-cols-3 gap-2 mb-6">
-              {ecosystemLayers[activeLayer].metrics.map((m, idx) => (
-                <div key={idx} className="bg-black border border-neutral-900 p-3 text-center">
-                  <span className="text-[10px] font-mono text-neutral-400 block">{m}</span>
-                </div>
-              ))}
-            </div>
-
-            {/* Live Code Telemetry Box */}
-            <div className="bg-black border border-neutral-800 p-4 rounded text-xs font-mono text-neutral-300 overflow-x-auto relative group">
-              <div className="absolute top-2 right-2 text-neutral-600"><TerminalIcon size={16} /></div>
-              <pre className="text-[#dc2626]">{ecosystemLayers[activeLayer].codeSnippet}</pre>
             </div>
           </div>
 
-          {/* Right Scrolling Content Steps */}
-          <div className="lg:col-span-7 space-y-48 pt-12">
-            {ecosystemLayers.map((layer, idx) => {
-              const IconComp = layer.icon;
-              return (
-                <div 
-                  key={idx} 
-                  ref={el => layersRef.current[idx] = el}
-                  className={`p-8 sm:p-12 border transition-all duration-500 bg-neutral-950/80 backdrop-blur-lg ${activeLayer === idx ? 'border-[#dc2626] shadow-[0_0_40px_rgba(220,38,38,0.2)] scale-[1.02]' : 'border-neutral-900 opacity-40'}`}
-                >
-                  <div className="flex justify-between items-start mb-6">
-                    <span className="text-xs font-mono text-neutral-500">{layer.id}</span>
-                    <div className="p-3 bg-black border border-neutral-800 text-[#dc2626]">
-                      <IconComp size={28} />
-                    </div>
-                  </div>
-                  <h4 className="text-3xl sm:text-4xl font-black uppercase tracking-tighter text-white mb-4">{layer.title}</h4>
-                  <p className="text-sm text-neutral-400 font-mono leading-relaxed mb-6">{layer.desc}</p>
-                  <div className="flex gap-2 flex-wrap">
-                    {layer.metrics.map((met, mIdx) => (
-                      <span key={mIdx} className="text-[10px] bg-black border border-neutral-800 px-3 py-1 font-mono text-neutral-300">
-                        // {met}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
+          {/* Right Active Details Card */}
+          <div className="lg:col-span-7 border border-neutral-800 bg-neutral-950/90 p-8 sm:p-12 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-red-600/10 to-transparent pointer-events-none"></div>
+            
+            <span className="text-xs font-mono text-[#dc2626] block mb-2">{modules[activeIndex].id} // SYSTEM KERNEL</span>
+            <h4 className="text-3xl sm:text-5xl font-black uppercase tracking-tighter text-white mb-6 leading-none">
+              {modules[activeIndex].title}
+            </h4>
+            <p className="text-sm sm:text-base text-neutral-400 font-mono leading-relaxed mb-8">
+              {modules[activeIndex].desc}
+            </p>
+
+            <div className="flex items-center justify-between pt-6 border-t border-neutral-900">
+              <div className="flex items-center gap-2">
+                <Network size={16} className="text-[#3b82f6]" />
+                <span className="text-xs font-mono text-neutral-300 uppercase">Performance Benchmark:</span>
+              </div>
+              <span className="text-xs font-mono font-bold text-white bg-black px-3 py-1 border border-neutral-800">
+                {modules[activeIndex].stats}
+              </span>
+            </div>
           </div>
 
+        </div>
+
+        {/* Bottom Step Indicator Bar */}
+        <div className="grid grid-cols-4 gap-4 border-t border-neutral-800 pt-6">
+          {modules.map((m, idx) => (
+            <div 
+              key={idx} 
+              className={`h-2 transition-all duration-300 cursor-pointer ${activeIndex === idx ? 'bg-[#dc2626] shadow-[0_0_10px_#dc2626]' : 'bg-neutral-900 hover:bg-neutral-800'}`}
+              onClick={() => {
+                const totalH = (containerRef.current.scrollHeight - window.innerHeight);
+                window.scrollTo({ top: (idx / modules.length) * totalH + containerRef.current.offsetTop, behavior: 'smooth' });
+              }}
+            ></div>
+          ))}
         </div>
 
       </div>
@@ -622,9 +585,6 @@ const ImmersiveEcosystemScrollytelling = () => {
   );
 };
 
-/* ==========================================================================
-   STANDARD SCROLLYTELLING NARRATIVE MILESTONES
-   ================================================================---------- */
 const ScrollytellingSection = () => {
   const [activeStep, setActiveStep] = useState(0);
   const stepsRef = useRef([]);
@@ -654,7 +614,6 @@ const ScrollytellingSection = () => {
     <section id="scrollytelling" className="relative z-10 w-full py-32 bg-black border-b border-neutral-800 px-4 sm:px-8">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
         
-        {/* Sticky Visual Indicator Column */}
         <div className="lg:col-span-5 sticky top-32 border border-neutral-800 bg-neutral-950 p-8 sm:p-10 backdrop-blur-xl">
           <p className="text-[#dc2626] text-xs font-bold tracking-[0.3em] uppercase mb-4">// NARRATIVE KERNEL PROGRESSION</p>
           <h3 className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-white mb-6">Development Lifecycle</h3>
@@ -668,7 +627,6 @@ const ScrollytellingSection = () => {
           </div>
         </div>
 
-        {/* Scrolling Narrative Steps Column */}
         <div className="lg:col-span-7 space-y-32">
           {milestones.map((m, idx) => (
             <div key={idx} ref={el => stepsRef.current[idx] = el} className="min-h-[60vh] flex flex-col justify-center border-l-2 border-neutral-800 pl-8 sm:pl-12">
@@ -750,7 +708,7 @@ export default function App() {
         <Hero />
         <Works />
         <HorizontalShowcase />
-        <ImmersiveEcosystemScrollytelling />
+        <RadialOrbitalScrollytelling />
         <ScrollytellingSection />
         <Capabilities />
         <Footer />
