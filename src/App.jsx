@@ -3,9 +3,14 @@ import * as THREE from 'three';
 import { 
   Code, Cpu, Terminal, Zap, Activity, Server, ArrowUpRight, 
   Database, Crosshair, Mail, Phone, MapPin, Box, Layers, Shield, 
-  CpuIcon, Globe, TerminalSquare, Workflow, Flame, CheckCircle2
+  CpuIcon, Globe, TerminalSquare, Workflow, Flame, CheckCircle2,
+  Layers3, Sparkles, Command, GitBranch, Layers as LayersIcon, Eye,
+  Maximize2, RefreshCw, Compass, BoxSelect, Cpu as CpuSymbol
 } from 'lucide-react';
 
+/* ==========================================================================
+   ADVANCED 60FPS WEBGL & THREE.JS SPATIAL ENGINE
+   ================================================================---------- */
 const WebGLEngine = () => {
   const mountRef = useRef(null);
 
@@ -14,55 +19,59 @@ const WebGLEngine = () => {
     const h = window.innerHeight;
     
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x000000, 0.010);
+    scene.fog = new THREE.FogExp2(0x000000, 0.008);
     
-    const camera = new THREE.PerspectiveCamera(50, w / h, 0.1, 1000);
-    camera.position.z = 50;
+    const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 1000);
+    camera.position.z = 45;
     
     const renderer = new THREE.WebGLRenderer({ alpha: false, antialias: true, powerPreference: "high-performance" });
     renderer.setSize(w, h);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     if (mountRef.current) mountRef.current.appendChild(renderer.domElement);
 
-    const ambientLight = new THREE.AmbientLight(0x111111, 1.5);
+    const ambientLight = new THREE.AmbientLight(0x111111, 2.0);
     scene.add(ambientLight);
 
-    const pointLight1 = new THREE.PointLight(0xdc2626, 6, 150);
-    pointLight1.position.set(20, 20, 30);
+    const pointLight1 = new THREE.PointLight(0xdc2626, 8, 180);
+    pointLight1.position.set(25, 25, 35);
     scene.add(pointLight1);
 
-    const pointLight2 = new THREE.PointLight(0x3b82f6, 4, 150);
-    pointLight2.position.set(-20, -20, 20);
+    const pointLight2 = new THREE.PointLight(0x3b82f6, 6, 180);
+    pointLight2.position.set(-25, -25, 25);
     scene.add(pointLight2);
 
-    // Primary Multi-Layered 3D Core Matrix
+    // Multi-Layered 3D Core Architecture
     const coreGroup = new THREE.Group();
     
-    const coreGeo = new THREE.IcosahedronGeometry(10, 2);
+    const coreGeo = new THREE.IcosahedronGeometry(9, 2);
     const coreMat = new THREE.MeshStandardMaterial({ 
-      color: 0x050505, 
-      roughness: 0.15, 
-      metalness: 0.95
+      color: 0x020202, 
+      roughness: 0.1, 
+      metalness: 0.98
     });
     const coreMeshSolid = new THREE.Mesh(coreGeo, coreMat);
     
-    const wireMat = new THREE.MeshBasicMaterial({ color: 0xdc2626, wireframe: true, transparent: true, opacity: 0.8 });
+    const wireMat = new THREE.MeshBasicMaterial({ color: 0xdc2626, wireframe: true, transparent: true, opacity: 0.85 });
     const coreMeshWire = new THREE.Mesh(coreGeo, wireMat);
 
-    const innerGeo = new THREE.IcosahedronGeometry(6, 1);
-    const innerMat = new THREE.MeshBasicMaterial({ color: 0x3b82f6, wireframe: true, transparent: true, opacity: 0.5 });
+    const innerGeo = new THREE.IcosahedronGeometry(5.5, 1);
+    const innerMat = new THREE.MeshBasicMaterial({ color: 0x3b82f6, wireframe: true, transparent: true, opacity: 0.6 });
     const innerMesh = new THREE.Mesh(innerGeo, innerMat);
 
-    const ringGeo = new THREE.TorusGeometry(16, 0.08, 16, 100);
-    const ringMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.25 });
-    const ring1 = new THREE.Mesh(ringGeo, ringMat);
+    const ringGeo1 = new THREE.TorusGeometry(14, 0.06, 16, 100);
+    const ringMat1 = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.35 });
+    const ring1 = new THREE.Mesh(ringGeo1, ringMat1);
     ring1.rotation.x = Math.PI / 3;
 
-    const ringGeo2 = new THREE.TorusGeometry(19, 0.05, 16, 100);
-    const ring2 = new THREE.Mesh(ringGeo2, ringMat);
+    const ringGeo2 = new THREE.TorusGeometry(17, 0.04, 16, 100);
+    const ring2 = new THREE.Mesh(ringGeo2, ringMat1);
     ring2.rotation.y = Math.PI / 4;
 
-    const hitBoxGeo = new THREE.SphereGeometry(14, 16, 16);
+    const ringGeo3 = new THREE.TorusGeometry(20, 0.03, 16, 100);
+    const ring3 = new THREE.Mesh(ringGeo3, ringMat1);
+    ring3.rotation.z = Math.PI / 6;
+
+    const hitBoxGeo = new THREE.SphereGeometry(13, 16, 16);
     const hitBoxMat = new THREE.MeshBasicMaterial({ visible: false });
     const coreHitBox = new THREE.Mesh(hitBoxGeo, hitBoxMat);
 
@@ -71,21 +80,22 @@ const WebGLEngine = () => {
     coreGroup.add(innerMesh);
     coreGroup.add(ring1);
     coreGroup.add(ring2);
+    coreGroup.add(ring3);
     coreGroup.add(coreHitBox);
     scene.add(coreGroup);
 
-    // Shards Field
+    // Interactive Floating Shards Field
     const shardsGroup = new THREE.Group();
-    const shardGeo = new THREE.TetrahedronGeometry(1.2, 0);
-    const shardMat = new THREE.MeshStandardMaterial({ color: 0xdc2626, roughness: 0.2, metalness: 0.8 });
+    const shardGeo = new THREE.TetrahedronGeometry(1.1, 0);
+    const shardMat = new THREE.MeshStandardMaterial({ color: 0xdc2626, roughness: 0.2, metalness: 0.85 });
     const shards = [];
     
-    for(let i = 0; i < 50; i++) {
+    for(let i = 0; i < 60; i++) {
       const shard = new THREE.Mesh(shardGeo, shardMat);
-      shard.position.set((Math.random() - 0.5) * 80, (Math.random() - 0.5) * 80, (Math.random() - 0.5) * 60);
+      shard.position.set((Math.random() - 0.5) * 90, (Math.random() - 0.5) * 90, (Math.random() - 0.5) * 70);
       shard.userData = {
-        rotSpeedX: (Math.random() - 0.5) * 0.06,
-        rotSpeedY: (Math.random() - 0.5) * 0.06,
+        rotSpeedX: (Math.random() - 0.5) * 0.07,
+        rotSpeedY: (Math.random() - 0.5) * 0.07,
         originX: shard.position.x,
         originY: shard.position.y,
         originZ: shard.position.z,
@@ -96,14 +106,14 @@ const WebGLEngine = () => {
     }
     scene.add(shardsGroup);
 
-    // Particle Matrix
-    const particleCount = 3000;
+    // High-Density Particle Matrix
+    const particleCount = 4000;
     const particleGeo = new THREE.BufferGeometry();
     const particlePos = new Float32Array(particleCount * 3);
     const particleOriginalPos = new Float32Array(particleCount * 3);
     
     for(let i = 0; i < particleCount * 3; i += 3) {
-      const r = 20 + Math.random() * 60;
+      const r = 18 + Math.random() * 65;
       const theta = 2 * Math.PI * Math.random();
       const phi = Math.acos(2 * Math.random() - 1);
       
@@ -116,7 +126,7 @@ const WebGLEngine = () => {
     }
     
     particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePos, 3));
-    const particleMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.18, transparent: true, opacity: 0.7 });
+    const particleMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.16, transparent: true, opacity: 0.8 });
     const particles = new THREE.Points(particleGeo, particleMat);
     scene.add(particles);
 
@@ -155,41 +165,42 @@ const WebGLEngine = () => {
       rafId = requestAnimationFrame(animate);
       const time = clock.getElapsedTime();
       
-      currentScroll += (targetScroll - currentScroll) * 0.08;
+      currentScroll += (targetScroll - currentScroll) * 0.07;
       
-      const targetCoreScale = isCoreHovered ? 1.4 : 1.0;
-      const pulse = Math.sin(time * 4) * 0.07;
+      const targetCoreScale = isCoreHovered ? 1.45 : 1.0;
+      const pulse = Math.sin(time * 4.5) * 0.08;
       
       coreTargetScale.setScalar(targetCoreScale + pulse);
-      coreGroup.scale.lerp(coreTargetScale, 0.1);
+      coreGroup.scale.lerp(coreTargetScale, 0.12);
       
-      coreGroup.rotation.y = time * 0.3 + (currentScroll * 0.002);
-      coreGroup.rotation.x = Math.sin(time * 0.2) * 0.2 + (currentScroll * 0.001);
-      innerMesh.rotation.x = -time * 0.5;
-      ring1.rotation.z = time * 0.4;
-      ring2.rotation.y = -time * 0.3;
+      coreGroup.rotation.y = time * 0.35 + (currentScroll * 0.002);
+      coreGroup.rotation.x = Math.sin(time * 0.25) * 0.25 + (currentScroll * 0.001);
+      innerMesh.rotation.x = -time * 0.6;
+      ring1.rotation.z = time * 0.45;
+      ring2.rotation.y = -time * 0.35;
+      ring3.rotation.x = time * 0.25;
       
-      const camTargetX = (mouse.x * 12);
-      const camTargetY = (-(currentScroll * 0.018) + (mouse.y * 12));
-      const camTargetZ = 50 - (currentScroll * 0.03);
+      const camTargetX = (mouse.x * 14);
+      const camTargetY = (-(currentScroll * 0.016) + (mouse.y * 14));
+      const camTargetZ = 45 - (currentScroll * 0.025);
       
-      camera.position.x += (camTargetX - camera.position.x) * 0.07;
-      camera.position.y += (camTargetY - camera.position.y) * 0.07;
-      camera.position.z += (camTargetZ - camera.position.z) * 0.07;
+      camera.position.x += (camTargetX - camera.position.x) * 0.08;
+      camera.position.y += (camTargetY - camera.position.y) * 0.08;
+      camera.position.z += (camTargetZ - camera.position.z) * 0.08;
       camera.lookAt(0, 0, 0);
 
       shards.forEach((shard) => {
         shard.rotation.x += shard.userData.rotSpeedX;
         shard.rotation.y += shard.userData.rotSpeedY;
-        shard.position.y = shard.userData.originY + Math.sin(time * 3 + shard.userData.phase) * 2.2;
+        shard.position.y = shard.userData.originY + Math.sin(time * 3.5 + shard.userData.phase) * 2.8;
         
         const distToMouse = shard.position.distanceTo(targetMouse);
-        if(distToMouse < 22) {
+        if(distToMouse < 25) {
           const dir = shard.position.clone().sub(targetMouse).normalize();
-          shard.position.add(dir.multiplyScalar(0.35));
+          shard.position.add(dir.multiplyScalar(0.4));
         } else {
-          shard.position.x += (shard.userData.originX - shard.position.x) * 0.06;
-          shard.position.z += (shard.userData.originZ - shard.position.z) * 0.06;
+          shard.position.x += (shard.userData.originX - shard.position.x) * 0.07;
+          shard.position.z += (shard.userData.originZ - shard.position.z) * 0.07;
         }
       });
 
@@ -203,19 +214,19 @@ const WebGLEngine = () => {
         const dz = pz - targetMouse.z;
         const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
 
-        if(dist < 18) {
-          const force = (18 - dist) * 0.18;
+        if(dist < 20) {
+          const force = (20 - dist) * 0.2;
           positions[i] += (dx / dist) * force;
           positions[i+1] += (dy / dist) * force;
           positions[i+2] += (dz / dist) * force;
         }
 
-        positions[i] += (particleOriginalPos[i] - positions[i]) * 0.07;
-        positions[i+1] += (particleOriginalPos[i+1] - positions[i+1]) * 0.07;
-        positions[i+2] += (particleOriginalPos[i+2] - positions[i+2]) * 0.07;
+        positions[i] += (particleOriginalPos[i] - positions[i]) * 0.08;
+        positions[i+1] += (particleOriginalPos[i+1] - positions[i+1]) * 0.08;
+        positions[i+2] += (particleOriginalPos[i+2] - positions[i+2]) * 0.08;
       }
       particleGeo.attributes.position.needsUpdate = true;
-      particles.rotation.y = time * 0.05;
+      particles.rotation.y = time * 0.06;
 
       renderer.render(scene, camera);
     };
@@ -241,6 +252,9 @@ const WebGLEngine = () => {
   return <div ref={mountRef} className="fixed inset-0 z-0 bg-black pointer-events-none" />;
 };
 
+/* ==========================================================================
+   UI COMPONENTS & MICROINTERACTIONS
+   ================================================================---------- */
 const TiltCard = ({ children, className }) => {
   const cardRef = useRef(null);
   const handleMouseMove = (e) => {
@@ -248,9 +262,9 @@ const TiltCard = ({ children, className }) => {
     const rect = cardRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -14;
-    const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 14;
-    cardRef.current.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`;
+    const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -16;
+    const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 16;
+    cardRef.current.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.04, 1.04, 1.04)`;
   };
   const handleMouseLeave = () => {
     if (cardRef.current) cardRef.current.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
@@ -265,8 +279,8 @@ const TiltCard = ({ children, className }) => {
 const SystemStatus = () => (
   <div className="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-md border-b border-neutral-800/80 text-[10px] sm:text-xs uppercase flex justify-between items-center px-4 py-3 font-light tracking-widest text-neutral-400">
     <div className="flex items-center gap-2 text-white font-bold">
-      <div className="w-2 h-2 bg-[#dc2626] rounded-full animate-pulse shadow-[0_0_12px_#dc2626]"></div>
-      USMAN_UBAID // FULL-STACK KERNEL 60FPS
+      <div className="w-2 h-2 bg-[#dc2626] rounded-full animate-pulse shadow-[0_0_15px_#dc2626]"></div>
+      USMAN_UBAID // 60FPS KERNEL ACTIVE
     </div>
     <div className="text-[#3b82f6] font-bold hidden sm:block">LAHORE, PK [31.5204° N, 74.3587° E]</div>
   </div>
@@ -281,7 +295,7 @@ const Navigation = () => (
       <p className="text-xs text-neutral-400 tracking-widest mt-1 uppercase">Full-Stack SaaS Architect & ML Systems Engineer</p>
     </div>
     <div className="flex gap-6 text-xs font-bold tracking-[0.2em] uppercase items-center">
-      {['Work', 'Ecosystem', 'Expertise', 'Contact'].map((item, idx) => (
+      {['Work', 'Showcase', 'Ecosystem', 'Expertise', 'Contact'].map((item, idx) => (
         <a key={idx} href={`#${item.toLowerCase()}`} className="text-neutral-400 hover:text-[#dc2626] transition-colors">
           [{item}]
         </a>
@@ -306,6 +320,7 @@ const Hero = () => (
         I'm Usman Ubaid — a full-stack engineer turning complex startup ideas, medical architectures, and AI/ML model integrations into production-ready web platforms using Next.js, React, SQL, Python, and Vercel.
       </p>
 
+      {/* Stats Counter Bar */}
       <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl">
         <div className="border border-neutral-800 bg-neutral-950/90 p-6 backdrop-blur-xl">
           <div className="text-4xl sm:text-5xl font-black text-white mb-1">4+</div>
@@ -395,6 +410,62 @@ const Works = () => {
             </TiltCard>
           </div>
         ))}
+      </div>
+    </section>
+  );
+};
+
+/* ==========================================================================
+   NEW MANDATORY TEMPLATE: HORIZONTAL SCROLLING SHOWCASE
+   ================================================================---------- */
+const HorizontalShowcase = () => {
+  const containerRef = useRef(null);
+  const trackRef = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!containerRef.current || !trackRef.current) return;
+      const rect = containerRef.current.getBoundingClientRect();
+      const scrollProgress = -rect.top / (rect.height - window.innerHeight);
+      if (scrollProgress >= 0 && scrollProgress <= 1) {
+        const maxTranslate = trackRef.current.scrollWidth - window.innerWidth;
+        trackRef.current.style.transform = `translateX(-${scrollProgress * maxTranslate}px)`;
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <section ref={containerRef} id="showcase" className="relative h-[300vh] bg-black">
+      <div className="sticky top-0 h-screen overflow-hidden flex items-center">
+        <div className="absolute top-12 left-8 md:left-16 z-20">
+          <p className="text-[#3b82f6] text-xs font-bold tracking-[0.3em] uppercase mb-2">// HORIZONTAL SCROLLING KERNEL</p>
+          <h3 className="text-3xl sm:text-5xl font-black tracking-tight uppercase text-white">Immersive Case Studies</h3>
+        </div>
+        <div ref={trackRef} className="flex gap-12 pl-8 md:pl-16 w-max pt-24 will-change-transform">
+          {[
+            { title: "HealthcarePK Engine", tag: "MED-TECH // SQL", desc: "Full-stack medical information and patient management portal with automated record indexing." },
+            { title: "Universal Contract Maker", tag: "LEGAL SaaS // VERCEL", desc: "Autonomous document synthesis engine generating custom corporate agreements instantly." },
+            { title: "Neural Analytics Hub", tag: "PYTHON ML // REACT", desc: "Predictive data visualization dashboards built for pharmaceutical logistics tracking." },
+            { title: "60FPS WebGL Portfolio", tag: "THREE.JS // SHADERS", desc: "High-performance interactive 3D spatial workspace for elite brand presentation." }
+          ].map((item, idx) => (
+            <div key={idx} className="w-[80vw] md:w-[45vw] h-[60vh] border border-neutral-800 bg-neutral-950/90 p-10 md:p-14 flex flex-col justify-between relative group hover:border-[#3b82f6] transition-colors backdrop-blur-md">
+              <div className="flex justify-between items-center">
+                <span className="text-xs font-mono text-[#3b82f6] bg-neutral-900 px-3 py-1 border border-neutral-800">{item.tag}</span>
+                <Compass size={24} className="text-neutral-500 group-hover:text-white transition-colors" />
+              </div>
+              <div>
+                <h4 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4 text-white">{item.title}</h4>
+                <p className="text-sm text-neutral-400 font-mono leading-relaxed">{item.desc}</p>
+              </div>
+              <div className="pt-6 border-t border-neutral-900 flex justify-between items-center text-xs font-bold uppercase tracking-widest text-neutral-400">
+                <span>MODULE_0{idx + 1}</span>
+                <span className="text-white group-hover:text-[#3b82f6] transition-colors">EXPLORE_NODE &rarr;</span>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -522,6 +593,7 @@ export default function App() {
         <Navigation />
         <Hero />
         <Works />
+        <HorizontalShowcase />
         <EcosystemTemplates />
         <Capabilities />
         <Footer />
