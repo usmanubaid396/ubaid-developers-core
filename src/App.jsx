@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import { 
   Code, Cpu, Terminal, Zap, Activity, Server, ArrowUpRight, 
   Database, Crosshair, Mail, Phone, MapPin, Box, Layers, Shield, 
-  CpuIcon, Globe, TerminalSquare, Workflow, Flame, Layers3, Sparkles
+  CpuIcon, Globe, TerminalSquare, Workflow, Flame, CheckCircle2
 } from 'lucide-react';
 
 const WebGLEngine = () => {
@@ -24,7 +24,6 @@ const WebGLEngine = () => {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     if (mountRef.current) mountRef.current.appendChild(renderer.domElement);
 
-    // Advanced Lighting Setup for SaaS/Cyber Look
     const ambientLight = new THREE.AmbientLight(0x111111, 1.5);
     scene.add(ambientLight);
 
@@ -43,20 +42,17 @@ const WebGLEngine = () => {
     const coreMat = new THREE.MeshStandardMaterial({ 
       color: 0x050505, 
       roughness: 0.15, 
-      metalness: 0.95,
-      wireframe: false
+      metalness: 0.95
     });
     const coreMeshSolid = new THREE.Mesh(coreGeo, coreMat);
     
     const wireMat = new THREE.MeshBasicMaterial({ color: 0xdc2626, wireframe: true, transparent: true, opacity: 0.8 });
     const coreMeshWire = new THREE.Mesh(coreGeo, wireMat);
 
-    // Secondary Inner Pulsing Globe
     const innerGeo = new THREE.IcosahedronGeometry(6, 1);
     const innerMat = new THREE.MeshBasicMaterial({ color: 0x3b82f6, wireframe: true, transparent: true, opacity: 0.5 });
     const innerMesh = new THREE.Mesh(innerGeo, innerMat);
 
-    // Outer Orbiting Torus Rings (60fps Watch-style mechanics)
     const ringGeo = new THREE.TorusGeometry(16, 0.08, 16, 100);
     const ringMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.25 });
     const ring1 = new THREE.Mesh(ringGeo, ringMat);
@@ -78,13 +74,13 @@ const WebGLEngine = () => {
     coreGroup.add(coreHitBox);
     scene.add(coreGroup);
 
-    // Floating Interactive 3D Shards Field
+    // Shards Field
     const shardsGroup = new THREE.Group();
     const shardGeo = new THREE.TetrahedronGeometry(1.2, 0);
     const shardMat = new THREE.MeshStandardMaterial({ color: 0xdc2626, roughness: 0.2, metalness: 0.8 });
     const shards = [];
     
-    for(let i = 0; i < 55; i++) {
+    for(let i = 0; i < 50; i++) {
       const shard = new THREE.Mesh(shardGeo, shardMat);
       shard.position.set((Math.random() - 0.5) * 80, (Math.random() - 0.5) * 80, (Math.random() - 0.5) * 60);
       shard.userData = {
@@ -100,8 +96,8 @@ const WebGLEngine = () => {
     }
     scene.add(shardsGroup);
 
-    // Dense High-Performance Particle Matrix
-    const particleCount = 3500;
+    // Particle Matrix
+    const particleCount = 3000;
     const particleGeo = new THREE.BufferGeometry();
     const particlePos = new Float32Array(particleCount * 3);
     const particleOriginalPos = new Float32Array(particleCount * 3);
@@ -124,7 +120,6 @@ const WebGLEngine = () => {
     const particles = new THREE.Points(particleGeo, particleMat);
     scene.add(particles);
 
-    // Mouse Physics & 3D Raycasting Repulsion
     const raycaster = new THREE.Raycaster();
     const mouse = new THREE.Vector2(-999, -999);
     const targetMouse = new THREE.Vector3(0,0,0);
@@ -162,7 +157,6 @@ const WebGLEngine = () => {
       
       currentScroll += (targetScroll - currentScroll) * 0.08;
       
-      // Dynamic Core Morphing & Rotation
       const targetCoreScale = isCoreHovered ? 1.4 : 1.0;
       const pulse = Math.sin(time * 4) * 0.07;
       
@@ -175,7 +169,6 @@ const WebGLEngine = () => {
       ring1.rotation.z = time * 0.4;
       ring2.rotation.y = -time * 0.3;
       
-      // Cinematic Camera Kinematics (60fps luxury watch style reaction)
       const camTargetX = (mouse.x * 12);
       const camTargetY = (-(currentScroll * 0.018) + (mouse.y * 12));
       const camTargetZ = 50 - (currentScroll * 0.03);
@@ -185,7 +178,6 @@ const WebGLEngine = () => {
       camera.position.z += (camTargetZ - camera.position.z) * 0.07;
       camera.lookAt(0, 0, 0);
 
-      // Shard Float & Repulsion Physics
       shards.forEach((shard) => {
         shard.rotation.x += shard.userData.rotSpeedX;
         shard.rotation.y += shard.userData.rotSpeedY;
@@ -201,7 +193,6 @@ const WebGLEngine = () => {
         }
       });
 
-      // Particle Repulsion
       const positions = particleGeo.attributes.position.array;
       for(let i = 0; i < positions.length; i += 3) {
         const px = positions[i];
@@ -275,7 +266,7 @@ const SystemStatus = () => (
   <div className="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-md border-b border-neutral-800/80 text-[10px] sm:text-xs uppercase flex justify-between items-center px-4 py-3 font-light tracking-widest text-neutral-400">
     <div className="flex items-center gap-2 text-white font-bold">
       <div className="w-2 h-2 bg-[#dc2626] rounded-full animate-pulse shadow-[0_0_12px_#dc2626]"></div>
-      SYS_ONLINE // 60FPS KERNEL ACTIVE
+      USMAN_UBAID // FULL-STACK KERNEL 60FPS
     </div>
     <div className="text-[#3b82f6] font-bold hidden sm:block">LAHORE, PK [31.5204° N, 74.3587° E]</div>
   </div>
@@ -285,16 +276,19 @@ const Navigation = () => (
   <nav className="relative z-40 mt-12 w-full px-4 sm:px-8 py-6 flex flex-col md:flex-row justify-between items-start md:items-center border-b border-neutral-800/80 gap-4 bg-black/75 backdrop-blur-lg">
     <div>
       <h1 className="text-2xl font-bold tracking-tighter text-white flex items-center gap-2">
-        UBAID DEVELOPERS <span className="text-[#dc2626]">_</span>
+        Usman Ubaid <span className="text-[#dc2626]">.</span>
       </h1>
-      <p className="text-xs text-neutral-400 tracking-widest mt-1 uppercase">SaaS Architecture & High-Performance 3D Systems</p>
+      <p className="text-xs text-neutral-400 tracking-widest mt-1 uppercase">Full-Stack SaaS Architect & ML Systems Engineer</p>
     </div>
-    <div className="flex gap-6 text-xs font-bold tracking-[0.2em] uppercase">
-      {['Index', 'Architecture', 'Ecosystem', 'Specs', 'Initiate'].map((item, idx) => (
+    <div className="flex gap-6 text-xs font-bold tracking-[0.2em] uppercase items-center">
+      {['Work', 'Ecosystem', 'Expertise', 'Contact'].map((item, idx) => (
         <a key={idx} href={`#${item.toLowerCase()}`} className="text-neutral-400 hover:text-[#dc2626] transition-colors">
           [{item}]
         </a>
       ))}
+      <a href="#contact" className="bg-white text-black px-4 py-2 hover:bg-[#dc2626] hover:text-white transition-colors">
+        Let's talk
+      </a>
     </div>
   </nav>
 );
@@ -303,27 +297,37 @@ const Hero = () => (
   <section id="index" className="relative z-10 w-full px-4 sm:px-8 pt-24 pb-32 border-b border-neutral-800/80 bg-gradient-to-b from-transparent via-black/80 to-black">
     <div className="max-w-6xl">
       <p className="text-[#dc2626] text-xs sm:text-sm tracking-[0.3em] mb-8 font-bold flex items-center gap-2">
-        <Crosshair size={16} /> OP_DIRECTIVE_004 // 60FPS INTERACTIVE MATRIX
+        <Crosshair size={16} /> FULL-STACK SaaS & DYNAMIC PLATFORMS
       </p>
       <h2 className="text-5xl sm:text-7xl md:text-9xl font-black tracking-tighter uppercase leading-[0.85] text-white">
-        Ubaid <br /><span className="stroke-text">Developers</span>
+        I build high-end <br /><span className="stroke-text">SaaS products</span> & web apps that scale.
       </h2>
-      <div className="mt-16 max-w-2xl grid grid-cols-1 sm:grid-cols-2 gap-8 text-xs sm:text-sm text-neutral-300 bg-neutral-950/90 p-6 border border-neutral-800 backdrop-blur-xl shadow-2xl">
-        <div>
-          <strong className="text-white block mb-2 text-[10px] tracking-widest uppercase text-[#dc2626]">Mission_Parameters</strong>
-          Engineering industrial-grade SaaS applications, advanced WebGL interfaces, and secure medical data infrastructures with luxury watch-level smoothness.
+      <p className="mt-8 text-sm sm:text-lg text-neutral-400 max-w-2xl font-light tracking-wide leading-relaxed">
+        I'm Usman Ubaid — a full-stack engineer turning complex startup ideas, medical architectures, and AI/ML model integrations into production-ready web platforms using Next.js, React, SQL, Python, and Vercel.
+      </p>
+
+      {/* Stats Counter Bar inspired by reference sample */}
+      <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl">
+        <div className="border border-neutral-800 bg-neutral-950/90 p-6 backdrop-blur-xl">
+          <div className="text-4xl sm:text-5xl font-black text-white mb-1">4+</div>
+          <div className="text-xs text-neutral-400 uppercase tracking-widest font-bold">Years Shipping Code</div>
         </div>
-        <div>
-          <strong className="text-white block mb-2 text-[10px] tracking-widest uppercase text-[#3b82f6]">Core_Stack</strong>
-          React_18 // Three.js // Next.js // Python ML // Tailwind // Vercel Edge
+        <div className="border border-neutral-800 bg-neutral-950/90 p-6 backdrop-blur-xl">
+          <div className="text-4xl sm:text-5xl font-black text-[#dc2626] mb-1">8+</div>
+          <div className="text-xs text-neutral-400 uppercase tracking-widest font-bold">SaaS & Web Apps Launched</div>
+        </div>
+        <div className="border border-neutral-800 bg-neutral-950/90 p-6 backdrop-blur-xl">
+          <div className="text-4xl sm:text-5xl font-black text-[#3b82f6] mb-1">14+</div>
+          <div className="text-xs text-neutral-400 uppercase tracking-widest font-bold">Advanced Technologies</div>
         </div>
       </div>
+      
       <div className="mt-12 flex flex-wrap gap-4">
-        <a href="#initiate" className="inline-flex items-center gap-3 bg-white text-black px-8 py-5 text-sm font-bold uppercase tracking-[0.2em] hover:bg-[#dc2626] hover:text-white transition-all border border-white shadow-[0_0_25px_rgba(255,255,255,0.25)]">
-          Deploy Solution <ArrowUpRight size={18} />
+        <a href="#contact" className="inline-flex items-center gap-3 bg-white text-black px-8 py-5 text-sm font-bold uppercase tracking-[0.2em] hover:bg-[#dc2626] hover:text-white transition-all border border-white shadow-[0_0_25px_rgba(255,255,255,0.25)]">
+          Start a project <ArrowUpRight size={18} />
         </a>
-        <a href="#architecture" className="inline-flex items-center gap-3 bg-neutral-950 text-white px-8 py-5 text-sm font-bold uppercase tracking-[0.2em] hover:border-[#3b82f6] transition-all border border-neutral-800">
-          Explore Nodes <Activity size={18} className="text-[#3b82f6]" />
+        <a href="#work" className="inline-flex items-center gap-3 bg-neutral-950 text-white px-8 py-5 text-sm font-bold uppercase tracking-[0.2em] hover:border-[#3b82f6] transition-all border border-neutral-800">
+          Selected work <Activity size={18} className="text-[#3b82f6]" />
         </a>
       </div>
     </div>
@@ -331,9 +335,9 @@ const Hero = () => (
 );
 
 const worksData = [
-  { id: 'SYS.01', title: 'HealthcarePK', type: 'Healthcare Digital Infrastructure', tech: 'React / Node / PostgreSQL', link: 'https://healthcarepk.online' },
-  { id: 'SYS.02', title: 'Contract Maker', type: 'Legal SaaS Platform & Generator', tech: 'Next.js / Tailwind / Vercel', link: 'https://universal-contract-maker.vercel.app/' },
-  { id: 'SYS.03', title: 'Pharma Ops', type: 'Pharmaceutical Mfg & ERP', tech: 'Full-Stack / Python / WebGL', link: '#' },
+  { id: 'SYS.01', title: 'HealthcarePK', type: 'Healthcare Digital Infrastructure', tech: 'React / Node / PostgreSQL / Python ML', link: 'https://healthcarepk.online' },
+  { id: 'SYS.02', title: 'Contract Maker', type: 'Legal SaaS Platform & Generator', tech: 'Next.js / Tailwind / Vercel Edge', link: 'https://universal-contract-maker.vercel.app/' },
+  { id: 'SYS.03', title: 'UsmanUbaid Portfolio', type: 'Interactive 3D 60fps Web Engine', tech: 'React / Three.js / WebGL / Tailwind', link: '#' },
 ];
 
 const Works = () => {
@@ -367,10 +371,10 @@ const Works = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} id="architecture" className="relative z-10 w-full py-32 bg-transparent perspective-1000">
+    <section ref={sectionRef} id="work" className="relative z-10 w-full py-32 bg-transparent perspective-1000">
       <div className="flex border-y border-neutral-800 px-4 sm:px-8 py-6 items-center justify-between bg-neutral-950/90 backdrop-blur-md mb-16 mx-4 sm:mx-8">
         <h3 className="text-sm tracking-[0.2em] uppercase font-black flex items-center gap-3 text-white">
-          <Database size={20} className="text-[#dc2626] animate-pulse" /> Selected SaaS Architecture Nodes
+          <Database size={20} className="text-[#dc2626] animate-pulse" /> Selected Production Work
         </h3>
         <span className="text-xs text-[#dc2626] font-bold uppercase bg-neutral-900 px-3 py-1 border border-neutral-800">NODES: {worksData.length}</span>
       </div>
@@ -397,13 +401,12 @@ const Works = () => {
   );
 };
 
-// Multi-Template Section 3: SaaS Ecosystem Templates
 const EcosystemTemplates = () => (
   <section id="ecosystem" className="relative z-10 w-full py-32 border-b border-neutral-800 bg-neutral-950/70 px-4 sm:px-8">
     <div className="max-w-7xl mx-auto">
       <div className="mb-16">
-        <p className="text-[#3b82f6] text-xs font-bold tracking-[0.3em] uppercase mb-2">// TEMPLATE_MODULES_03 // MULTI-TIER ECOSYSTEM</p>
-        <h3 className="text-3xl sm:text-5xl font-black tracking-tight uppercase text-white">Enterprise SaaS Solutions</h3>
+        <p className="text-[#3b82f6] text-xs font-bold tracking-[0.3em] uppercase mb-2">// CAPABILITIES & ECOSYSTEM</p>
+        <h3 className="text-3xl sm:text-5xl font-black tracking-tight uppercase text-white">Full-Stack & Cloud Architecture</h3>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         <TiltCard>
@@ -411,12 +414,12 @@ const EcosystemTemplates = () => (
             <div>
               <div className="text-[#dc2626] mb-4"><Shield size={28} /></div>
               <span className="text-[10px] bg-neutral-900 border border-neutral-800 px-2 py-1 text-neutral-400 uppercase tracking-widest">MODULE_ALPHA</span>
-              <h4 className="text-xl font-bold uppercase text-white mt-4 mb-2">Medical Cloud ERP</h4>
-              <p className="text-xs text-neutral-400 leading-relaxed">Secure multi-tenant hospital & pharmaceutical management pipeline ensuring HIPAA compliance and zero latency.</p>
+              <h4 className="text-xl font-bold uppercase text-white mt-4 mb-2">Medical & Healthcare SaaS</h4>
+              <p className="text-xs text-neutral-400 leading-relaxed">Secure data pipelines, PostgreSQL databases, and medical information hubs built for healthcare performance.</p>
             </div>
             <div className="mt-8 pt-4 border-t border-neutral-900 flex justify-between items-center text-xs font-bold">
-              <span className="text-[#dc2626]">DEPLOYED</span>
-              <ArrowUpRight size={16} className="text-neutral-500 group-hover:text-white transition-colors" />
+              <span className="text-[#dc2626]">ACTIVE</span>
+              <CheckCircle2 size={16} className="text-[#dc2626]" />
             </div>
           </div>
         </TiltCard>
@@ -426,12 +429,12 @@ const EcosystemTemplates = () => (
             <div>
               <div className="text-[#3b82f6] mb-4"><Workflow size={28} /></div>
               <span className="text-[10px] bg-neutral-900 border border-neutral-800 px-2 py-1 text-neutral-400 uppercase tracking-widest">MODULE_BETA</span>
-              <h4 className="text-xl font-bold uppercase text-white mt-4 mb-2">Autonomous Contract Engine</h4>
-              <p className="text-xs text-neutral-400 leading-relaxed">AI-driven document generation platform that compiles complex corporate agreements in real-time via Vercel Edge.</p>
+              <h4 className="text-xl font-bold uppercase text-white mt-4 mb-2">Next.js & SQL Platforms</h4>
+              <p className="text-xs text-neutral-400 leading-relaxed">Bolt/Stackblitz-compatible rapid prototypes transformed into robust, enterprise-grade Vercel deployments.</p>
             </div>
             <div className="mt-8 pt-4 border-t border-neutral-900 flex justify-between items-center text-xs font-bold">
-              <span className="text-[#3b82f6]">ACTIVE SaaS</span>
-              <ArrowUpRight size={16} className="text-neutral-500 group-hover:text-white transition-colors" />
+              <span className="text-[#3b82f6]">SCALABLE</span>
+              <CheckCircle2 size={16} className="text-[#3b82f6]" />
             </div>
           </div>
         </TiltCard>
@@ -441,12 +444,12 @@ const EcosystemTemplates = () => (
             <div>
               <div className="text-white mb-4"><Flame size={28} /></div>
               <span className="text-[10px] bg-neutral-900 border border-neutral-800 px-2 py-1 text-neutral-400 uppercase tracking-widest">MODULE_GAMMA</span>
-              <h4 className="text-xl font-bold uppercase text-white mt-4 mb-2">WebGL 3D Portfolio Suite</h4>
-              <p className="text-xs text-neutral-400 leading-relaxed">Immersive 60fps hardware-accelerated interactive web engine built for elite brand presence and high-end conversion.</p>
+              <h4 className="text-xl font-bold uppercase text-white mt-4 mb-2">Python ML & AI Integration</h4>
+              <p className="text-xs text-neutral-400 leading-relaxed">Machine learning model integration for specialized medical and business automation workflows.</p>
             </div>
             <div className="mt-8 pt-4 border-t border-neutral-900 flex justify-between items-center text-xs font-bold">
-              <span className="text-white">LIVE ENGINE</span>
-              <ArrowUpRight size={16} className="text-neutral-500 group-hover:text-white transition-colors" />
+              <span className="text-white">INTELLIGENT</span>
+              <CheckCircle2 size={16} className="text-white" />
             </div>
           </div>
         </TiltCard>
@@ -456,20 +459,20 @@ const EcosystemTemplates = () => (
 );
 
 const Capabilities = () => (
-  <section id="specs" className="relative z-10 w-full border-b border-neutral-800 bg-black px-4 sm:px-8 py-24">
+  <section id="expertise" className="relative z-10 w-full border-b border-neutral-800 bg-black px-4 sm:px-8 py-24">
     <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-16">
       <div>
         <h3 className="text-xs tracking-[0.2em] uppercase font-bold flex items-center gap-3 mb-6 text-white">
-          <Cpu size={16} className="text-[#dc2626]" /> System Specifications
+          <Cpu size={16} className="text-[#dc2626]" /> Core Expertise
         </h3>
-        <p className="text-xs text-neutral-400 leading-relaxed">Industrial-grade engineering methodologies delivering uncompromised high-throughput performance across all modules.</p>
+        <p className="text-xs text-neutral-400 leading-relaxed">Comprehensive technical stack covering modern web applications, relational databases, cloud deployment, and AI pipelines.</p>
       </div>
       <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-10">
         {[
-          { icon: Code, title: 'Full-Stack Web Dev', desc: 'Microservice architectures built for zero-latency execution.' },
-          { icon: Server, title: 'SaaS Engineering', desc: 'Scalable cloud-native applications like Universal Contract Maker.' },
-          { icon: Box, title: 'WebGL & Shaders', desc: 'Hardware-accelerated 3D rendering with React and Three.js.' },
-          { icon: Layers, title: 'Python ML & Medical', desc: 'Secure data pipelines tailored for healthcare operations.' }
+          { icon: Code, title: 'Full-Stack Development', desc: 'React, Next.js, Node.js, and robust backend integrations.' },
+          { icon: Server, title: 'Database & SQL Architecture', desc: 'PostgreSQL, MySQL, and optimized relational data schemas.' },
+          { icon: Box, title: 'WebGL & Three.js 3D', desc: 'Immersive browser experiences and high-performance visual engines.' },
+          { icon: Layers, title: 'Python & AI Models', desc: 'Tailored machine learning models and medical-tech integrations.' }
         ].map((cap, idx) => (
           <div key={idx} className="flex gap-4 p-5 border border-neutral-800 bg-neutral-950/80 hover:border-[#dc2626]/50 transition-colors">
             <cap.icon size={24} className="text-[#dc2626] shrink-0 mt-1" />
@@ -485,11 +488,11 @@ const Capabilities = () => (
 );
 
 const Footer = () => (
-  <footer id="initiate" className="relative z-10 w-full bg-black">
+  <footer id="contact" className="relative z-10 w-full bg-black">
     <div className="px-4 sm:px-8 py-24 border-b border-neutral-800 grid grid-cols-1 lg:grid-cols-2 gap-16">
       <div>
-        <h2 className="text-5xl sm:text-7xl font-black tracking-tighter uppercase text-white">Initiate<br/>Sequence</h2>
-        <p className="text-xs text-neutral-400 mt-6 tracking-widest uppercase font-bold">Establish secure connection via encrypted terminal dispatch.</p>
+        <h2 className="text-5xl sm:text-7xl font-black tracking-tighter uppercase text-white">Let's build<br/>something great.</h2>
+        <p className="text-xs text-neutral-400 mt-6 tracking-widest uppercase font-bold">Reach out directly to discuss your SaaS or web platform.</p>
         <div className="mt-8 flex flex-col gap-4 text-xs font-bold tracking-widest">
           <a href="mailto:dev@healthcarepk.online" className="text-neutral-300 hover:text-[#dc2626] transition-colors">DEV@HEALTHCAREPK.ONLINE</a>
           <a href="tel:+923041381382" className="text-neutral-300 hover:text-[#dc2626] transition-colors">+92 304 1381382</a>
@@ -498,15 +501,15 @@ const Footer = () => (
       </div>
       <div>
         <form className="flex flex-col gap-4" onSubmit={(e) => { e.preventDefault(); window.location.href = 'mailto:dev@healthcarepk.online'; }}>
-          <input type="email" placeholder="ENTER_IDENTIFIER (EMAIL)" required className="bg-neutral-900 border border-neutral-800 p-4 text-xs font-bold uppercase text-white focus:border-[#dc2626] outline-none transition-colors" />
-          <textarea placeholder="DEFINE_PARAMETERS (MESSAGE)" rows="4" required className="bg-neutral-900 border border-neutral-800 p-4 text-xs font-bold uppercase text-white focus:border-[#dc2626] outline-none resize-none transition-colors"></textarea>
-          <button type="submit" className="bg-white text-black py-4 text-xs font-black uppercase tracking-widest hover:bg-[#dc2626] hover:text-white transition-colors border border-white shadow-[0_0_20px_rgba(255,255,255,0.2)]">Execute Command</button>
+          <input type="email" placeholder="YOUR EMAIL" required className="bg-neutral-900 border border-neutral-800 p-4 text-xs font-bold uppercase text-white focus:border-[#dc2626] outline-none transition-colors" />
+          <textarea placeholder="PROJECT DETAILS / MESSAGE" rows="4" required className="bg-neutral-900 border border-neutral-800 p-4 text-xs font-bold uppercase text-white focus:border-[#dc2626] outline-none resize-none transition-colors"></textarea>
+          <button type="submit" className="bg-white text-black py-4 text-xs font-black uppercase tracking-widest hover:bg-[#dc2626] hover:text-white transition-colors border border-white shadow-[0_0_20px_rgba(255,255,255,0.2)]">Send Message</button>
         </form>
       </div>
     </div>
     <div className="px-4 sm:px-8 py-6 text-[10px] text-neutral-500 tracking-widest uppercase font-bold flex justify-between">
-      <div>&copy; {new Date().getFullYear()} UBAID DEVELOPERS // ALL RIGHTS RESERVED.</div>
-      <div>60FPS_SECURE_KERNEL_ACTIVE</div>
+      <div>&copy; {new Date().getFullYear()} USMAN UBAID // ALL RIGHTS RESERVED.</div>
+      <div>60FPS_PORTFOLIO_ACTIVE</div>
     </div>
   </footer>
 );
