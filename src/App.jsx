@@ -5,7 +5,8 @@ import {
   Database, Crosshair, Mail, Phone, MapPin, Box, Layers, Shield, 
   CpuIcon, Globe, TerminalSquare, Workflow, Flame, CheckCircle2,
   Layers3, Sparkles, Command, GitBranch, Eye, Maximize2, RefreshCw, 
-  Compass, BoxSelect, Cpu as CpuSymbol, Play, Pause, ChevronRight
+  Compass, BoxSelect, Cpu as CpuSymbol, Play, Pause, ChevronRight,
+  Radio, CpuShare, Terminal as TerminalIcon, Cpu as Microchip
 } from 'lucide-react';
 
 /* ==========================================================================
@@ -180,7 +181,6 @@ const WebGLEngine = () => {
       ring2.rotation.y = -time * 0.4;
       ring3.rotation.x = time * 0.3;
       
-      // Cinematic Camera Parallax & Scroll Integration (Camera flies through 3D space with scroll)
       const camTargetX = (mouse.x * 16);
       const camTargetY = (-(currentScroll * 0.022) + (mouse.y * 16));
       const camTargetZ = 40 - (currentScroll * 0.035);
@@ -263,8 +263,8 @@ const TiltCard = ({ children, className }) => {
     const rect = cardRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -18;
-    const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 18;
+    const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -16;
+    const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 16;
     cardRef.current.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.04, 1.04, 1.04)`;
   };
   const handleMouseLeave = () => {
@@ -296,7 +296,7 @@ const Navigation = () => (
       <p className="text-xs text-neutral-400 tracking-widest mt-1 uppercase">Full-Stack SaaS Architect & 3D Interactive Systems</p>
     </div>
     <div className="flex gap-6 text-xs font-bold tracking-[0.2em] uppercase items-center">
-      {['Work', 'Showcase', 'Scrollytelling', 'Ecosystem', 'Contact'].map((item, idx) => (
+      {['Work', 'Showcase', 'Ecosystem', 'Scrollytelling', 'Contact'].map((item, idx) => (
         <a key={idx} href={`#${item.toLowerCase()}`} className="text-neutral-400 hover:text-[#dc2626] transition-colors">
           [{item}]
         </a>
@@ -473,7 +473,157 @@ const HorizontalShowcase = () => {
 };
 
 /* ==========================================================================
-   NEW MANDATORY TEMPLATE: SCROLLYTELLING NARRATIVE MILESTONES
+   ULTRA-CREATIVE SCROLLYTELLING ECOSYSTEM (NEW IMMERSIVE MATRIX ARCHITECTURE)
+   ================================================================---------- */
+const ImmersiveEcosystemScrollytelling = () => {
+  const [activeLayer, setActiveLayer] = useState(0);
+  const sectionRef = useRef(null);
+  const layersRef = useRef([]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      layersRef.current.forEach((el, index) => {
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= window.innerHeight * 0.45 && rect.bottom >= window.innerHeight * 0.2) {
+          setActiveLayer(index);
+        }
+      });
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const ecosystemLayers = [
+    {
+      id: "LAYER_01",
+      title: "Frontend & Reactive UI Architecture",
+      subtitle: "Immersive User Engagement",
+      icon: Code,
+      accent: "#dc2626",
+      desc: "Crafting blazing-fast reactive interfaces using React, Next.js, and Tailwind CSS. Every microinteraction and magnetic hover state is engineered to maximize user session time and engagement.",
+      metrics: ["60 FPS Rendering", "Sub-100ms TTI", "Zero-Latency UI"],
+      codeSnippet: `export default function ReactiveClient() {\n  return <motion.div whileHover={{ scale: 1.05 }}>\n    <InteractiveMesh />\n  </motion.div>;\n}`
+    },
+    {
+      id: "LAYER_02",
+      title: "Secure SQL & Relational Databases",
+      subtitle: "High-Throughput Data Integrity",
+      icon: Database,
+      accent: "#3b82f6",
+      desc: "Designing bulletproof relational database schemas in PostgreSQL and MySQL. Tailored specifically for healthcare records, financial ledgers, and enterprise multi-tenant SaaS hubs.",
+      metrics: ["ACID Compliance", "Optimized Query Indexing", "Encrypted State"],
+      codeSnippet: `CREATE TABLE clinical_records (\n  id SERIAL PRIMARY KEY,\n  patient_hash VARCHAR(64) UNIQUE,\n  telemetry JSONB,\n  created_at TIMESTAMPTZ DEFAULT NOW()\n);`
+    },
+    {
+      id: "LAYER_03",
+      title: "Python ML & AI Model Integration",
+      subtitle: "Autonomous Decision Pipelines",
+      icon: Cpu,
+      accent: "#10b981",
+      desc: "Integrating custom machine learning models and predictive analytics into web apps. Powering automated legal contract generation and clinical pattern recognition seamlessly.",
+      metrics: ["Real-time Inference", "PyTorch / Scikit Pipelines", "Automated Synthesis"],
+      codeSnippet: `import torch\nimport torch.nn as nn\n\nclass MedicalPredictor(nn.Module):\n    def __init__(self):\n        super().__init__()\n        self.layer = nn.Linear(512, 128)`
+    },
+    {
+      id: "LAYER_04",
+      title: "Vercel Edge & Cloud Deployment",
+      subtitle: "Global Low-Latency Distribution",
+      icon: Globe,
+      accent: "#f59e0b",
+      desc: "Deploying enterprise-grade microservices and serverless functions directly to global edge networks. Ensuring lightning-fast asset delivery and 99.99% uptime for startups.",
+      metrics: ["Edge Computing", "Global CDN Caching", "Instant Invalidation"],
+      codeSnippet: `export const config = { runtime: 'edge' };\n\nexport default async function handler(req) {\n  return new Response(JSON.stringify({ status: 'OK' }));\n}`
+    }
+  ];
+
+  return (
+    <section ref={sectionRef} id="ecosystem" className="relative z-10 w-full py-36 bg-black border-b border-neutral-800 px-4 sm:px-8">
+      <div className="max-w-7xl mx-auto">
+        
+        {/* Header */}
+        <div className="mb-24 text-center max-w-3xl mx-auto">
+          <p className="text-[#dc2626] text-xs font-bold tracking-[0.4em] uppercase mb-4">// IMMERSIVE ECOSYSTEM MATRIX</p>
+          <h3 className="text-4xl sm:text-6xl font-black uppercase tracking-tighter text-white">Full-Stack Scrollytelling Architecture</h3>
+          <p className="text-sm text-neutral-400 font-mono mt-4">Scroll down to inspect each layer of the technical stack in real-time execution.</p>
+        </div>
+
+        {/* Dynamic Scrollytelling Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start relative">
+          
+          {/* Left Sticky Interactive Terminal / Console */}
+          <div className="lg:col-span-5 sticky top-32 border border-neutral-800 bg-neutral-950 p-6 sm:p-8 backdrop-blur-2xl shadow-2xl">
+            <div className="flex justify-between items-center pb-4 mb-6 border-b border-neutral-900">
+              <div className="flex items-center gap-2">
+                <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
+                <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
+                <div className="w-3 h-3 rounded-full bg-green-500/80"></div>
+              </div>
+              <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-widest">{ecosystemLayers[activeLayer].id} // INSPECTOR</span>
+            </div>
+
+            <div className="mb-6">
+              <span className="text-xs font-mono px-3 py-1 bg-neutral-900 border border-neutral-800 text-neutral-300 inline-block mb-3">
+                {ecosystemLayers[activeLayer].subtitle}
+              </span>
+              <h4 className="text-2xl font-bold uppercase text-white tracking-tight">{ecosystemLayers[activeLayer].title}</h4>
+            </div>
+
+            {/* Live Metrics Grid */}
+            <div className="grid grid-cols-3 gap-2 mb-6">
+              {ecosystemLayers[activeLayer].metrics.map((m, idx) => (
+                <div key={idx} className="bg-black border border-neutral-900 p-3 text-center">
+                  <span className="text-[10px] font-mono text-neutral-400 block">{m}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Live Code Telemetry Box */}
+            <div className="bg-black border border-neutral-800 p-4 rounded text-xs font-mono text-neutral-300 overflow-x-auto relative group">
+              <div className="absolute top-2 right-2 text-neutral-600"><TerminalIcon size={16} /></div>
+              <pre className="text-[#dc2626]">{ecosystemLayers[activeLayer].codeSnippet}</pre>
+            </div>
+          </div>
+
+          {/* Right Scrolling Content Steps */}
+          <div className="lg:col-span-7 space-y-48 pt-12">
+            {ecosystemLayers.map((layer, idx) => {
+              const IconComp = layer.icon;
+              return (
+                <div 
+                  key={idx} 
+                  ref={el => layersRef.current[idx] = el}
+                  className={`p-8 sm:p-12 border transition-all duration-500 bg-neutral-950/80 backdrop-blur-lg ${activeLayer === idx ? 'border-[#dc2626] shadow-[0_0_40px_rgba(220,38,38,0.2)] scale-[1.02]' : 'border-neutral-900 opacity-40'}`}
+                >
+                  <div className="flex justify-between items-start mb-6">
+                    <span className="text-xs font-mono text-neutral-500">{layer.id}</span>
+                    <div className="p-3 bg-black border border-neutral-800 text-[#dc2626]">
+                      <IconComp size={28} />
+                    </div>
+                  </div>
+                  <h4 className="text-3xl sm:text-4xl font-black uppercase tracking-tighter text-white mb-4">{layer.title}</h4>
+                  <p className="text-sm text-neutral-400 font-mono leading-relaxed mb-6">{layer.desc}</p>
+                  <div className="flex gap-2 flex-wrap">
+                    {layer.metrics.map((met, mIdx) => (
+                      <span key={mIdx} className="text-[10px] bg-black border border-neutral-800 px-3 py-1 font-mono text-neutral-300">
+                        // {met}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+  );
+};
+
+/* ==========================================================================
+   STANDARD SCROLLYTELLING NARRATIVE MILESTONES
    ================================================================---------- */
 const ScrollytellingSection = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -533,63 +683,6 @@ const ScrollytellingSection = () => {
     </section>
   );
 };
-
-const EcosystemTemplates = () => (
-  <section id="ecosystem" className="relative z-10 w-full py-32 border-b border-neutral-800 bg-neutral-950/70 px-4 sm:px-8">
-    <div className="max-w-7xl mx-auto">
-      <div className="mb-16">
-        <p className="text-[#3b82f6] text-xs font-bold tracking-[0.3em] uppercase mb-2">// CAPABILITIES & ECOSYSTEM</p>
-        <h3 className="text-3xl sm:text-5xl font-black tracking-tight uppercase text-white">Full-Stack & Cloud Architecture</h3>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <TiltCard>
-          <div className="border border-neutral-800 bg-black/90 p-8 h-full flex flex-col justify-between relative group hover:border-[#dc2626] transition-all">
-            <div>
-              <div className="text-[#dc2626] mb-4"><Shield size={28} /></div>
-              <span className="text-[10px] bg-neutral-900 border border-neutral-800 px-2 py-1 text-neutral-400 uppercase tracking-widest">MODULE_ALPHA</span>
-              <h4 className="text-xl font-bold uppercase text-white mt-4 mb-2">Medical & Healthcare SaaS</h4>
-              <p className="text-xs text-neutral-400 leading-relaxed">Secure data pipelines, PostgreSQL databases, and medical information hubs built for healthcare performance.</p>
-            </div>
-            <div className="mt-8 pt-4 border-t border-neutral-900 flex justify-between items-center text-xs font-bold">
-              <span className="text-[#dc2626]">ACTIVE</span>
-              <CheckCircle2 size={16} className="text-[#dc2626]" />
-            </div>
-          </div>
-        </TiltCard>
-
-        <TiltCard>
-          <div className="border border-neutral-800 bg-black/90 p-8 h-full flex flex-col justify-between relative group hover:border-[#3b82f6] transition-all">
-            <div>
-              <div className="text-[#3b82f6] mb-4"><Workflow size={28} /></div>
-              <span className="text-[10px] bg-neutral-900 border border-neutral-800 px-2 py-1 text-neutral-400 uppercase tracking-widest">MODULE_BETA</span>
-              <h4 className="text-xl font-bold uppercase text-white mt-4 mb-2">Next.js & SQL Platforms</h4>
-              <p className="text-xs text-neutral-400 leading-relaxed">Bolt/Stackblitz-compatible rapid prototypes transformed into robust, enterprise-grade Vercel deployments.</p>
-            </div>
-            <div className="mt-8 pt-4 border-t border-neutral-900 flex justify-between items-center text-xs font-bold">
-              <span className="text-[#3b82f6]">SCALABLE</span>
-              <CheckCircle2 size={16} className="text-[#3b82f6]" />
-            </div>
-          </div>
-        </TiltCard>
-
-        <TiltCard>
-          <div className="border border-neutral-800 bg-black/90 p-8 h-full flex flex-col justify-between relative group hover:border-white transition-all">
-            <div>
-              <div className="text-white mb-4"><Flame size={28} /></div>
-              <span className="text-[10px] bg-neutral-900 border border-neutral-800 px-2 py-1 text-neutral-400 uppercase tracking-widest">MODULE_GAMMA</span>
-              <h4 className="text-xl font-bold uppercase text-white mt-4 mb-2">Python ML & AI Integration</h4>
-              <p className="text-xs text-neutral-400 leading-relaxed">Machine learning model integration for specialized medical and business automation workflows.</p>
-            </div>
-            <div className="mt-8 pt-4 border-t border-neutral-900 flex justify-between items-center text-xs font-bold">
-              <span className="text-white">INTELLIGENT</span>
-              <CheckCircle2 size={16} className="text-white" />
-            </div>
-          </div>
-        </TiltCard>
-      </div>
-    </div>
-  </section>
-);
 
 const Capabilities = () => (
   <section id="expertise" className="relative z-10 w-full border-b border-neutral-800 bg-black px-4 sm:px-8 py-24">
@@ -657,8 +750,8 @@ export default function App() {
         <Hero />
         <Works />
         <HorizontalShowcase />
+        <ImmersiveEcosystemScrollytelling />
         <ScrollytellingSection />
-        <EcosystemTemplates />
         <Capabilities />
         <Footer />
       </main>
