@@ -256,17 +256,17 @@ const TiltCard = ({ children, className }) => {
 };
 
 const SystemStatus = () => (
-  <div className="fixed top-0 w-full z-50 bg-black/90 backdrop-blur-md border-b border-neutral-800/80 text-[10px] sm:text-xs uppercase flex justify-between items-center px-4 py-3 font-light tracking-widest text-neutral-400">
+  <div className="fixed top-0 w-full z-50 bg-black/70 backdrop-blur-md border-b border-white/10 text-[10px] sm:text-xs uppercase flex justify-between items-center px-4 py-3 font-light tracking-widest text-neutral-300">
     <div className="flex items-center gap-2 text-white font-bold">
       <div className="w-2 h-2 bg-[#dc2626] rounded-full animate-pulse shadow-[0_0_15px_#dc2626]"></div>
-      USMAN_UBAID // DYNAMIC RADIAL KERNEL 60FPS
+      USMAN_UBAID // TRANSPARENT GLASS KERNEL 60FPS
     </div>
     <div className="text-[#3b82f6] font-bold hidden sm:block">LAHORE, PK [31.5204° N, 74.3587° E]</div>
   </div>
 );
 
 const Navigation = () => (
-  <nav className="relative z-40 mt-12 w-full px-4 sm:px-8 py-6 flex flex-col md:flex-row justify-between items-start md:items-center border-b border-neutral-800/80 gap-4 bg-black/75 backdrop-blur-lg">
+  <nav className="relative z-40 mt-12 w-full px-4 sm:px-8 py-6 flex flex-col md:flex-row justify-between items-start md:items-center border-b border-white/10 gap-4 bg-black/40 backdrop-blur-md">
     <div>
       <h1 className="text-2xl font-bold tracking-tighter text-white flex items-center gap-2">
         Usman Ubaid <span className="text-[#dc2626]">.</span>
@@ -275,11 +275,11 @@ const Navigation = () => (
     </div>
     <div className="flex gap-6 text-xs font-bold tracking-[0.2em] uppercase items-center">
       {['Work', 'Showcase', 'Ecosystem', 'Scrollytelling', 'Contact'].map((item, idx) => (
-        <a key={idx} href={`#${item.toLowerCase()}`} className="text-neutral-400 hover:text-[#dc2626] transition-colors">
+        <a key={idx} href={`#${item.toLowerCase()}`} className="text-neutral-300 hover:text-[#dc2626] transition-colors">
           [{item}]
         </a>
       ))}
-      <a href="#contact" className="bg-white text-black px-4 py-2 hover:bg-[#dc2626] hover:text-white transition-colors">
+      <a href="#contact" className="bg-white/90 text-black px-4 py-2 hover:bg-[#dc2626] hover:text-white transition-colors">
         Let's talk
       </a>
     </div>
@@ -287,28 +287,28 @@ const Navigation = () => (
 );
 
 const Hero = () => (
-  <section id="index" className="relative z-10 w-full px-4 sm:px-8 pt-24 pb-32 border-b border-neutral-800/80 bg-gradient-to-b from-transparent via-black/80 to-black">
+  <section id="index" className="relative z-10 w-full px-4 sm:px-8 pt-24 pb-32 border-b border-white/10 bg-transparent">
     <div className="max-w-6xl">
-      <p className="text-[#dc2626] text-xs sm:text-sm tracking-[0.3em] mb-8 font-bold flex items-center gap-2">
+      <p className="text-[#dc2626] text-xs sm:text-sm tracking-[0.3em] mb-8 font-bold flex items-center gap-2 bg-black/40 w-fit px-3 py-1 border border-white/10 backdrop-blur-md">
         <Crosshair size={16} /> FULL-STACK SaaS & 3D IMMERSIVE WORKSPACE
       </p>
-      <h2 className="text-5xl sm:text-7xl md:text-9xl font-black tracking-tighter uppercase leading-[0.85] text-white">
+      <h2 className="text-5xl sm:text-7xl md:text-9xl font-black tracking-tighter uppercase leading-[0.85] text-white drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]">
         I build high-end <br /><span className="stroke-text">SaaS products</span> & web apps that scale.
       </h2>
-      <p className="mt-8 text-sm sm:text-lg text-neutral-400 max-w-2xl font-light tracking-wide leading-relaxed">
+      <p className="mt-8 text-sm sm:text-lg text-neutral-300 max-w-2xl font-light tracking-wide leading-relaxed bg-black/50 p-6 border border-white/10 backdrop-blur-md">
         I'm Usman Ubaid — a full-stack engineer turning complex startup ideas, medical architectures, and AI/ML model integrations into production-ready web platforms using Next.js, React, SQL, Python, and Vercel.
       </p>
 
       <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl">
-        <div className="border border-neutral-800 bg-neutral-950/90 p-6 backdrop-blur-xl">
+        <div className="border border-white/10 bg-black/60 p-6 backdrop-blur-xl">
           <div className="text-4xl sm:text-5xl font-black text-white mb-1">4+</div>
           <div className="text-xs text-neutral-400 uppercase tracking-widest font-bold">Years Shipping Code</div>
         </div>
-        <div className="border border-neutral-800 bg-neutral-950/90 p-6 backdrop-blur-xl">
+        <div className="border border-white/10 bg-black/60 p-6 backdrop-blur-xl">
           <div className="text-4xl sm:text-5xl font-black text-[#dc2626] mb-1">8+</div>
           <div className="text-xs text-neutral-400 uppercase tracking-widest font-bold">SaaS & Web Apps Launched</div>
         </div>
-        <div className="border border-neutral-800 bg-neutral-950/90 p-6 backdrop-blur-xl">
+        <div className="border border-white/10 bg-black/60 p-6 backdrop-blur-xl">
           <div className="text-4xl sm:text-5xl font-black text-[#3b82f6] mb-1">14+</div>
           <div className="text-xs text-neutral-400 uppercase tracking-widest font-bold">Advanced Technologies</div>
         </div>
@@ -318,7 +318,7 @@ const Hero = () => (
         <a href="#contact" className="inline-flex items-center gap-3 bg-white text-black px-8 py-5 text-sm font-bold uppercase tracking-[0.2em] hover:bg-[#dc2626] hover:text-white transition-all border border-white shadow-[0_0_25px_rgba(255,255,255,0.25)]">
           Start a project <ArrowUpRight size={18} />
         </a>
-        <a href="#work" className="inline-flex items-center gap-3 bg-neutral-950 text-white px-8 py-5 text-sm font-bold uppercase tracking-[0.2em] hover:border-[#3b82f6] transition-all border border-neutral-800">
+        <a href="#work" className="inline-flex items-center gap-3 bg-black/50 backdrop-blur-md text-white px-8 py-5 text-sm font-bold uppercase tracking-[0.2em] hover:border-[#3b82f6] transition-all border border-white/20">
           Selected work <Activity size={18} className="text-[#3b82f6]" />
         </a>
       </div>
@@ -364,17 +364,17 @@ const Works = () => {
 
   return (
     <section ref={sectionRef} id="work" className="relative z-10 w-full py-32 bg-transparent perspective-1000">
-      <div className="flex border-y border-neutral-800 px-4 sm:px-8 py-6 items-center justify-between bg-neutral-950/90 backdrop-blur-md mb-16 mx-4 sm:mx-8">
+      <div className="flex border-y border-white/10 px-4 sm:px-8 py-6 items-center justify-between bg-black/40 backdrop-blur-md mb-16 mx-4 sm:mx-8">
         <h3 className="text-sm tracking-[0.2em] uppercase font-black flex items-center gap-3 text-white">
           <Database size={20} className="text-[#dc2626] animate-pulse" /> Selected Production Work
         </h3>
-        <span className="text-xs text-[#dc2626] font-bold uppercase bg-neutral-900 px-3 py-1 border border-neutral-800">NODES: {worksData.length}</span>
+        <span className="text-xs text-[#dc2626] font-bold uppercase bg-black/60 px-3 py-1 border border-white/10 backdrop-blur-md">NODES: {worksData.length}</span>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-4 sm:px-8 max-w-7xl mx-auto perspective-1000">
         {worksData.map((work, idx) => (
           <div ref={el => cardsRef.current[idx] = el} key={idx} className="transition-transform duration-75 ease-out will-change-transform">
             <TiltCard className="h-full">
-              <a href={work.link} target={work.link !== '#' ? "_blank" : "_self"} rel="noopener noreferrer" className="block relative bg-white text-black border-2 border-white p-8 sm:p-10 h-96 flex flex-col justify-between group hover:border-[#dc2626] hover:shadow-[0_0_60px_rgba(220,38,38,0.5)] transition-all">
+              <a href={work.link} target={work.link !== '#' ? "_blank" : "_self"} rel="noopener noreferrer" className="block relative bg-white/95 backdrop-blur-md text-black border-2 border-white p-8 sm:p-10 h-96 flex flex-col justify-between group hover:border-[#dc2626] hover:shadow-[0_0_60px_rgba(220,38,38,0.5)] transition-all">
                 <div className="flex justify-between items-start">
                   <span className="text-sm bg-black text-white px-3 py-1 font-black tracking-widest">{work.id}</span>
                   <ArrowUpRight size={28} className="text-black group-hover:text-[#dc2626] transition-transform group-hover:rotate-45" />
@@ -412,11 +412,11 @@ const HorizontalShowcase = () => {
   }, []);
 
   return (
-    <section ref={containerRef} id="showcase" className="relative h-[350vh] bg-black">
+    <section ref={containerRef} id="showcase" className="relative h-[350vh] bg-transparent">
       <div className="sticky top-0 h-screen overflow-hidden flex items-center">
         <div className="absolute top-12 left-8 md:left-16 z-20">
-          <p className="text-[#3b82f6] text-xs font-bold tracking-[0.3em] uppercase mb-2">// HORIZONTAL SCROLLING KERNEL</p>
-          <h3 className="text-3xl sm:text-5xl font-black tracking-tight uppercase text-white">Immersive Case Studies</h3>
+          <p className="text-[#3b82f6] text-xs font-bold tracking-[0.3em] uppercase mb-2 bg-black/50 px-3 py-1 border border-white/10 w-fit backdrop-blur-md">// HORIZONTAL SCROLLING KERNEL</p>
+          <h3 className="text-3xl sm:text-5xl font-black tracking-tight uppercase text-white drop-shadow-[0_5px_15px_rgba(0,0,0,0.8)]">Immersive Case Studies</h3>
         </div>
         <div ref={trackRef} className="flex gap-12 pl-8 md:pl-16 w-max pt-24 will-change-transform">
           {[
@@ -425,16 +425,16 @@ const HorizontalShowcase = () => {
             { title: "Neural Analytics Hub", tag: "PYTHON ML // REACT", desc: "Predictive data visualization dashboards built for pharmaceutical logistics tracking." },
             { title: "60FPS WebGL Portfolio", tag: "THREE.JS // SHADERS", desc: "High-performance interactive 3D spatial workspace for elite brand presentation." }
           ].map((item, idx) => (
-            <div key={idx} className="w-[80vw] md:w-[45vw] h-[60vh] border border-neutral-800 bg-neutral-950/90 p-10 md:p-14 flex flex-col justify-between relative group hover:border-[#3b82f6] transition-colors backdrop-blur-md">
+            <div key={idx} className="w-[80vw] md:w-[45vw] h-[60vh] border border-white/10 bg-black/60 backdrop-blur-xl p-10 md:p-14 flex flex-col justify-between relative group hover:border-[#3b82f6] transition-colors shadow-2xl">
               <div className="flex justify-between items-center">
-                <span className="text-xs font-mono text-[#3b82f6] bg-neutral-900 px-3 py-1 border border-neutral-800">{item.tag}</span>
-                <Compass size={24} className="text-neutral-500 group-hover:text-white transition-colors" />
+                <span className="text-xs font-mono text-[#3b82f6] bg-black/80 px-3 py-1 border border-white/10">{item.tag}</span>
+                <Compass size={24} className="text-neutral-400 group-hover:text-white transition-colors" />
               </div>
               <div>
                 <h4 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4 text-white">{item.title}</h4>
-                <p className="text-sm text-neutral-400 font-mono leading-relaxed">{item.desc}</p>
+                <p className="text-sm text-neutral-300 font-mono leading-relaxed">{item.desc}</p>
               </div>
-              <div className="pt-6 border-t border-neutral-900 flex justify-between items-center text-xs font-bold uppercase tracking-widest text-neutral-400">
+              <div className="pt-6 border-t border-white/10 flex justify-between items-center text-xs font-bold uppercase tracking-widest text-neutral-400">
                 <span>MODULE_0{idx + 1}</span>
                 <span className="text-white group-hover:text-[#3b82f6] transition-colors">EXPLORE_NODE &rarr;</span>
               </div>
@@ -447,7 +447,7 @@ const HorizontalShowcase = () => {
 };
 
 /* ==========================================================================
-   RADIAL ORBITAL ROTATING SCROLLYTELLING TEMPLATE (COMPLETELY UNIQUE DESIGN)
+   TRANSPARENT GLASS RADIAL ORBITAL SCROLLYTELLING TEMPLATE
    ================================================================---------- */
 const RadialOrbitalScrollytelling = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -477,7 +477,6 @@ const RadialOrbitalScrollytelling = () => {
       title: "Python Machine Learning & AI",
       category: "INTELLIGENT PIPELINES",
       icon: Cpu,
-      accent: "#10b981",
       color: "#10b981",
       desc: "Advanced neural networks and automated contract generation systems built with Python, PyTorch, and Vercel Edge functions for real-time inference.",
       stats: "Real-time AI Synthesis"
@@ -508,16 +507,16 @@ const RadialOrbitalScrollytelling = () => {
   }, [modules.length]);
 
   return (
-    <section ref={containerRef} id="ecosystem" className="relative h-[400vh] bg-black">
+    <section ref={containerRef} id="ecosystem" className="relative h-[400vh] bg-transparent">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-between px-4 sm:px-16 py-20">
         
         {/* Top Header */}
-        <div className="flex justify-between items-center border-b border-neutral-800 pb-6">
+        <div className="flex justify-between items-center border-b border-white/10 pb-6 bg-black/40 backdrop-blur-md px-6 rounded">
           <div>
             <p className="text-[#dc2626] text-xs font-bold tracking-[0.3em] uppercase mb-1">// RADIAL ORBITAL ECOSYSTEM</p>
-            <h3 className="text-2xl sm:text-4xl font-black uppercase tracking-tight text-white">Interactive Architectural Matrix</h3>
+            <h3 className="text-2xl sm:text-4xl font-black uppercase tracking-tight text-white drop-shadow">Interactive Architectural Matrix</h3>
           </div>
-          <div className="text-right font-mono text-xs text-neutral-400">
+          <div className="text-right font-mono text-xs text-neutral-300">
             ACTIVE_INDEX: <span className="text-white font-bold">0{activeIndex + 1} / 0{modules.length}</span>
           </div>
         </div>
@@ -527,38 +526,38 @@ const RadialOrbitalScrollytelling = () => {
           
           {/* Left Rotating Status Ring & Icon Indicator */}
           <div className="lg:col-span-5 flex flex-col items-center justify-center relative">
-            <div className="absolute w-72 h-72 rounded-full border border-neutral-800 animate-spin" style={{ animationDuration: '25s' }}></div>
-            <div className="absolute w-52 h-52 rounded-full border border-dashed border-neutral-700 animate-spin" style={{ animationDuration: '15s', animationDirection: 'reverse' }}></div>
+            <div className="absolute w-72 h-72 rounded-full border border-white/20 animate-spin" style={{ animationDuration: '25s' }}></div>
+            <div className="absolute w-52 h-52 rounded-full border border-dashed border-white/30 animate-spin" style={{ animationDuration: '15s', animationDirection: 'reverse' }}></div>
             
-            <div className="w-36 h-36 rounded-full bg-neutral-950 border-2 border-[#dc2626] flex items-center justify-center shadow-[0_0_50px_rgba(220,38,38,0.4)] relative z-10 transition-all duration-500">
+            <div className="w-36 h-36 rounded-full bg-black/60 backdrop-blur-xl border-2 border-[#dc2626] flex items-center justify-center shadow-[0_0_50px_rgba(220,38,38,0.4)] relative z-10 transition-all duration-500">
               {React.createElement(modules[activeIndex].icon, { size: 48, style: { color: modules[activeIndex].color } })}
             </div>
             
             <div className="mt-8 text-center relative z-10">
-              <span className="text-xs font-mono px-3 py-1 bg-neutral-900 border border-neutral-800 text-neutral-300 uppercase">
+              <span className="text-xs font-mono px-3 py-1 bg-black/80 backdrop-blur-md border border-white/10 text-neutral-200 uppercase">
                 {modules[activeIndex].category}
               </span>
             </div>
           </div>
 
-          {/* Right Active Details Card */}
-          <div className="lg:col-span-7 border border-neutral-800 bg-neutral-950/90 p-8 sm:p-12 backdrop-blur-2xl shadow-2xl relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-red-600/10 to-transparent pointer-events-none"></div>
+          {/* Right Active Details Card (Transparent Glassmorphism) */}
+          <div className="lg:col-span-7 border border-white/15 bg-black/60 backdrop-blur-2xl p-8 sm:p-12 shadow-2xl relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-red-600/20 to-transparent pointer-events-none"></div>
             
             <span className="text-xs font-mono text-[#dc2626] block mb-2">{modules[activeIndex].id} // SYSTEM KERNEL</span>
             <h4 className="text-3xl sm:text-5xl font-black uppercase tracking-tighter text-white mb-6 leading-none">
               {modules[activeIndex].title}
             </h4>
-            <p className="text-sm sm:text-base text-neutral-400 font-mono leading-relaxed mb-8">
+            <p className="text-sm sm:text-base text-neutral-300 font-mono leading-relaxed mb-8">
               {modules[activeIndex].desc}
             </p>
 
-            <div className="flex items-center justify-between pt-6 border-t border-neutral-900">
+            <div className="flex items-center justify-between pt-6 border-t border-white/10">
               <div className="flex items-center gap-2">
                 <Network size={16} className="text-[#3b82f6]" />
                 <span className="text-xs font-mono text-neutral-300 uppercase">Performance Benchmark:</span>
               </div>
-              <span className="text-xs font-mono font-bold text-white bg-black px-3 py-1 border border-neutral-800">
+              <span className="text-xs font-mono font-bold text-white bg-black/80 px-3 py-1 border border-white/10">
                 {modules[activeIndex].stats}
               </span>
             </div>
@@ -567,11 +566,11 @@ const RadialOrbitalScrollytelling = () => {
         </div>
 
         {/* Bottom Step Indicator Bar */}
-        <div className="grid grid-cols-4 gap-4 border-t border-neutral-800 pt-6">
+        <div className="grid grid-cols-4 gap-4 border-t border-white/10 pt-6 bg-black/40 backdrop-blur-md px-6 pb-4 rounded">
           {modules.map((m, idx) => (
             <div 
               key={idx} 
-              className={`h-2 transition-all duration-300 cursor-pointer ${activeIndex === idx ? 'bg-[#dc2626] shadow-[0_0_10px_#dc2626]' : 'bg-neutral-900 hover:bg-neutral-800'}`}
+              className={`h-2 transition-all duration-300 cursor-pointer ${activeIndex === idx ? 'bg-[#dc2626] shadow-[0_0_15px_#dc2626]' : 'bg-white/20 hover:bg-white/40'}`}
               onClick={() => {
                 const totalH = (containerRef.current.scrollHeight - window.innerHeight);
                 window.scrollTo({ top: (idx / modules.length) * totalH + containerRef.current.offsetTop, behavior: 'smooth' });
@@ -611,15 +610,15 @@ const ScrollytellingSection = () => {
   ];
 
   return (
-    <section id="scrollytelling" className="relative z-10 w-full py-32 bg-black border-b border-neutral-800 px-4 sm:px-8">
+    <section id="scrollytelling" className="relative z-10 w-full py-32 bg-transparent border-b border-white/10 px-4 sm:px-8">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
         
-        <div className="lg:col-span-5 sticky top-32 border border-neutral-800 bg-neutral-950 p-8 sm:p-10 backdrop-blur-xl">
+        <div className="lg:col-span-5 sticky top-32 border border-white/15 bg-black/60 backdrop-blur-2xl p-8 sm:p-10 shadow-2xl">
           <p className="text-[#dc2626] text-xs font-bold tracking-[0.3em] uppercase mb-4">// NARRATIVE KERNEL PROGRESSION</p>
           <h3 className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-white mb-6">Development Lifecycle</h3>
           <div className="space-y-4 font-mono text-xs">
             {milestones.map((m, idx) => (
-              <div key={idx} className={`p-4 border transition-all flex items-center justify-between ${activeStep === idx ? 'border-[#dc2626] bg-neutral-900 text-white' : 'border-neutral-900 bg-black text-neutral-500'}`}>
+              <div key={idx} className={`p-4 border transition-all flex items-center justify-between ${activeStep === idx ? 'border-[#dc2626] bg-black/80 text-white shadow-[0_0_15px_rgba(220,38,38,0.3)]' : 'border-white/10 bg-black/40 text-neutral-400'}`}>
                 <span>{m.phase}</span>
                 {activeStep === idx && <div className="w-2 h-2 bg-[#dc2626] rounded-full animate-ping"></div>}
               </div>
@@ -629,10 +628,10 @@ const ScrollytellingSection = () => {
 
         <div className="lg:col-span-7 space-y-32">
           {milestones.map((m, idx) => (
-            <div key={idx} ref={el => stepsRef.current[idx] = el} className="min-h-[60vh] flex flex-col justify-center border-l-2 border-neutral-800 pl-8 sm:pl-12">
+            <div key={idx} ref={el => stepsRef.current[idx] = el} className="min-h-[60vh] flex flex-col justify-center border-l-2 border-white/20 pl-8 sm:pl-12 bg-black/40 backdrop-blur-md p-8 rounded">
               <span className="text-xs font-mono text-[#dc2626] mb-3 tracking-widest">{m.phase}</span>
               <h4 className="text-4xl sm:text-6xl font-black uppercase tracking-tighter text-white mb-6 leading-none">{m.title}</h4>
-              <p className="text-base text-neutral-400 font-mono leading-relaxed">{m.desc}</p>
+              <p className="text-base text-neutral-300 font-mono leading-relaxed">{m.desc}</p>
             </div>
           ))}
         </div>
@@ -643,13 +642,13 @@ const ScrollytellingSection = () => {
 };
 
 const Capabilities = () => (
-  <section id="expertise" className="relative z-10 w-full border-b border-neutral-800 bg-black px-4 sm:px-8 py-24">
+  <section id="expertise" className="relative z-10 w-full border-b border-white/10 bg-transparent px-4 sm:px-8 py-24">
     <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-16">
-      <div>
+      <div className="bg-black/40 backdrop-blur-md p-6 border border-white/10 rounded">
         <h3 className="text-xs tracking-[0.2em] uppercase font-bold flex items-center gap-3 mb-6 text-white">
           <Cpu size={16} className="text-[#dc2626]" /> Core Expertise
         </h3>
-        <p className="text-xs text-neutral-400 leading-relaxed">Comprehensive technical stack covering modern web applications, relational databases, cloud deployment, and AI pipelines.</p>
+        <p className="text-xs text-neutral-300 leading-relaxed">Comprehensive technical stack covering modern web applications, relational databases, cloud deployment, and AI pipelines.</p>
       </div>
       <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-10">
         {[
@@ -658,11 +657,11 @@ const Capabilities = () => (
           { icon: Box, title: 'WebGL & Three.js 3D', desc: 'Immersive browser experiences and high-performance visual engines.' },
           { icon: Layers, title: 'Python & AI Models', desc: 'Tailored machine learning models and medical-tech integrations.' }
         ].map((cap, idx) => (
-          <div key={idx} className="flex gap-4 p-5 border border-neutral-800 bg-neutral-950/80 hover:border-[#dc2626]/50 transition-colors">
+          <div key={idx} className="flex gap-4 p-5 border border-white/15 bg-black/60 backdrop-blur-xl hover:border-[#dc2626]/50 transition-colors shadow-xl">
             <cap.icon size={24} className="text-[#dc2626] shrink-0 mt-1" />
             <div>
               <h5 className="text-sm font-bold uppercase tracking-widest mb-2 text-white">{cap.title}</h5>
-              <p className="text-xs text-neutral-400">{cap.desc}</p>
+              <p className="text-xs text-neutral-300">{cap.desc}</p>
             </div>
           </div>
         ))}
@@ -672,28 +671,28 @@ const Capabilities = () => (
 );
 
 const Footer = () => (
-  <footer id="contact" className="relative z-10 w-full bg-black">
-    <div className="px-4 sm:px-8 py-24 border-b border-neutral-800 grid grid-cols-1 lg:grid-cols-2 gap-16">
+  <footer id="contact" className="relative z-10 w-full bg-transparent">
+    <div className="px-4 sm:px-8 py-24 border-b border-white/10 grid grid-cols-1 lg:grid-cols-2 gap-16 bg-black/50 backdrop-blur-md">
       <div>
-        <h2 className="text-5xl sm:text-7xl font-black tracking-tighter uppercase text-white">Let's build<br/>something great.</h2>
-        <p className="text-xs text-neutral-400 mt-6 tracking-widest uppercase font-bold">Reach out directly to discuss your SaaS or web platform.</p>
+        <h2 className="text-5xl sm:text-7xl font-black tracking-tighter uppercase text-white drop-shadow">Let's build<br/>something great.</h2>
+        <p className="text-xs text-neutral-300 mt-6 tracking-widest uppercase font-bold">Reach out directly to discuss your SaaS or web platform.</p>
         <div className="mt-8 flex flex-col gap-4 text-xs font-bold tracking-widest">
-          <a href="mailto:dev@healthcarepk.online" className="text-neutral-300 hover:text-[#dc2626] transition-colors">DEV@HEALTHCAREPK.ONLINE</a>
-          <a href="tel:+923041381382" className="text-neutral-300 hover:text-[#dc2626] transition-colors">+92 304 1381382</a>
+          <a href="mailto:dev@healthcarepk.online" className="text-neutral-200 hover:text-[#dc2626] transition-colors">DEV@HEALTHCAREPK.ONLINE</a>
+          <a href="tel:+923041381382" className="text-neutral-200 hover:text-[#dc2626] transition-colors">+92 304 1381382</a>
           <span className="text-[#3b82f6]">LAHORE, PAKISTAN [31.5204° N, 74.3587° E]</span>
         </div>
       </div>
       <div>
-        <form className="flex flex-col gap-4" onSubmit={(e) => { e.preventDefault(); window.location.href = 'mailto:dev@healthcarepk.online'; }}>
-          <input type="email" placeholder="YOUR EMAIL" required className="bg-neutral-900 border border-neutral-800 p-4 text-xs font-bold uppercase text-white focus:border-[#dc2626] outline-none transition-colors" />
-          <textarea placeholder="PROJECT DETAILS / MESSAGE" rows="4" required className="bg-neutral-900 border border-neutral-800 p-4 text-xs font-bold uppercase text-white focus:border-[#dc2626] outline-none resize-none transition-colors"></textarea>
+        <form className="flex flex-col gap-4 bg-black/60 p-8 border border-white/15 backdrop-blur-xl shadow-2xl" onSubmit={(e) => { e.preventDefault(); window.location.href = 'mailto:dev@healthcarepk.online'; }}>
+          <input type="email" placeholder="YOUR EMAIL" required className="bg-black/80 border border-white/15 p-4 text-xs font-bold uppercase text-white focus:border-[#dc2626] outline-none transition-colors" />
+          <textarea placeholder="PROJECT DETAILS / MESSAGE" rows="4" required className="bg-black/80 border border-white/15 p-4 text-xs font-bold uppercase text-white focus:border-[#dc2626] outline-none resize-none transition-colors"></textarea>
           <button type="submit" className="bg-white text-black py-4 text-xs font-black uppercase tracking-widest hover:bg-[#dc2626] hover:text-white transition-colors border border-white shadow-[0_0_20px_rgba(255,255,255,0.2)]">Send Message</button>
         </form>
       </div>
     </div>
-    <div className="px-4 sm:px-8 py-6 text-[10px] text-neutral-500 tracking-widest uppercase font-bold flex justify-between">
+    <div className="px-4 sm:px-8 py-6 text-[10px] text-neutral-400 tracking-widest uppercase font-bold flex justify-between bg-black/80 backdrop-blur-md border-t border-white/10">
       <div>&copy; {new Date().getFullYear()} USMAN UBAID // ALL RIGHTS RESERVED.</div>
-      <div>60FPS_PORTFOLIO_ACTIVE</div>
+      <div>60FPS_TRANSPARENT_KERNEL_ACTIVE</div>
     </div>
   </footer>
 );
