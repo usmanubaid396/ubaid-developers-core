@@ -306,7 +306,6 @@ const Hero = () => (
         I'm Usman Ubaid — a full-stack engineer turning complex startup ideas, medical architectures, and AI/ML model integrations into production-ready web platforms using Next.js, React, SQL, Python, and Vercel.
       </p>
 
-      {/* Stats Counter Bar inspired by reference sample */}
       <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl">
         <div className="border border-neutral-800 bg-neutral-950/90 p-6 backdrop-blur-xl">
           <div className="text-4xl sm:text-5xl font-black text-white mb-1">4+</div>
