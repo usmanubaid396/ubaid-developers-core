@@ -28,7 +28,6 @@ const WebGLEngine = () => {
     const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 1000);
     camera.position.z = 40;
     
-    // Configured for robust compatibility across Safari, WebKit, and mobile iOS/Android GPUs
     const renderer = new THREE.WebGLRenderer({ 
       alpha: true, 
       antialias: true, 
@@ -51,7 +50,6 @@ const WebGLEngine = () => {
     pointLight2.position.set(-30, -30, 30);
     scene.add(pointLight2);
 
-    // Multi-Layered 3D Core Matrix with double-sided materials for Safari culling prevention
     const coreGroup = new THREE.Group();
     const coreGeo = new THREE.IcosahedronGeometry(8.5, 2);
     
@@ -96,7 +94,6 @@ const WebGLEngine = () => {
     const shardMat = new THREE.MeshStandardMaterial({ color: 0xdc2626, roughness: 0.15, metalness: 0.9, side: THREE.DoubleSide });
     const shards = [];
     
-    // Adjusted shard density for performance on mobile devices
     const shardLimit = window.innerWidth < 768 ? 30 : 70;
     for(let i = 0; i < shardLimit; i++) {
       const shard = new THREE.Mesh(shardGeo, shardMat);
@@ -114,7 +111,6 @@ const WebGLEngine = () => {
     }
     scene.add(shardsGroup);
 
-    // Optimized particle count for smooth mobile performance
     const particleCount = window.innerWidth < 768 ? 1500 : 4500;
     const particleGeo = new THREE.BufferGeometry();
     const particlePos = new Float32Array(particleCount * 3);
@@ -146,7 +142,6 @@ const WebGLEngine = () => {
 
     let isCoreHovered = false;
     
-    // Unified mouse and touch event handling for mobile and Safari
     const handleMove = (clientX, clientY) => {
       mouse.x = (clientX / window.innerWidth) * 2 - 1;
       mouse.y = -(clientY / window.innerHeight) * 2 + 1;
@@ -179,7 +174,7 @@ const WebGLEngine = () => {
     const animate = () => {
       rafId = requestAnimationFrame(animate);
       const time = clock.getElapsedTime();
-      currentScroll += (targetScroll - currentScroll) * 0.06;
+      currentScroll += (targetScroll - currentScroll) * 0.08;
       
       const targetCoreScale = isCoreHovered ? 1.5 : 1.0;
       const pulse = Math.sin(time * 5) * 0.09;
@@ -289,7 +284,7 @@ const TiltCard = ({ children, className }) => {
 };
 
 const SystemStatus = () => (
-  <div className="fixed top-0 w-full z-50 bg-black/50 backdrop-blur-xl border-b border-white/15 text-[9px] sm:text-xs uppercase flex justify-between items-center px-3 sm:px-4 py-2 sm:py-3 font-light tracking-widest text-neutral-200 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+  <div className="fixed top-0 w-full z-50 bg-black/40 backdrop-blur-xl border-b border-white/15 text-[9px] sm:text-xs uppercase flex justify-between items-center px-3 sm:px-4 py-2 sm:py-3 font-light tracking-widest text-neutral-200 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
     <div className="flex items-center gap-2 text-white font-bold truncate">
       <div className="w-2 h-2 bg-[#dc2626] rounded-full animate-pulse shadow-[0_0_15px_#dc2626] shrink-0"></div>
       <span className="truncate">USMAN_UBAID // SAFARI GLOSSMORPHIC KERNEL</span>
@@ -310,7 +305,6 @@ const Navigation = () => {
         <p className="text-[10px] sm:text-xs text-neutral-300 tracking-widest mt-0.5 uppercase hidden sm:block">Full-Stack SaaS Architect & 3D Interactive Systems</p>
       </div>
 
-      {/* Desktop Links */}
       <div className="hidden lg:flex gap-6 text-xs font-bold tracking-[0.2em] uppercase items-center">
         {['Work', 'Showcase', 'Ecosystem', 'Scrollytelling', 'Contact'].map((item, idx) => (
           <a key={idx} href={`#${item.toLowerCase()}`} className="text-neutral-200 hover:text-[#dc2626] transition-colors">
@@ -322,7 +316,6 @@ const Navigation = () => {
         </a>
       </div>
 
-      {/* Mobile Menu Button */}
       <button 
         onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
         className="lg:hidden text-white p-2 border border-white/20 bg-white/[0.05] backdrop-blur-md"
@@ -331,7 +324,6 @@ const Navigation = () => {
         {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
       </button>
 
-      {/* Mobile Dropdown Menu */}
       {mobileMenuOpen && (
         <div className="absolute top-full left-0 w-full bg-black/95 backdrop-blur-3xl border-b border-white/20 p-6 flex flex-col gap-4 lg:hidden shadow-2xl">
           {['Work', 'Showcase', 'Ecosystem', 'Scrollytelling', 'Contact'].map((item, idx) => (
@@ -428,7 +420,7 @@ const Works = () => {
       });
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -464,28 +456,49 @@ const Works = () => {
   );
 };
 
+/* ==========================================================================
+   ROBUST HORIZONTAL SCROLLING KERNEL (SAFARI & TRACKPAD SYNCHRONIZED)
+   ================================================================---------- */
 const HorizontalShowcase = () => {
   const containerRef = useRef(null);
   const trackRef = useRef(null);
 
   useEffect(() => {
+    let animationFrameId = null;
+
     const handleScroll = () => {
       if (!containerRef.current || !trackRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const scrollProgress = -rect.top / (rect.height - window.innerHeight);
-      if (scrollProgress >= 0 && scrollProgress <= 1) {
+      
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+
+      animationFrameId = requestAnimationFrame(() => {
+        const rect = containerRef.current.getBoundingClientRect();
+        const scrollRange = rect.height - window.innerHeight;
+        
+        if (scrollRange <= 0) return;
+
+        // Calculate precise scroll progress within the pinned container
+        let progress = -rect.top / scrollRange;
+        progress = Math.max(0, Math.min(1, progress));
+
         const maxTranslate = trackRef.current.scrollWidth - window.innerWidth;
-        trackRef.current.style.transform = `translateX(-${scrollProgress * maxTranslate}px)`;
-      }
+        trackRef.current.style.transform = `translate3d(-${progress * Math.max(0, maxTranslate)}px, 0, 0)`;
+      });
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Initial measure
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    };
   }, []);
 
   return (
     <section ref={containerRef} id="showcase" className="relative h-[350vh] bg-transparent">
       <div className="sticky top-0 h-screen overflow-hidden flex items-center">
-        <div className="absolute top-10 sm:top-12 left-4 sm:left-16 z-20">
+        <div className="absolute top-10 sm:top-12 left-4 sm:left-16 z-20 pointer-events-none">
           <p className="text-[#3b82f6] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-2 bg-white/[0.04] px-3 sm:px-4 py-1.5 border border-white/25 w-fit backdrop-blur-2xl shadow-xl">// HORIZONTAL SCROLLING KERNEL</p>
           <h3 className="text-2xl sm:text-5xl font-black tracking-tight uppercase text-white drop-shadow-[0_8px_20px_rgba(0,0,0,0.9)]">Immersive Case Studies</h3>
         </div>
@@ -517,6 +530,9 @@ const HorizontalShowcase = () => {
   );
 };
 
+/* ==========================================================================
+   ROBUST RADIAL ORBITAL SCROLLYTELLING (SEAMLESS TRACKPAD & MOBILE SYNC)
+   ================================================================---------- */
 const RadialOrbitalScrollytelling = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef(null);
@@ -561,22 +577,39 @@ const RadialOrbitalScrollytelling = () => {
   ];
 
   useEffect(() => {
+    let animationFrameId = null;
+
     const handleScroll = () => {
       if (!containerRef.current) return;
-      const rect = containerRef.current.getBoundingClientRect();
-      const totalHeight = rect.height - window.innerHeight;
-      const currentProgress = Math.max(0, Math.min(1, -rect.top / totalHeight));
-      const newIndex = Math.min(modules.length - 1, Math.floor(currentProgress * modules.length));
-      setActiveIndex(newIndex);
+      
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+
+      animationFrameId = requestAnimationFrame(() => {
+        const rect = containerRef.current.getBoundingClientRect();
+        const totalHeight = rect.height - window.innerHeight;
+        
+        if (totalHeight <= 0) return;
+
+        let currentProgress = -rect.top / totalHeight;
+        currentProgress = Math.max(0, Math.min(1, currentProgress));
+        
+        const newIndex = Math.min(modules.length - 1, Math.floor(currentProgress * modules.length));
+        setActiveIndex(newIndex);
+      });
     };
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    };
   }, [modules.length]);
 
   return (
     <section ref={containerRef} id="ecosystem" className="relative h-[400vh] bg-transparent">
-      <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-between px-4 sm:px-16 py-12 sm:py-20">
+      <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-between px-4 sm:px-16 py-12 sm:py-20 pointer-events-auto">
         
         <div className="flex justify-between items-center border-b border-white/15 pb-4 sm:pb-6 bg-white/[0.03] backdrop-blur-2xl px-4 sm:px-6 rounded shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
           <div>
@@ -635,6 +668,7 @@ const RadialOrbitalScrollytelling = () => {
               key={idx} 
               className={`h-1.5 sm:h-2 transition-all duration-300 cursor-pointer ${activeIndex === idx ? 'bg-[#dc2626] shadow-[0_0_15px_#dc2626]' : 'bg-white/20 hover:bg-white/40'}`}
               onClick={() => {
+                if (!containerRef.current) return;
                 const totalH = (containerRef.current.scrollHeight - window.innerHeight);
                 window.scrollTo({ top: (idx / modules.length) * totalH + containerRef.current.offsetTop, behavior: 'smooth' });
               }}
@@ -647,22 +681,37 @@ const RadialOrbitalScrollytelling = () => {
   );
 };
 
+/* ==========================================================================
+   ROBUST NARRATIVE SCROLLYTELLING (PERFORMANCE OPTIMIZED)
+   ================================================================---------- */
 const ScrollytellingSection = () => {
   const [activeStep, setActiveStep] = useState(0);
   const stepsRef = useRef([]);
 
   useEffect(() => {
+    let animationFrameId = null;
+
     const handleScroll = () => {
-      stepsRef.current.forEach((el, index) => {
-        if (!el) return;
-        const rect = el.getBoundingClientRect();
-        if (rect.top <= window.innerHeight * 0.5 && rect.bottom >= window.innerHeight * 0.2) {
-          setActiveStep(index);
-        }
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+
+      animationFrameId = requestAnimationFrame(() => {
+        stepsRef.current.forEach((el, index) => {
+          if (!el) return;
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= window.innerHeight * 0.55 && rect.bottom >= window.innerHeight * 0.15) {
+            setActiveStep(index);
+          }
+        });
       });
     };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      if (animationFrameId) cancelAnimationFrame(animationFrameId);
+    };
   }, []);
 
   const milestones = [
