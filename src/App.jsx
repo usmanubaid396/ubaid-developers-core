@@ -48,7 +48,6 @@ const WebGLEngine = () => {
     pointLight2.position.set(-30, -30, 30);
     scene.add(pointLight2);
 
-    // Multi-Layered 3D Core Matrix with double-sided rendering for Safari
     const coreGroup = new THREE.Group();
     const coreGeo = new THREE.IcosahedronGeometry(8.5, 2);
     
@@ -455,9 +454,6 @@ const Works = () => {
   );
 };
 
-/* ==========================================================================
-   FIXED HORIZONTAL SCROLLING KERNEL (PERFECT SYNC & DAMPING)
-   ================================================================---------- */
 const HorizontalShowcase = () => {
   const containerRef = useRef(null);
   const trackRef = useRef(null);
@@ -528,9 +524,6 @@ const HorizontalShowcase = () => {
   );
 };
 
-/* ==========================================================================
-   FIXED RADIAL ORBITAL SCROLLYTELLING (SMOOTH INDEX SYNC)
-   ================================================================---------- */
 const RadialOrbitalScrollytelling = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef(null);
@@ -680,26 +673,38 @@ const RadialOrbitalScrollytelling = () => {
 };
 
 /* ==========================================================================
-   ROBUST NARRATIVE SCROLLYTELLING (PERFORMANCE OPTIMIZED)
+   FIXED PINNED SCROLLYTELLING CONTAINER (100% RELIABLE PINNING & SCRUBBING)
    ================================================================---------- */
 const ScrollytellingSection = () => {
   const [activeStep, setActiveStep] = useState(0);
-  const stepsRef = useRef([]);
+  const containerRef = useRef(null);
+
+  const milestones = [
+    { phase: "PHASE_01 // ARCHITECTING", title: "System Scoping & Database Modeling", desc: "Defining high-throughput database schemas in PostgreSQL, establishing secure REST endpoints, and designing component hierarchies." },
+    { phase: "PHASE_02 // ENGINEERING", title: "Full-Stack React & Next.js Build", desc: "Developing responsive SaaS interfaces using Tailwind CSS, implementing server actions, and configuring lightning-fast Vercel edge deployment." },
+    { phase: "PHASE_03 // 3D KERNEL INTEGRATION", title: "WebGL Shaders & Spatial Shards", desc: "Embedding Three.js particle matrices, raycasted mouse physics, and hardware-accelerated 60FPS visual depth into user interfaces." },
+    { phase: "PHASE_04 // DEPLOYMENT & SCALE", title: "Production Launch & AI Pipelines", desc: "Connecting Python machine learning models, optimizing performance metrics, and pushing live to production environments." }
+  ];
 
   useEffect(() => {
     let animationFrameId = null;
 
     const handleScroll = () => {
+      if (!containerRef.current) return;
+      
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
 
       animationFrameId = requestAnimationFrame(() => {
-        stepsRef.current.forEach((el, index) => {
-          if (!el) return;
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= window.innerHeight * 0.55 && rect.bottom >= window.innerHeight * 0.15) {
-            setActiveStep(index);
-          }
-        });
+        const rect = containerRef.current.getBoundingClientRect();
+        const totalHeight = rect.height - window.innerHeight;
+        
+        if (totalHeight <= 0) return;
+
+        let progress = -rect.top / totalHeight;
+        progress = Math.max(0, Math.min(1, progress));
+
+        const newStep = Math.min(milestones.length - 1, Math.floor(progress * milestones.length));
+        setActiveStep(newStep);
       });
     };
 
@@ -710,42 +715,37 @@ const ScrollytellingSection = () => {
       window.removeEventListener('scroll', handleScroll);
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
     };
-  }, []);
-
-  const milestones = [
-    { phase: "PHASE_01 // ARCHITECTING", title: "System Scoping & Database Modeling", desc: "Defining high-throughput database schemas in PostgreSQL, establishing secure REST endpoints, and designing component hierarchies." },
-    { phase: "PHASE_02 // ENGINEERING", title: "Full-Stack React & Next.js Build", desc: "Developing responsive SaaS interfaces using Tailwind CSS, implementing server actions, and configuring lightning-fast Vercel edge deployment." },
-    { phase: "PHASE_03 // 3D KERNEL INTEGRATION", title: "WebGL Shaders & Spatial Shards", desc: "Embedding Three.js particle matrices, raycasted mouse physics, and hardware-accelerated 60FPS visual depth into user interfaces." },
-    { phase: "PHASE_04 // DEPLOYMENT & SCALE", title: "Production Launch & AI Pipelines", desc: "Connecting Python machine learning models, optimizing performance metrics, and pushing live to production environments." }
-  ];
+  }, [milestones.length]);
 
   return (
-    <section id="scrollytelling" className="relative z-10 w-full py-24 sm:py-32 bg-transparent border-b border-white/15 px-4 sm:px-8">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-16 items-start">
-        
-        <div className="lg:col-span-5 lg:sticky lg:top-32 border border-white/20 bg-white/[0.04] backdrop-blur-3xl p-6 sm:p-10 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
-          <p className="text-[#dc2626] text-xs font-bold tracking-[0.3em] uppercase mb-3 sm:mb-4">// NARRATIVE KERNEL PROGRESSION</p>
-          <h3 className="text-2xl sm:text-4xl font-black uppercase tracking-tight text-white mb-4 sm:mb-6 drop-shadow">Development Lifecycle</h3>
-          <div className="space-y-3 sm:space-y-4 font-mono text-xs">
-            {milestones.map((m, idx) => (
-              <div key={idx} className={`p-3 sm:p-4 border transition-all flex items-center justify-between ${activeStep === idx ? 'border-[#dc2626] bg-white/[0.08] backdrop-blur-xl text-white shadow-[0_0_15px_rgba(220,38,38,0.3)]' : 'border-white/15 bg-white/[0.02] text-neutral-300'}`}>
-                <span className="truncate">{m.phase}</span>
-                {activeStep === idx && <div className="w-2 h-2 bg-[#dc2626] rounded-full animate-ping shrink-0 ml-2"></div>}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="lg:col-span-7 space-y-16 sm:space-y-32">
-          {milestones.map((m, idx) => (
-            <div key={idx} ref={el => stepsRef.current[idx] = el} className="min-h-[50vh] sm:min-h-[60vh] flex flex-col justify-center border-l-2 border-white/30 pl-6 sm:pl-12 bg-white/[0.04] backdrop-blur-2xl p-6 sm:p-8 rounded shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
-              <span className="text-xs font-mono text-[#dc2626] mb-2 sm:mb-3 tracking-widest">{m.phase}</span>
-              <h4 className="text-3xl sm:text-6xl font-black uppercase tracking-tighter text-white mb-4 sm:mb-6 leading-tight sm:leading-none drop-shadow">{m.title}</h4>
-              <p className="text-sm sm:text-base text-neutral-200 font-mono leading-relaxed">{m.desc}</p>
+    <section ref={containerRef} id="scrollytelling" className="relative h-[400vh] bg-transparent border-b border-white/15">
+      <div className="sticky top-0 h-screen overflow-hidden flex items-center px-4 sm:px-16">
+        <div className="max-w-7xl mx-w-full w-full grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-16 items-center">
+          
+          {/* Left Pinned Progress Card */}
+          <div className="lg:col-span-5 border border-white/20 bg-white/[0.04] backdrop-blur-3xl p-6 sm:p-10 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+            <p className="text-[#dc2626] text-xs font-bold tracking-[0.3em] uppercase mb-3 sm:mb-4">// NARRATIVE KERNEL PROGRESSION</p>
+            <h3 className="text-2xl sm:text-4xl font-black uppercase tracking-tight text-white mb-4 sm:mb-6 drop-shadow">Development Lifecycle</h3>
+            <div className="space-y-3 sm:space-y-4 font-mono text-xs">
+              {milestones.map((m, idx) => (
+                <div key={idx} className={`p-3 sm:p-4 border transition-all flex items-center justify-between ${activeStep === idx ? 'border-[#dc2626] bg-white/[0.08] backdrop-blur-xl text-white shadow-[0_0_15px_rgba(220,38,38,0.3)]' : 'border-white/15 bg-white/[0.02] text-neutral-300'}`}>
+                  <span className="truncate">{m.phase}</span>
+                  {activeStep === idx && <div className="w-2 h-2 bg-[#dc2626] rounded-full animate-ping shrink-0 ml-2"></div>}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </div>
 
+          {/* Right Dynamic Active Card Display */}
+          <div className="lg:col-span-7">
+            <div className="min-h-[45vh] sm:min-h-[55vh] flex flex-col justify-center border-l-2 border-white/30 pl-6 sm:pl-12 bg-white/[0.04] backdrop-blur-2xl p-6 sm:p-12 rounded shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] transition-all duration-300">
+              <span className="text-xs font-mono text-[#dc2626] mb-2 sm:mb-3 tracking-widest">{milestones[activeStep].phase}</span>
+              <h4 className="text-3xl sm:text-6xl font-black uppercase tracking-tighter text-white mb-4 sm:mb-6 leading-tight sm:leading-none drop-shadow">{milestones[activeStep].title}</h4>
+              <p className="text-sm sm:text-base text-neutral-200 font-mono leading-relaxed">{milestones[activeStep].desc}</p>
+            </div>
+          </div>
+
+        </div>
       </div>
     </section>
   );
