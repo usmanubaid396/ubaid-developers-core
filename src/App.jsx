@@ -6,8 +6,7 @@ import {
   CpuIcon, Globe, TerminalSquare, Workflow, Flame, CheckCircle2,
   Layers3, Sparkles, Command, GitBranch, Eye, Maximize2, RefreshCw, 
   Compass, BoxSelect, Cpu as CpuSymbol, Play, Pause, ChevronRight,
-  Radio, CpuShare, Terminal as TerminalIcon, Cpu as Microchip, Hexagon, Network, Menu, X,
-  Layers2, Boxes, Container, LayoutGrid
+  Radio, CpuShare, Terminal as TerminalIcon, Cpu as Microchip, Hexagon, Network, Menu, X
 } from 'lucide-react';
 
 /* ==========================================================================
@@ -175,32 +174,32 @@ const WebGLEngine = () => {
     const animate = () => {
       rafId = requestAnimationFrame(animate);
       const time = clock.getElapsedTime();
-      currentScroll += (targetScroll - currentScroll) * 0.08;
+      currentScroll += (targetScroll - currentScroll) * 0.05; // Ultra-smooth space-travel damping
       
       const targetCoreScale = isCoreHovered ? 1.5 : 1.0;
       const pulse = Math.sin(time * 5) * 0.09;
       coreTargetScale.setScalar(targetCoreScale + pulse);
       coreGroup.scale.lerp(coreTargetScale, 0.12);
       
-      coreGroup.rotation.y = time * 0.4 + (currentScroll * 0.0025);
-      coreGroup.rotation.x = Math.sin(time * 0.3) * 0.3 + (currentScroll * 0.0015);
-      innerMesh.rotation.x = -time * 0.7;
-      ring1.rotation.z = time * 0.5;
-      ring2.rotation.y = -time * 0.4;
+      coreGroup.rotation.y = time * 0.3 + (currentScroll * 0.0015);
+      coreGroup.rotation.x = Math.sin(time * 0.2) * 0.2 + (currentScroll * 0.001);
+      innerMesh.rotation.x = -time * 0.5;
+      ring1.rotation.z = time * 0.3;
+      ring2.rotation.y = -time * 0.25;
       
-      const camTargetX = (mouse.x * 16);
-      const camTargetY = (-(currentScroll * 0.022) + (mouse.y * 16));
-      const camTargetZ = 40 - (currentScroll * 0.035);
+      const camTargetX = (mouse.x * 12);
+      const camTargetY = (-(currentScroll * 0.015) + (mouse.y * 12));
+      const camTargetZ = 40 - (currentScroll * 0.025); // Deep space travel zoom effect
       
-      camera.position.x += (camTargetX - camera.position.x) * 0.08;
-      camera.position.y += (camTargetY - camera.position.y) * 0.08;
-      camera.position.z += (camTargetZ - camera.position.z) * 0.08;
+      camera.position.x += (camTargetX - camera.position.x) * 0.06;
+      camera.position.y += (camTargetY - camera.position.y) * 0.06;
+      camera.position.z += (camTargetZ - camera.position.z) * 0.06;
       camera.lookAt(0, 0, 0);
 
       shards.forEach((shard) => {
         shard.rotation.x += shard.userData.rotSpeedX;
         shard.rotation.y += shard.userData.rotSpeedY;
-        shard.position.y = shard.userData.originY + Math.sin(time * 4 + shard.userData.phase) * 3.2;
+        shard.position.y = shard.userData.originY + Math.sin(time * 3 + shard.userData.phase) * 3.2;
         const distToMouse = shard.position.distanceTo(targetMouse);
         if(distToMouse < 28) {
           const dir = shard.position.clone().sub(targetMouse).normalize();
@@ -232,7 +231,7 @@ const WebGLEngine = () => {
         positions[i+2] += (particleOriginalPos[i+2] - positions[i+2]) * 0.09;
       }
       particleGeo.attributes.position.needsUpdate = true;
-      particles.rotation.y = time * 0.07;
+      particles.rotation.y = time * 0.05;
 
       renderer.render(scene, camera);
     };
@@ -397,7 +396,7 @@ const worksData = [
 ];
 
 /* ==========================================================================
-   ULTRA-SMOOTH 3D CARD CAROUSEL DECK FOR WORKS SECTION (DARK CONTRAST)
+   ULTRA-SMOOTH 3D CARD CAROUSEL DECK FOR WORKS SECTION
    ================================================================---------- */
 const Works = () => {
   const containerRef = useRef(null);
@@ -432,11 +431,11 @@ const Works = () => {
   }, []);
 
   return (
-    <section ref={containerRef} id="work" className="relative h-[400vh] bg-transparent">
+    <section ref={containerRef} id="work" className="relative h-[600vh] bg-transparent">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center px-4 sm:px-12 max-w-7xl mx-auto">
         
         {/* Deep Dark Glossmorphic Header */}
-        <div className="flex flex-col sm:flex-row border border-white/15 px-6 py-5 items-start sm:items-center justify-between bg-neutral-950/90 backdrop-blur-2xl mb-8 shadow-[0_12px_40px_rgba(0,0,0,0.95)] rounded gap-3 sm:gap-0">
+        <div className="flex flex-col sm:flex-row border border-white/20 px-6 py-5 items-start sm:items-center justify-between bg-neutral-950/90 backdrop-blur-2xl mb-8 shadow-[0_12px_40px_rgba(0,0,0,0.95)] rounded gap-3 sm:gap-0">
           <div>
             <p className="text-[#dc2626] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-1">// 3D SPATIAL CARD DECK</p>
             <h3 className="text-xl sm:text-3xl font-black uppercase tracking-tight text-white drop-shadow">Selected Production Work</h3>
@@ -465,11 +464,11 @@ const Works = () => {
               filterStyle = 'blur(0px)';
               pointerEvents = 'auto';
             } else if (isPrev) {
-              transformStyle = 'translate3d(-100px, -30px, -250px) rotateY(18deg) rotateX(6deg) scale3d(0.82, 0.82, 0.82)';
+              transformStyle = 'translate3d(-120px, -40px, -300px) rotateY(20deg) rotateX(8deg) scale3d(0.8, 0.8, 0.8)';
               opacityStyle = 0.3;
               filterStyle = 'blur(8px)';
             } else {
-              transformStyle = 'translate3d(140px, 40px, -350px) rotateY(-22deg) rotateX(-8deg) scale3d(0.72, 0.72, 0.72)';
+              transformStyle = 'translate3d(160px, 50px, -400px) rotateY(-25deg) rotateX(-10deg) scale3d(0.7, 0.7, 0.7)';
               opacityStyle = 0.15;
               filterStyle = 'blur(12px)';
             }
@@ -491,7 +490,7 @@ const Works = () => {
                     href={work.link} 
                     target={work.link !== '#' ? "_blank" : "_self"} 
                     rel="noopener noreferrer" 
-                    className="block relative bg-neutral-950/95 backdrop-blur-3xl text-white border-2 border-white/30 p-8 sm:p-14 h-80 sm:h-96 flex flex-col justify-between group hover:border-[#dc2626] hover:shadow-[0_0_60px_rgba(220,38,38,0.5)] transition-all shadow-[0_30px_70px_rgba(0,0,0,0.98)] rounded"
+                    className="block relative bg-neutral-950/95 backdrop-blur-3xl text-white border-2 border-white/40 p-8 sm:p-14 h-80 sm:h-96 flex flex-col justify-between group hover:border-[#dc2626] hover:shadow-[0_0_60px_rgba(220,38,38,0.5)] transition-all shadow-[0_30px_70px_rgba(0,0,0,0.98)] rounded"
                   >
                     <div className="flex justify-between items-start">
                       <span className="text-xs sm:text-sm bg-white/10 text-white px-3 py-1 font-black tracking-widest border border-white/20 shadow">{work.id}</span>
@@ -530,7 +529,7 @@ const Works = () => {
 };
 
 /* ==========================================================================
-   ENHANCED MULTI-BLOCK IMMERSIVE SHOWCASE SECTION (DISTINCT FROM WORKS)
+   EXPANDED IMMERSIVE SHOWCASE SECTION (FIXED TEXT OVERLAP & PADDING)
    ================================================================---------- */
 const showcaseBlocks = [
   { id: 'SC.01', tag: 'HEALTHCARE SYSTEM', title: 'Clinical Enterprise Cloud', desc: 'Secure HIPAA-compliant hospital architecture processing millions of real-time diagnostics securely.', tech: 'React / Node / PostgreSQL', highlight: 'Zero Latency' },
@@ -575,35 +574,39 @@ const HorizontalShowcase = () => {
   }, []);
 
   return (
-    <section ref={containerRef} id="showcase" className="relative h-[500vh] bg-transparent">
-      <div className="sticky top-0 h-screen overflow-hidden flex items-center">
+    <section ref={containerRef} id="showcase" className="relative h-[600vh] bg-transparent">
+      <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center">
         
-        {/* Unique Distinct Header for Showcase */}
-        <div className="absolute top-10 sm:top-12 left-4 sm:left-16 z-20 pointer-events-none max-w-xl">
+        {/* Fixed Title Header Positioned Safely Above Cards to Prevent Overlap */}
+        <div className="px-4 sm:px-16 mb-8 pointer-events-none max-w-5xl">
           <p className="text-[#3b82f6] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-2 bg-white/[0.04] px-3 sm:px-4 py-1.5 border border-white/25 w-fit backdrop-blur-2xl shadow-xl">// EXPANDED SHOWCASE REPOSITORY</p>
-          <h3 className="text-2xl sm:text-5xl font-black tracking-tight uppercase text-white drop-shadow-[0_8px_20px_rgba(0,0,0,0.9)]">Ecosystem Architecture & Modules</h3>
-          <p className="text-xs sm:text-sm text-neutral-300 font-mono mt-2 hidden sm:block">Explore all 6 deployed systems driving high-end performance across healthcare, legal, and fintech sectors.</p>
+          <h3 className="text-3xl sm:text-5xl font-black tracking-tight uppercase text-white drop-shadow-[0_8px_20px_rgba(0,0,0,0.9)]">Ecosystem Architecture & Modules</h3>
+          <p className="text-xs sm:text-sm text-neutral-300 font-mono mt-2">Explore all 6 deployed systems driving high-end performance across healthcare, legal, and fintech sectors.</p>
         </div>
 
-        <div ref={trackRef} className="flex gap-6 sm:gap-12 pl-4 sm:pl-16 w-max pt-36 sm:pt-40 will-change-transform">
-          {showcaseBlocks.map((item, idx) => (
-            <div key={idx} className="w-[85vw] md:w-[40vw] h-[55vh] sm:h-[62vh] border border-white/25 bg-neutral-950/90 backdrop-blur-3xl p-6 sm:p-12 flex flex-col justify-between relative group hover:border-[#3b82f6] transition-colors shadow-[0_15px_50px_rgba(0,0,0,0.95)] rounded">
-              <div className="flex justify-between items-center border-b border-white/10 pb-4">
-                <span className="text-[10px] sm:text-xs font-mono text-[#3b82f6] bg-white/[0.06] px-3 py-1 border border-white/20">{item.tag}</span>
-                <span className="text-[10px] font-mono text-emerald-400 font-bold bg-emerald-950/50 px-2.5 py-1 border border-emerald-500/30">// {item.highlight}</span>
+        {/* Horizontal Sliding Cards Track */}
+        <div className="w-full overflow-hidden">
+          <div ref={trackRef} className="flex gap-6 sm:gap-10 pl-4 sm:pl-16 w-max will-change-transform">
+            {showcaseBlocks.map((item, idx) => (
+              <div key={idx} className="w-[85vw] md:w-[42vw] h-[52vh] sm:h-[58vh] border border-white/25 bg-neutral-950/95 backdrop-blur-3xl p-6 sm:p-12 flex flex-col justify-between relative group hover:border-[#3b82f6] transition-colors shadow-[0_20px_60px_rgba(0,0,0,0.95)] rounded">
+                <div className="flex justify-between items-center border-b border-white/10 pb-4">
+                  <span className="text-[10px] sm:text-xs font-mono text-[#3b82f6] bg-white/[0.06] px-3 py-1 border border-white/20">{item.tag}</span>
+                  <span className="text-[10px] font-mono text-emerald-400 font-bold bg-emerald-950/50 px-2.5 py-1 border border-emerald-500/30">// {item.highlight}</span>
+                </div>
+                <div className="my-auto">
+                  <span className="text-xs font-mono text-neutral-500 block mb-1">{item.id}</span>
+                  <h4 className="text-2xl sm:text-4xl font-black uppercase tracking-tighter mb-3 text-white group-hover:text-[#3b82f6] transition-colors drop-shadow">{item.title}</h4>
+                  <p className="text-xs sm:text-sm text-neutral-300 font-mono leading-relaxed">{item.desc}</p>
+                </div>
+                <div className="pt-4 sm:pt-6 border-t border-white/15 flex justify-between items-center text-[10px] sm:text-xs font-bold uppercase tracking-widest text-neutral-300">
+                  <span className="text-neutral-400">// {item.tech}</span>
+                  <span className="text-white group-hover:text-[#3b82f6] transition-colors flex items-center gap-1">INSPECT &rarr;</span>
+                </div>
               </div>
-              <div className="my-auto">
-                <span className="text-xs font-mono text-neutral-500 block mb-1">{item.id}</span>
-                <h4 className="text-3xl sm:text-4xl font-black uppercase tracking-tighter mb-4 text-white group-hover:text-[#3b82f6] transition-colors drop-shadow">{item.title}</h4>
-                <p className="text-xs sm:text-sm text-neutral-300 font-mono leading-relaxed">{item.desc}</p>
-              </div>
-              <div className="pt-4 sm:pt-6 border-t border-white/15 flex justify-between items-center text-[10px] sm:text-xs font-bold uppercase tracking-widest text-neutral-300">
-                <span className="text-neutral-400">// {item.tech}</span>
-                <span className="text-white group-hover:text-[#3b82f6] transition-colors flex items-center gap-1">INSPECT &rarr;</span>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
+
       </div>
     </section>
   );
@@ -649,7 +652,7 @@ const RadialOrbitalScrollytelling = () => {
   }, [modules.length]);
 
   return (
-    <section ref={containerRef} id="ecosystem" className="relative h-[450vh] bg-transparent">
+    <section ref={containerRef} id="ecosystem" className="relative h-[600vh] bg-transparent">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-between px-4 sm:px-16 py-12 sm:py-20 pointer-events-auto">
         
         <div className="flex justify-between items-center border-b border-white/15 pb-4 sm:pb-6 bg-white/[0.03] backdrop-blur-2xl px-4 sm:px-6 rounded shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
@@ -760,7 +763,7 @@ const ScrollytellingSection = () => {
   }, [milestones.length]);
 
   return (
-    <section ref={containerRef} id="scrollytelling" className="relative h-[450vh] bg-transparent border-b border-white/10">
+    <section ref={containerRef} id="scrollytelling" className="relative h-[600vh] bg-transparent border-b border-white/10">
       <div className="sticky top-0 h-screen overflow-hidden flex items-center px-4 sm:px-16">
         <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-16 items-center">
           <div className="lg:col-span-5 border border-white/15 bg-black/60 backdrop-blur-2xl p-8 sm:p-10 shadow-2xl">
@@ -937,7 +940,7 @@ const Expertise3DMatrix = () => {
   }, [activeLayer]);
 
   return (
-    <section ref={containerRef} id="expertise" className="relative h-[450vh] bg-transparent border-b border-white/10">
+    <section ref={containerRef} id="expertise" className="relative h-[600vh] bg-transparent border-b border-white/10">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center px-4 sm:px-16 py-12">
         
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-white/15 pb-6 mb-8 bg-white/[0.03] backdrop-blur-2xl px-6 rounded shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] gap-4">
@@ -1003,7 +1006,7 @@ const Footer = () => (
         <form className="flex flex-col gap-4 bg-black/60 p-8 border border-white/15 backdrop-blur-xl shadow-2xl" onSubmit={(e) => { e.preventDefault(); window.location.href = 'mailto:dev@healthcarepk.online'; }}>
           <input type="email" placeholder="YOUR EMAIL" required className="bg-black/80 border border-white/15 p-4 text-xs font-bold uppercase text-white focus:border-[#dc2626] outline-none transition-colors" />
           <textarea placeholder="PROJECT DETAILS / MESSAGE" rows="4" required className="bg-black/80 border border-white/15 p-4 text-xs font-bold uppercase text-white focus:border-[#dc2626] outline-none resize-none transition-colors"></textarea>
-          <button type="submit" className="bg-white text-black py-4 text-xs font-black uppercase tracking-widest hover:bg-[#dc2626] hover:text-white transition-colors border border-white shadow-[0_0_20px_rgba(255,255,255,0.2)]">Send Message</button>
+          <button type="submit" className="bg-white text-black py-4 text-xs font-black uppercase tracking-widest hover:bg-[#dc2626] hover:text-white transition-colors border border-white shadow-[0_0_20px_rgba(255,255,255,0.2)]">Send MessageBox</button>
         </form>
       </div>
     </div>
