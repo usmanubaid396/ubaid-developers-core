@@ -6,7 +6,8 @@ import {
   CpuIcon, Globe, TerminalSquare, Workflow, Flame, CheckCircle2,
   Layers3, Sparkles, Command, GitBranch, Eye, Maximize2, RefreshCw, 
   Compass, BoxSelect, Cpu as CpuSymbol, Play, Pause, ChevronRight,
-  Radio, CpuShare, Terminal as TerminalIcon, Cpu as Microchip, Hexagon, Network, Menu, X
+  Radio, CpuShare, Terminal as TerminalIcon, Cpu as Microchip, Hexagon, Network, Menu, X,
+  Layers2, Boxes, Container, LayoutGrid
 } from 'lucide-react';
 
 /* ==========================================================================
@@ -396,7 +397,7 @@ const worksData = [
 ];
 
 /* ==========================================================================
-   ULTRA-SMOOTH 3D CARD CAROUSEL DECK FOR WORKS SECTION
+   ULTRA-SMOOTH 3D CARD CAROUSEL DECK FOR WORKS SECTION (DARK CONTRAST)
    ================================================================---------- */
 const Works = () => {
   const containerRef = useRef(null);
@@ -434,8 +435,8 @@ const Works = () => {
     <section ref={containerRef} id="work" className="relative h-[400vh] bg-transparent">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center px-4 sm:px-12 max-w-7xl mx-auto">
         
-        {/* Dark Glossmorphic Header with High Contrast */}
-        <div className="flex flex-col sm:flex-row border border-white/20 px-6 py-5 items-start sm:items-center justify-between bg-black/85 backdrop-blur-2xl mb-8 shadow-[0_12px_40px_rgba(0,0,0,0.9)] rounded gap-3 sm:gap-0">
+        {/* Deep Dark Glossmorphic Header */}
+        <div className="flex flex-col sm:flex-row border border-white/15 px-6 py-5 items-start sm:items-center justify-between bg-neutral-950/90 backdrop-blur-2xl mb-8 shadow-[0_12px_40px_rgba(0,0,0,0.95)] rounded gap-3 sm:gap-0">
           <div>
             <p className="text-[#dc2626] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-1">// 3D SPATIAL CARD DECK</p>
             <h3 className="text-xl sm:text-3xl font-black uppercase tracking-tight text-white drop-shadow">Selected Production Work</h3>
@@ -453,7 +454,6 @@ const Works = () => {
             const isCurrent = distance === 0;
             const isPrev = distance < 0;
             
-            // Precise 3D Deck Transforms ensuring zero overlapping distortion
             let transformStyle = '';
             let opacityStyle = 0;
             let filterStyle = 'blur(12px)';
@@ -465,13 +465,13 @@ const Works = () => {
               filterStyle = 'blur(0px)';
               pointerEvents = 'auto';
             } else if (isPrev) {
-              transformStyle = 'translate3d(-80px, -40px, -200px) rotateY(15deg) rotateX(5deg) scale3d(0.85, 0.85, 0.85)';
-              opacityStyle = 0.35;
-              filterStyle = 'blur(6px)';
+              transformStyle = 'translate3d(-100px, -30px, -250px) rotateY(18deg) rotateX(6deg) scale3d(0.82, 0.82, 0.82)';
+              opacityStyle = 0.3;
+              filterStyle = 'blur(8px)';
             } else {
-              transformStyle = 'translate3d(120px, 60px, -300px) rotateY(-20deg) rotateX(-8deg) scale3d(0.75, 0.75, 0.75)';
-              opacityStyle = 0.2;
-              filterStyle = 'blur(10px)';
+              transformStyle = 'translate3d(140px, 40px, -350px) rotateY(-22deg) rotateX(-8deg) scale3d(0.72, 0.72, 0.72)';
+              opacityStyle = 0.15;
+              filterStyle = 'blur(12px)';
             }
 
             return (
@@ -491,11 +491,11 @@ const Works = () => {
                     href={work.link} 
                     target={work.link !== '#' ? "_blank" : "_self"} 
                     rel="noopener noreferrer" 
-                    className="block relative bg-black/90 backdrop-blur-3xl text-white border-2 border-white/40 p-8 sm:p-14 h-80 sm:h-96 flex flex-col justify-between group hover:border-[#dc2626] hover:shadow-[0_0_60px_rgba(220,38,38,0.5)] transition-all shadow-[0_25px_60px_rgba(0,0,0,0.95)] rounded"
+                    className="block relative bg-neutral-950/95 backdrop-blur-3xl text-white border-2 border-white/30 p-8 sm:p-14 h-80 sm:h-96 flex flex-col justify-between group hover:border-[#dc2626] hover:shadow-[0_0_60px_rgba(220,38,38,0.5)] transition-all shadow-[0_30px_70px_rgba(0,0,0,0.98)] rounded"
                   >
                     <div className="flex justify-between items-start">
                       <span className="text-xs sm:text-sm bg-white/10 text-white px-3 py-1 font-black tracking-widest border border-white/20 shadow">{work.id}</span>
-                      <ArrowUpRight size={32} className="text-neutral-300 group-hover:text-[#dc2626] transition-transform group-hover:rotate-45" />
+                      <ArrowUpRight size={32} className="text-neutral-400 group-hover:text-[#dc2626] transition-transform group-hover:rotate-45" />
                     </div>
                     <div>
                       <h4 className="text-3xl sm:text-6xl font-black tracking-tighter uppercase mb-4 text-white group-hover:text-[#dc2626] transition-colors drop-shadow-lg">{work.title}</h4>
@@ -528,6 +528,18 @@ const Works = () => {
     </section>
   );
 };
+
+/* ==========================================================================
+   ENHANCED MULTI-BLOCK IMMERSIVE SHOWCASE SECTION (DISTINCT FROM WORKS)
+   ================================================================---------- */
+const showcaseBlocks = [
+  { id: 'SC.01', tag: 'HEALTHCARE SYSTEM', title: 'Clinical Enterprise Cloud', desc: 'Secure HIPAA-compliant hospital architecture processing millions of real-time diagnostics securely.', tech: 'React / Node / PostgreSQL', highlight: 'Zero Latency' },
+  { id: 'SC.02', tag: 'LEGAL AUTOMATION', title: 'Universal Contract Synthesizer', desc: 'AI-powered document generation protocol compiling customized corporate agreements instantly on Vercel Edge.', tech: 'Next.js / Tailwind / Vercel Edge', highlight: 'Autonomous AI' },
+  { id: 'SC.03', tag: 'PHARMACEUTICAL ERP', title: 'Supply Chain Neural Hub', desc: 'Predictive data visualization dashboards monitoring pharmaceutical inventory flow and regional distribution.', tech: 'Python ML / WebGL / Pandas', highlight: 'Predictive ML' },
+  { id: 'SC.04', tag: 'FINANCIAL DEPOSITORY', title: 'Secured Asset Vault', desc: 'Electronic depository integration linked with Central Depository Company for regulated trading frameworks.', tech: 'TypeScript / REST / Vault API', highlight: 'Bank-Grade' },
+  { id: 'SC.05', tag: 'IMMERSIVE 3D KERNEL', title: 'WebGL Spatial Workspace', desc: 'Hardware-accelerated 60FPS browser-based 3D environment featuring raycasted mouse physics and shaders.', tech: 'Three.js / GLSL / Custom Shaders', highlight: '60 FPS 3D' },
+  { id: 'SC.06', tag: 'BIOMETRIC ANALYTICS', title: 'Diagnostic Vision Hub', desc: 'Neural network pattern recognition interface built for rapid processing of medical imaging data.', tech: 'PyTorch / FastApi / React', highlight: 'High Throughput' }
+];
 
 const HorizontalShowcase = () => {
   const containerRef = useRef(null);
@@ -563,31 +575,31 @@ const HorizontalShowcase = () => {
   }, []);
 
   return (
-    <section ref={containerRef} id="showcase" className="relative h-[450vh] bg-transparent">
+    <section ref={containerRef} id="showcase" className="relative h-[500vh] bg-transparent">
       <div className="sticky top-0 h-screen overflow-hidden flex items-center">
-        <div className="absolute top-10 sm:top-12 left-4 sm:left-16 z-20 pointer-events-none">
-          <p className="text-[#3b82f6] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-2 bg-white/[0.04] px-3 sm:px-4 py-1.5 border border-white/25 w-fit backdrop-blur-2xl shadow-xl">// SLOW HORIZONTAL SCROLL KERNEL</p>
-          <h3 className="text-2xl sm:text-5xl font-black tracking-tight uppercase text-white drop-shadow-[0_8px_20px_rgba(0,0,0,0.9)]">Immersive Case Studies</h3>
+        
+        {/* Unique Distinct Header for Showcase */}
+        <div className="absolute top-10 sm:top-12 left-4 sm:left-16 z-20 pointer-events-none max-w-xl">
+          <p className="text-[#3b82f6] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-2 bg-white/[0.04] px-3 sm:px-4 py-1.5 border border-white/25 w-fit backdrop-blur-2xl shadow-xl">// EXPANDED SHOWCASE REPOSITORY</p>
+          <h3 className="text-2xl sm:text-5xl font-black tracking-tight uppercase text-white drop-shadow-[0_8px_20px_rgba(0,0,0,0.9)]">Ecosystem Architecture & Modules</h3>
+          <p className="text-xs sm:text-sm text-neutral-300 font-mono mt-2 hidden sm:block">Explore all 6 deployed systems driving high-end performance across healthcare, legal, and fintech sectors.</p>
         </div>
-        <div ref={trackRef} className="flex gap-6 sm:gap-12 pl-4 sm:pl-16 w-max pt-20 sm:pt-24 will-change-transform">
-          {[
-            { title: "HealthcarePK Engine", tag: "MED-TECH // SQL", desc: "Full-stack medical information and patient management portal with automated record indexing." },
-            { title: "Universal Contract Maker", tag: "LEGAL SaaS // VERCEL", desc: "Autonomous document synthesis engine generating custom corporate agreements instantly." },
-            { title: "Neural Analytics Hub", tag: "PYTHON ML // REACT", desc: "Predictive data visualization dashboards built for pharmaceutical logistics tracking." },
-            { title: "60FPS WebGL Portfolio", tag: "THREE.JS // SHADERS", desc: "High-performance interactive 3D spatial workspace for elite brand presentation." }
-          ].map((item, idx) => (
-            <div key={idx} className="w-[85vw] md:w-[45vw] h-[55vh] sm:h-[60vh] border border-white/20 bg-white/[0.04] backdrop-blur-2xl p-6 sm:p-14 flex flex-col justify-between relative group hover:border-[#3b82f6] transition-colors shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
-              <div className="flex justify-between items-center">
+
+        <div ref={trackRef} className="flex gap-6 sm:gap-12 pl-4 sm:pl-16 w-max pt-36 sm:pt-40 will-change-transform">
+          {showcaseBlocks.map((item, idx) => (
+            <div key={idx} className="w-[85vw] md:w-[40vw] h-[55vh] sm:h-[62vh] border border-white/25 bg-neutral-950/90 backdrop-blur-3xl p-6 sm:p-12 flex flex-col justify-between relative group hover:border-[#3b82f6] transition-colors shadow-[0_15px_50px_rgba(0,0,0,0.95)] rounded">
+              <div className="flex justify-between items-center border-b border-white/10 pb-4">
                 <span className="text-[10px] sm:text-xs font-mono text-[#3b82f6] bg-white/[0.06] px-3 py-1 border border-white/20">{item.tag}</span>
-                <Compass size={22} className="text-neutral-300 group-hover:text-white transition-colors" />
+                <span className="text-[10px] font-mono text-emerald-400 font-bold bg-emerald-950/50 px-2.5 py-1 border border-emerald-500/30">// {item.highlight}</span>
               </div>
-              <div>
-                <h4 className="text-3xl sm:text-5xl font-black uppercase tracking-tighter mb-3 sm:mb-4 text-white drop-shadow">{item.title}</h4>
-                <p className="text-xs sm:text-sm text-neutral-200 font-mono leading-relaxed">{item.desc}</p>
+              <div className="my-auto">
+                <span className="text-xs font-mono text-neutral-500 block mb-1">{item.id}</span>
+                <h4 className="text-3xl sm:text-4xl font-black uppercase tracking-tighter mb-4 text-white group-hover:text-[#3b82f6] transition-colors drop-shadow">{item.title}</h4>
+                <p className="text-xs sm:text-sm text-neutral-300 font-mono leading-relaxed">{item.desc}</p>
               </div>
               <div className="pt-4 sm:pt-6 border-t border-white/15 flex justify-between items-center text-[10px] sm:text-xs font-bold uppercase tracking-widest text-neutral-300">
-                <span>MODULE_0{idx + 1}</span>
-                <span className="text-white group-hover:text-[#3b82f6] transition-colors">EXPLORE_NODE &rarr;</span>
+                <span className="text-neutral-400">// {item.tech}</span>
+                <span className="text-white group-hover:text-[#3b82f6] transition-colors flex items-center gap-1">INSPECT &rarr;</span>
               </div>
             </div>
           ))}
