@@ -4,13 +4,11 @@ import {
   Code, Cpu, Terminal, Zap, Activity, Server, ArrowUpRight, 
   Database, Crosshair, Mail, Phone, MapPin, Box, Layers, Shield, 
   CpuIcon, Globe, TerminalSquare, Workflow, Flame, CheckCircle2,
-  Layers3, Sparkles, Command, GitBranch, Eye, Maximize2, RefreshCw, 
-  Compass, BoxSelect, Cpu as CpuSymbol, Play, Pause, ChevronRight,
-  Radio, CpuShare, Terminal as TerminalIcon, Cpu as Microchip, Hexagon, Network, Menu, X
+  Compass, Network, Menu, X
 } from 'lucide-react';
 
 /* ==========================================================================
-   ADVANCED 60FPS WEBGL & THREE.JS SPATIAL ENGINE (SAFARI & MOBILE HARDWARE OPTIMIZED)
+   ADVANCED 60FPS WEBGL & THREE.JS SPATIAL ENGINE (SAFARI & MOBILE OPTIMIZED)
    ================================================================---------- */
 const WebGLEngine = () => {
   const mountRef = useRef(null);
@@ -50,6 +48,7 @@ const WebGLEngine = () => {
     pointLight2.position.set(-30, -30, 30);
     scene.add(pointLight2);
 
+    // Multi-Layered 3D Core Matrix with double-sided rendering for Safari
     const coreGroup = new THREE.Group();
     const coreGeo = new THREE.IcosahedronGeometry(8.5, 2);
     
@@ -94,7 +93,7 @@ const WebGLEngine = () => {
     const shardMat = new THREE.MeshStandardMaterial({ color: 0xdc2626, roughness: 0.15, metalness: 0.9, side: THREE.DoubleSide });
     const shards = [];
     
-    const shardLimit = window.innerWidth < 768 ? 30 : 70;
+    const shardLimit = window.innerWidth < 768 ? 25 : 60;
     for(let i = 0; i < shardLimit; i++) {
       const shard = new THREE.Mesh(shardGeo, shardMat);
       shard.position.set((Math.random() - 0.5) * 100, (Math.random() - 0.5) * 100, (Math.random() - 0.5) * 80);
@@ -111,7 +110,7 @@ const WebGLEngine = () => {
     }
     scene.add(shardsGroup);
 
-    const particleCount = window.innerWidth < 768 ? 1500 : 4500;
+    const particleCount = window.innerWidth < 768 ? 1200 : 3500;
     const particleGeo = new THREE.BufferGeometry();
     const particlePos = new Float32Array(particleCount * 3);
     const particleOriginalPos = new Float32Array(particleCount * 3);
@@ -260,7 +259,7 @@ const WebGLEngine = () => {
 };
 
 /* ==========================================================================
-   UI COMPONENTS & MOBILE-FRIENDLY GLOSSMORPHISM MICROINTERACTIONS
+   UI COMPONENTS & MICROINTERACTIONS
    ================================================================---------- */
 const TiltCard = ({ children, className }) => {
   const cardRef = useRef(null);
@@ -284,7 +283,7 @@ const TiltCard = ({ children, className }) => {
 };
 
 const SystemStatus = () => (
-  <div className="fixed top-0 w-full z-50 bg-black/40 backdrop-blur-xl border-b border-white/15 text-[9px] sm:text-xs uppercase flex justify-between items-center px-3 sm:px-4 py-2 sm:py-3 font-light tracking-widest text-neutral-200 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+  <div className="fixed top-0 w-full z-50 bg-black/50 backdrop-blur-xl border-b border-white/15 text-[9px] sm:text-xs uppercase flex justify-between items-center px-3 sm:px-4 py-2 sm:py-3 font-light tracking-widest text-neutral-200 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
     <div className="flex items-center gap-2 text-white font-bold truncate">
       <div className="w-2 h-2 bg-[#dc2626] rounded-full animate-pulse shadow-[0_0_15px_#dc2626] shrink-0"></div>
       <span className="truncate">USMAN_UBAID // SAFARI GLOSSMORPHIC KERNEL</span>
@@ -457,7 +456,7 @@ const Works = () => {
 };
 
 /* ==========================================================================
-   ROBUST HORIZONTAL SCROLLING KERNEL (SAFARI & TRACKPAD SYNCHRONIZED)
+   FIXED HORIZONTAL SCROLLING KERNEL (PERFECT SYNC & DAMPING)
    ================================================================---------- */
 const HorizontalShowcase = () => {
   const containerRef = useRef(null);
@@ -477,7 +476,6 @@ const HorizontalShowcase = () => {
         
         if (scrollRange <= 0) return;
 
-        // Calculate precise scroll progress within the pinned container
         let progress = -rect.top / scrollRange;
         progress = Math.max(0, Math.min(1, progress));
 
@@ -487,7 +485,7 @@ const HorizontalShowcase = () => {
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // Initial measure
+    handleScroll();
 
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -531,7 +529,7 @@ const HorizontalShowcase = () => {
 };
 
 /* ==========================================================================
-   ROBUST RADIAL ORBITAL SCROLLYTELLING (SEAMLESS TRACKPAD & MOBILE SYNC)
+   FIXED RADIAL ORBITAL SCROLLYTELLING (SMOOTH INDEX SYNC)
    ================================================================---------- */
 const RadialOrbitalScrollytelling = () => {
   const [activeIndex, setActiveIndex] = useState(0);
