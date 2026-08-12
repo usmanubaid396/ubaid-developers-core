@@ -1,269 +1,84 @@
 import React, { useState, useEffect, useRef } from 'react';
-import * as THREE from 'three';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { OrbitControls, Float, MeshTransmissionMaterial, Sparkles } from '@react-three/drei';
 import { 
   Code, Cpu, Terminal, Zap, Activity, Server, ArrowUpRight, 
   Database, Crosshair, Mail, Phone, MapPin, Box, Layers, Shield, 
-  CpuIcon, Globe, TerminalSquare, Workflow, Flame, CheckCircle2,
-  Compass, Network, Menu, X
+  Globe, Workflow, Flame, CheckCircle2, Compass, Network, Menu, X
 } from 'lucide-react';
 
 /* ==========================================================================
-   ADVANCED 60FPS WEBGL & THREE.JS SPATIAL ENGINE (SAFARI & MOBILE OPTIMIZED)
+   1. REACT THREE FIBER 3D SCENE & INTERACTIVE ARTIFACT
    ================================================================---------- */
-const WebGLEngine = () => {
-  const mountRef = useRef(null);
+function CyberCore({ scrollProgress }) {
+  const meshRef = useRef();
+
+  useFrame((state) => {
+    const time = state.clock.getElapsedTime();
+    // Scroll-linked rotation and geometric transformation
+    meshRef.current.rotation.y = time * 0.4 + scrollProgress * Math.PI * 2;
+    meshRef.current.rotation.x = Math.sin(time * 0.3) * 0.3 + scrollProgress * 1.5;
+    
+    // Dynamic scale scaling based on scroll progression
+    const targetScale = 1.8 + Math.sin(scrollProgress * Math.PI) * 0.4;
+    meshRef.current.scale.setScalar(targetScale);
+  });
+
+  return (
+    <Float speed={3} rotationIntensity={2} floatIntensity={2}>
+      <mesh ref={meshRef}>
+        <icosahedronGeometry args={[1.5, 2]} />
+        <MeshTransmissionMaterial 
+          backside 
+          samples={16} 
+          resolution={512} 
+          transmission={0.94} 
+          roughness={0.15} 
+          thickness={1.5} 
+          ior={1.6} 
+          color="#dc2626" 
+        />
+      </mesh>
+      <Sparkles count={150} scale={12} size={2} speed={0.4} color="#ffffff" />
+    </Float>
+  );
+}
+
+const R3FCanvasLayer = () => {
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
-    const container = mountRef.current;
-    if (!container) return;
-
-    const w = window.innerWidth;
-    const h = window.innerHeight;
-    
-    const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x000000, 0.007);
-    
-    const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 1000);
-    camera.position.z = 40;
-    
-    const renderer = new THREE.WebGLRenderer({ 
-      alpha: true, 
-      antialias: true, 
-      powerPreference: "high-performance",
-      failIfMajorPerformanceCaveat: false
-    });
-    renderer.setSize(w, h);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    container.appendChild(renderer.domElement);
-
-    const ambientLight = new THREE.AmbientLight(0x222222, 3.0);
-    scene.add(ambientLight);
-
-    const pointLight1 = new THREE.PointLight(0xdc2626, 12, 250);
-    pointLight1.position.set(30, 30, 40);
-    scene.add(pointLight1);
-
-    const pointLight2 = new THREE.PointLight(0x3b82f6, 10, 250);
-    pointLight2.position.set(-30, -30, 30);
-    scene.add(pointLight2);
-
-    const coreGroup = new THREE.Group();
-    const coreGeo = new THREE.IcosahedronGeometry(8.5, 2);
-    
-    const coreMat = new THREE.MeshStandardMaterial({ 
-      color: 0x050505, 
-      roughness: 0.1, 
-      metalness: 0.99,
-      side: THREE.DoubleSide
-    });
-    const coreMeshSolid = new THREE.Mesh(coreGeo, coreMat);
-    
-    const wireMat = new THREE.MeshBasicMaterial({ color: 0xdc2626, wireframe: true, transparent: true, opacity: 0.95 });
-    const coreMeshWire = new THREE.Mesh(coreGeo, wireMat);
-
-    const innerGeo = new THREE.IcosahedronGeometry(5, 1);
-    const innerMat = new THREE.MeshBasicMaterial({ color: 0x3b82f6, wireframe: true, transparent: true, opacity: 0.8 });
-    const innerMesh = new THREE.Mesh(innerGeo, innerMat);
-
-    const ringGeo1 = new THREE.TorusGeometry(13, 0.05, 16, 100);
-    const ringMat1 = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5 });
-    const ring1 = new THREE.Mesh(ringGeo1, ringMat1);
-    ring1.rotation.x = Math.PI / 3;
-
-    const ringGeo2 = new THREE.TorusGeometry(16, 0.035, 16, 100);
-    const ring2 = new THREE.Mesh(ringGeo2, ringMat1);
-    ring2.rotation.y = Math.PI / 4;
-
-    const hitBoxGeo = new THREE.SphereGeometry(12, 16, 16);
-    const hitBoxMat = new THREE.MeshBasicMaterial({ visible: false });
-    const coreHitBox = new THREE.Mesh(hitBoxGeo, hitBoxMat);
-
-    coreGroup.add(coreMeshSolid);
-    coreGroup.add(coreMeshWire);
-    coreGroup.add(innerMesh);
-    coreGroup.add(ring1);
-    coreGroup.add(ring2);
-    coreGroup.add(coreHitBox);
-    scene.add(coreGroup);
-
-    const shardsGroup = new THREE.Group();
-    const shardGeo = new THREE.TetrahedronGeometry(1.0, 0);
-    const shardMat = new THREE.MeshStandardMaterial({ color: 0xdc2626, roughness: 0.15, metalness: 0.9, side: THREE.DoubleSide });
-    const shards = [];
-    
-    const shardLimit = window.innerWidth < 768 ? 25 : 60;
-    for(let i = 0; i < shardLimit; i++) {
-      const shard = new THREE.Mesh(shardGeo, shardMat);
-      shard.position.set((Math.random() - 0.5) * 100, (Math.random() - 0.5) * 100, (Math.random() - 0.5) * 80);
-      shard.userData = {
-        rotSpeedX: (Math.random() - 0.5) * 0.08,
-        rotSpeedY: (Math.random() - 0.5) * 0.08,
-        originX: shard.position.x,
-        originY: shard.position.y,
-        originZ: shard.position.z,
-        phase: Math.random() * Math.PI * 2
-      };
-      shards.push(shard);
-      shardsGroup.add(shard);
-    }
-    scene.add(shardsGroup);
-
-    const particleCount = window.innerWidth < 768 ? 1200 : 3500;
-    const particleGeo = new THREE.BufferGeometry();
-    const particlePos = new Float32Array(particleCount * 3);
-    const particleOriginalPos = new Float32Array(particleCount * 3);
-    
-    for(let i = 0; i < particleCount * 3; i += 3) {
-      const r = 15 + Math.random() * 70;
-      const theta = 2 * Math.PI * Math.random();
-      const phi = Math.acos(2 * Math.random() - 1);
-      const x = r * Math.sin(phi) * Math.cos(theta);
-      const y = r * Math.sin(phi) * Math.sin(theta);
-      const z = r * Math.cos(phi);
-      particlePos[i] = x; particlePos[i+1] = y; particlePos[i+2] = z;
-      particleOriginalPos[i] = x; particleOriginalPos[i+1] = y; particleOriginalPos[i+2] = z;
-    }
-    
-    particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePos, 3));
-    const particleMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.18, transparent: true, opacity: 0.9 });
-    const particles = new THREE.Points(particleGeo, particleMat);
-    scene.add(particles);
-
-    const raycaster = new THREE.Raycaster();
-    const mouse = new THREE.Vector2(-999, -999);
-    const targetMouse = new THREE.Vector3(0,0,0);
-    const planeGeo = new THREE.PlaneGeometry(1000, 1000);
-    const planeMat = new THREE.MeshBasicMaterial({ visible: false });
-    const interactionPlane = new THREE.Mesh(planeGeo, planeMat);
-    scene.add(interactionPlane);
-
-    let isCoreHovered = false;
-    
-    const handleMove = (clientX, clientY) => {
-      mouse.x = (clientX / window.innerWidth) * 2 - 1;
-      mouse.y = -(clientY / window.innerHeight) * 2 + 1;
-      raycaster.setFromCamera(mouse, camera);
-      const planeIntersects = raycaster.intersectObject(interactionPlane);
-      if (planeIntersects.length > 0) targetMouse.copy(planeIntersects[0].point);
-      const coreIntersects = raycaster.intersectObject(coreHitBox);
-      isCoreHovered = coreIntersects.length > 0;
+    const handleScroll = () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = totalHeight > 0 ? window.scrollY / totalHeight : 0;
+      setScrollProgress(progress);
     };
 
-    const onMouseMove = (e) => handleMove(e.clientX, e.clientY);
-    const onTouchMove = (e) => {
-      if (e.touches.length > 0) {
-        handleMove(e.touches[0].clientX, e.touches[0].clientY);
-      }
-    };
-
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('touchmove', onTouchMove, { passive: true });
-
-    let targetScroll = 0;
-    let currentScroll = 0;
-    const onScroll = () => { targetScroll = window.scrollY; };
-    window.addEventListener('scroll', onScroll, { passive: true });
-
-    let rafId;
-    const clock = new THREE.Clock();
-    const coreTargetScale = new THREE.Vector3(1, 1, 1);
-
-    const animate = () => {
-      rafId = requestAnimationFrame(animate);
-      const time = clock.getElapsedTime();
-      currentScroll += (targetScroll - currentScroll) * 0.08;
-      
-      const targetCoreScale = isCoreHovered ? 1.5 : 1.0;
-      const pulse = Math.sin(time * 5) * 0.09;
-      coreTargetScale.setScalar(targetCoreScale + pulse);
-      coreGroup.scale.lerp(coreTargetScale, 0.12);
-      
-      coreGroup.rotation.y = time * 0.4 + (currentScroll * 0.0025);
-      coreGroup.rotation.x = Math.sin(time * 0.3) * 0.3 + (currentScroll * 0.0015);
-      innerMesh.rotation.x = -time * 0.7;
-      ring1.rotation.z = time * 0.5;
-      ring2.rotation.y = -time * 0.4;
-      
-      const camTargetX = (mouse.x * 16);
-      const camTargetY = (-(currentScroll * 0.022) + (mouse.y * 16));
-      const camTargetZ = 40 - (currentScroll * 0.035);
-      
-      camera.position.x += (camTargetX - camera.position.x) * 0.08;
-      camera.position.y += (camTargetY - camera.position.y) * 0.08;
-      camera.position.z += (camTargetZ - camera.position.z) * 0.08;
-      camera.lookAt(0, 0, 0);
-
-      shards.forEach((shard) => {
-        shard.rotation.x += shard.userData.rotSpeedX;
-        shard.rotation.y += shard.userData.rotSpeedY;
-        shard.position.y = shard.userData.originY + Math.sin(time * 4 + shard.userData.phase) * 3.2;
-        const distToMouse = shard.position.distanceTo(targetMouse);
-        if(distToMouse < 28) {
-          const dir = shard.position.clone().sub(targetMouse).normalize();
-          shard.position.add(dir.multiplyScalar(0.45));
-        } else {
-          shard.position.x += (shard.userData.originX - shard.position.x) * 0.08;
-          shard.position.z += (shard.userData.originZ - shard.position.z) * 0.08;
-        }
-      });
-
-      const positions = particleGeo.attributes.position.array;
-      for(let i = 0; i < positions.length; i += 3) {
-        const px = positions[i];
-        const py = positions[i+1];
-        const pz = positions[i+2];
-        const dx = px - targetMouse.x;
-        const dy = py - targetMouse.y;
-        const dz = pz - targetMouse.z;
-        const dist = Math.sqrt(dx*dx + dy*dy + dz*dz);
-
-        if(dist < 22) {
-          const force = (22 - dist) * 0.22;
-          positions[i] += (dx / dist) * force;
-          positions[i+1] += (dy / dist) * force;
-          positions[i+2] += (dz / dist) * force;
-        }
-        positions[i] += (particleOriginalPos[i] - positions[i]) * 0.09;
-        positions[i+1] += (particleOriginalPos[i+1] - positions[i+1]) * 0.09;
-        positions[i+2] += (particleOriginalPos[i+2] - positions[i+2]) * 0.09;
-      }
-      particleGeo.attributes.position.needsUpdate = true;
-      particles.rotation.y = time * 0.07;
-
-      renderer.render(scene, camera);
-    };
-    animate();
-
-    const onResize = () => {
-      if (!container) return;
-      camera.aspect = window.innerWidth / window.innerHeight;
-      camera.updateProjectionMatrix();
-      renderer.setSize(window.innerWidth, window.innerHeight);
-    };
-    window.addEventListener('resize', onResize);
-
-    return () => {
-      window.removeEventListener('resize', onResize);
-      window.removeEventListener('mousemove', onMouseMove);
-      window.removeEventListener('touchmove', onTouchMove);
-      window.removeEventListener('scroll', onScroll);
-      cancelAnimationFrame(rafId);
-      renderer.dispose();
-      if (container) container.innerHTML = '';
-    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  return <div ref={mountRef} className="fixed inset-0 z-0 bg-black pointer-events-none" style={{ WebkitTransform: 'translateZ(0)' }} />;
+  return (
+    <div className="fixed inset-0 z-0 bg-black pointer-events-none" style={{ WebkitTransform: 'translateZ(0)' }}>
+      <Canvas camera={{ position: [0, 0, 7], fov: 45 }}>
+        <ambientLight intensity={1.5} />
+        <directionalLight position={[10, 10, 5]} intensity={3} color="#dc2626" />
+        <pointLight position={[-10, -10, -5]} intensity={2} color="#3b82f6" />
+        <CyberCore scrollProgress={scrollProgress} />
+        <OrbitControls enableZoom={false} enablePan={false} enableRotate={false} />
+      </Canvas>
+    </div>
+  );
 };
 
 /* ==========================================================================
-   UI COMPONENTS & MICROINTERACTIONS
+   2. UI COMPONENTS & MICROINTERACTIONS
    ================================================================---------- */
 const TiltCard = ({ children, className }) => {
   const cardRef = useRef(null);
+
   const handleMouseMove = (e) => {
-    if (!cardRef.current) return;
+    if (!cardRef.current || window.innerWidth < 768) return;
     const rect = cardRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
@@ -271,9 +86,11 @@ const TiltCard = ({ children, className }) => {
     const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 12;
     cardRef.current.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
   };
+
   const handleMouseLeave = () => {
     if (cardRef.current) cardRef.current.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
   };
+
   return (
     <div ref={cardRef} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} className={`transition-transform duration-150 ease-out transform-gpu ${className}`}>
       {children}
@@ -282,10 +99,10 @@ const TiltCard = ({ children, className }) => {
 };
 
 const SystemStatus = () => (
-  <div className="fixed top-0 w-full z-50 bg-black/50 backdrop-blur-xl border-b border-white/15 text-[9px] sm:text-xs uppercase flex justify-between items-center px-3 sm:px-4 py-2 sm:py-3 font-light tracking-widest text-neutral-200 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+  <div className="fixed top-0 w-full z-50 bg-black/60 backdrop-blur-xl border-b border-white/15 text-[9px] sm:text-xs uppercase flex justify-between items-center px-3 sm:px-4 py-2 sm:py-3 font-light tracking-widest text-neutral-200 shadow-2xl">
     <div className="flex items-center gap-2 text-white font-bold truncate">
       <div className="w-2 h-2 bg-[#dc2626] rounded-full animate-pulse shadow-[0_0_15px_#dc2626] shrink-0"></div>
-      <span className="truncate">USMAN_UBAID // SAFARI GLOSSMORPHIC KERNEL</span>
+      <span className="truncate">USMAN_UBAID // R3F ARCHITECTURAL KERNEL 60FPS</span>
     </div>
     <div className="text-[#3b82f6] font-bold hidden md:block shrink-0">LAHORE, PK [31.5204° N, 74.3587° E]</div>
   </div>
@@ -295,12 +112,12 @@ const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="relative z-40 mt-10 sm:mt-12 w-full px-4 sm:px-8 py-5 sm:py-6 flex justify-between items-center border-b border-white/15 bg-white/[0.03] backdrop-blur-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+    <nav className="relative z-40 mt-10 sm:mt-12 w-full px-4 sm:px-8 py-5 sm:py-6 flex justify-between items-center border-b border-white/15 bg-white/[0.03] backdrop-blur-2xl shadow-2xl">
       <div>
         <h1 className="text-xl sm:text-2xl font-bold tracking-tighter text-white flex items-center gap-2 drop-shadow-md">
           Usman Ubaid <span className="text-[#dc2626]">.</span>
         </h1>
-        <p className="text-[10px] sm:text-xs text-neutral-300 tracking-widest mt-0.5 uppercase hidden sm:block">Full-Stack SaaS Architect & 3D Interactive Systems</p>
+        <p className="text-[10px] sm:text-xs text-neutral-300 tracking-widest mt-0.5 uppercase hidden sm:block">Full-Stack SaaS Architect & 3D Systems</p>
       </div>
 
       <div className="hidden lg:flex gap-6 text-xs font-bold tracking-[0.2em] uppercase items-center">
@@ -314,31 +131,18 @@ const Navigation = () => {
         </a>
       </div>
 
-      <button 
-        onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
-        className="lg:hidden text-white p-2 border border-white/20 bg-white/[0.05] backdrop-blur-md"
-        aria-label="Toggle menu"
-      >
+      <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="lg:hidden text-white p-2 border border-white/20 bg-white/[0.05] backdrop-blur-md">
         {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
       </button>
 
       {mobileMenuOpen && (
         <div className="absolute top-full left-0 w-full bg-black/95 backdrop-blur-3xl border-b border-white/20 p-6 flex flex-col gap-4 lg:hidden shadow-2xl">
           {['Work', 'Showcase', 'Ecosystem', 'Scrollytelling', 'Contact'].map((item, idx) => (
-            <a 
-              key={idx} 
-              href={`#${item.toLowerCase()}`} 
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-sm font-bold tracking-[0.2em] uppercase text-neutral-200 hover:text-[#dc2626] py-2 border-b border-white/10"
-            >
+            <a key={idx} href={`#${item.toLowerCase()}`} onClick={() => setMobileMenuOpen(false)} className="text-sm font-bold tracking-[0.2em] uppercase text-neutral-200 hover:text-[#dc2626] py-2 border-b border-white/10">
               [{item}]
             </a>
           ))}
-          <a 
-            href="#contact" 
-            onClick={() => setMobileMenuOpen(false)}
-            className="bg-[#dc2626] text-white text-center py-3 font-bold uppercase tracking-widest mt-2"
-          >
+          <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="bg-[#dc2626] text-white text-center py-3 font-bold uppercase tracking-widest mt-2">
             Let's talk
           </a>
         </div>
@@ -351,35 +155,35 @@ const Hero = () => (
   <section id="index" className="relative z-10 w-full px-4 sm:px-8 pt-20 sm:pt-24 pb-24 sm:pb-32 border-b border-white/15 bg-transparent">
     <div className="max-w-6xl">
       <p className="text-[#dc2626] text-xs sm:text-sm tracking-[0.3em] mb-6 sm:mb-8 font-bold flex items-center gap-2 bg-white/[0.05] backdrop-blur-xl w-fit px-3 sm:px-4 py-1.5 border border-white/20 shadow-xl">
-        <Crosshair size={16} className="shrink-0" /> <span className="truncate">FULL-STACK SaaS & 3D IMMERSIVE WORKSPACE</span>
+        <Crosshair size={16} className="shrink-0" /> <span className="truncate">FULL-STACK SaaS & R3F SPATIAL WORKSPACE</span>
       </p>
-      <h2 className="text-4xl sm:text-7xl md:text-9xl font-black tracking-tighter uppercase leading-[0.9] sm:leading-[0.85] text-white drop-shadow-[0_15px_30px_rgba(0,0,0,0.9)]">
+      <h2 className="text-4xl sm:text-7xl md:text-9xl font-black tracking-tighter uppercase leading-[0.9] sm:leading-[0.85] text-white drop-shadow-2xl">
         I build high-end <br /><span className="stroke-text">SaaS products</span> & web apps that scale.
       </h2>
-      <p className="mt-6 sm:mt-8 text-xs sm:text-lg text-neutral-200 max-w-2xl font-light tracking-wide leading-relaxed bg-white/[0.04] p-6 sm:p-8 border border-white/15 backdrop-blur-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+      <p className="mt-6 sm:mt-8 text-xs sm:text-lg text-neutral-200 max-w-2xl font-light tracking-wide leading-relaxed bg-white/[0.04] p-6 sm:p-8 border border-white/15 backdrop-blur-2xl shadow-2xl">
         I'm Usman Ubaid — a full-stack engineer turning complex startup ideas, medical architectures, and AI/ML model integrations into production-ready web platforms using Next.js, React, SQL, Python, and Vercel.
       </p>
 
       <div className="mt-12 sm:mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 max-w-4xl">
-        <div className="border border-white/15 bg-white/[0.04] p-5 sm:p-6 backdrop-blur-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
-          <div className="text-3xl sm:text-5xl font-black text-white mb-1 drop-shadow">4+</div>
+        <div className="border border-white/15 bg-white/[0.04] p-5 sm:p-6 backdrop-blur-2xl shadow-2xl">
+          <div className="text-3xl sm:text-5xl font-black text-white mb-1">4+</div>
           <div className="text-[10px] sm:text-xs text-neutral-300 uppercase tracking-widest font-bold">Years Shipping Code</div>
         </div>
-        <div className="border border-white/15 bg-white/[0.04] p-5 sm:p-6 backdrop-blur-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
-          <div className="text-3xl sm:text-5xl font-black text-[#dc2626] mb-1 drop-shadow">8+</div>
+        <div className="border border-white/15 bg-white/[0.04] p-5 sm:p-6 backdrop-blur-2xl shadow-2xl">
+          <div className="text-3xl sm:text-5xl font-black text-[#dc2626] mb-1">8+</div>
           <div className="text-[10px] sm:text-xs text-neutral-300 uppercase tracking-widest font-bold">SaaS & Web Apps Launched</div>
         </div>
-        <div className="border border-white/15 bg-white/[0.04] p-5 sm:p-6 backdrop-blur-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
-          <div className="text-3xl sm:text-5xl font-black text-[#3b82f6] mb-1 drop-shadow">14+</div>
+        <div className="border border-white/15 bg-white/[0.04] p-5 sm:p-6 backdrop-blur-2xl shadow-2xl">
+          <div className="text-3xl sm:text-5xl font-black text-[#3b82f6] mb-1">14+</div>
           <div className="text-[10px] sm:text-xs text-neutral-300 uppercase tracking-widest font-bold">Advanced Technologies</div>
         </div>
       </div>
       
       <div className="mt-10 sm:mt-12 flex flex-wrap gap-4">
-        <a href="#contact" className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-white/90 text-black px-6 sm:px-8 py-4 sm:py-5 text-xs sm:text-sm font-bold uppercase tracking-[0.2em] hover:bg-[#dc2626] hover:text-white transition-all border border-white/40 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] backdrop-blur-md">
+        <a href="#contact" className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-white/90 text-black px-6 sm:px-8 py-4 sm:py-5 text-xs sm:text-sm font-bold uppercase tracking-[0.2em] hover:bg-[#dc2626] hover:text-white transition-all border border-white/40 shadow-2xl backdrop-blur-md">
           Start a project <ArrowUpRight size={18} />
         </a>
-        <a href="#work" className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-white/[0.04] backdrop-blur-2xl text-white px-6 sm:px-8 py-4 sm:py-5 text-xs sm:text-sm font-bold uppercase tracking-[0.2em] hover:border-[#3b82f6] transition-all border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+        <a href="#work" className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-white/[0.04] backdrop-blur-2xl text-white px-6 sm:px-8 py-4 sm:py-5 text-xs sm:text-sm font-bold uppercase tracking-[0.2em] hover:border-[#3b82f6] transition-all border border-white/20 shadow-2xl">
           Selected work <Activity size={18} className="text-[#3b82f6]" />
         </a>
       </div>
@@ -425,8 +229,8 @@ const Works = () => {
 
   return (
     <section ref={sectionRef} id="work" className="relative z-10 w-full py-24 sm:py-32 bg-transparent perspective-1000">
-      <div className="flex flex-col sm:flex-row border-y border-white/15 px-4 sm:px-8 py-5 sm:py-6 items-start sm:items-center justify-between bg-white/[0.03] backdrop-blur-2xl mb-12 sm:mb-16 mx-4 sm:mx-8 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] gap-3 sm:gap-0">
-        <h3 className="text-xs sm:text-sm tracking-[0.2em] uppercase font-black flex items-center gap-3 text-white drop-shadow">
+      <div className="flex flex-col sm:flex-row border-y border-white/15 px-4 sm:px-8 py-5 sm:py-6 items-start sm:items-center justify-between bg-white/[0.03] backdrop-blur-2xl mb-12 sm:mb-16 mx-4 sm:mx-8 shadow-2xl gap-3 sm:gap-0">
+        <h3 className="text-xs sm:text-sm tracking-[0.2em] uppercase font-black flex items-center gap-3 text-white">
           <Database size={20} className="text-[#dc2626] animate-pulse shrink-0" /> Selected Production Work
         </h3>
         <span className="text-xs text-[#dc2626] font-bold uppercase bg-white/[0.05] px-3 py-1 border border-white/20 backdrop-blur-xl shadow-lg">NODES: {worksData.length}</span>
@@ -454,6 +258,9 @@ const Works = () => {
   );
 };
 
+/* ==========================================================================
+   3. ISOLATED VIEW-LOCKED HORIZONTAL SCROLLING BLOCK
+   ================================================================---------- */
 const HorizontalShowcase = () => {
   const containerRef = useRef(null);
   const trackRef = useRef(null);
@@ -493,8 +300,8 @@ const HorizontalShowcase = () => {
     <section ref={containerRef} id="showcase" className="relative h-[350vh] bg-transparent">
       <div className="sticky top-0 h-screen overflow-hidden flex items-center">
         <div className="absolute top-10 sm:top-12 left-4 sm:left-16 z-20 pointer-events-none">
-          <p className="text-[#3b82f6] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-2 bg-white/[0.04] px-3 sm:px-4 py-1.5 border border-white/25 w-fit backdrop-blur-2xl shadow-xl">// HORIZONTAL SCROLLING KERNEL</p>
-          <h3 className="text-2xl sm:text-5xl font-black tracking-tight uppercase text-white drop-shadow-[0_8px_20px_rgba(0,0,0,0.9)]">Immersive Case Studies</h3>
+          <p className="text-[#3b82f6] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-2 bg-white/[0.04] px-3 sm:px-4 py-1.5 border border-white/25 w-fit backdrop-blur-2xl shadow-xl">// ISOLATED HORIZONTAL KERNEL</p>
+          <h3 className="text-2xl sm:text-5xl font-black tracking-tight uppercase text-white drop-shadow-2xl">Immersive Case Studies</h3>
         </div>
         <div ref={trackRef} className="flex gap-6 sm:gap-12 pl-4 sm:pl-16 w-max pt-20 sm:pt-24 will-change-transform">
           {[
@@ -503,7 +310,7 @@ const HorizontalShowcase = () => {
             { title: "Neural Analytics Hub", tag: "PYTHON ML // REACT", desc: "Predictive data visualization dashboards built for pharmaceutical logistics tracking." },
             { title: "60FPS WebGL Portfolio", tag: "THREE.JS // SHADERS", desc: "High-performance interactive 3D spatial workspace for elite brand presentation." }
           ].map((item, idx) => (
-            <div key={idx} className="w-[85vw] md:w-[45vw] h-[55vh] sm:h-[60vh] border border-white/20 bg-white/[0.04] backdrop-blur-2xl p-6 sm:p-14 flex flex-col justify-between relative group hover:border-[#3b82f6] transition-colors shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+            <div key={idx} className="w-[85vw] md:w-[45vw] h-[55vh] sm:h-[60vh] border border-white/20 bg-white/[0.04] backdrop-blur-2xl p-6 sm:p-14 flex flex-col justify-between relative group hover:border-[#3b82f6] transition-colors shadow-2xl">
               <div className="flex justify-between items-center">
                 <span className="text-[10px] sm:text-xs font-mono text-[#3b82f6] bg-white/[0.06] px-3 py-1 border border-white/20">{item.tag}</span>
                 <Compass size={22} className="text-neutral-300 group-hover:text-white transition-colors" />
@@ -524,47 +331,18 @@ const HorizontalShowcase = () => {
   );
 };
 
+/* ==========================================================================
+   4. VIEW-LOCKED RADIAL ORBITAL SCROLLYTELLING CONTAINER
+   ================================================================---------- */
 const RadialOrbitalScrollytelling = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef(null);
 
   const modules = [
-    {
-      id: "NODE_01",
-      title: "Frontend & Reactive UI Architecture",
-      category: "CLIENT KERNEL",
-      icon: Code,
-      color: "#dc2626",
-      desc: "Engineered with React, Next.js, and Tailwind CSS. Implements butter-smooth custom magnetic cursors, perspective tilt cards, and GPU-accelerated spatial transformations.",
-      stats: "60 FPS Render Rate"
-    },
-    {
-      id: "NODE_02",
-      title: "Secure SQL & Relational Databases",
-      category: "BACKEND INTEGRATION",
-      icon: Database,
-      color: "#3b82f6",
-      desc: "Robust PostgreSQL and MySQL schemas optimized for high-throughput multi-tenant SaaS platforms, medical record indexes, and secure authentication pipelines.",
-      stats: "ACID Compliant Storage"
-    },
-    {
-      id: "NODE_03",
-      title: "Python Machine Learning & AI",
-      category: "INTELLIGENT PIPELINES",
-      icon: Cpu,
-      color: "#10b981",
-      desc: "Advanced neural networks and automated contract generation systems built with Python, PyTorch, and Vercel Edge functions for real-time inference.",
-      stats: "Real-time AI Synthesis"
-    },
-    {
-      id: "NODE_04",
-      title: "Global Vercel Edge Infrastructure",
-      category: "CLOUD DEPLOYMENT",
-      icon: Globe,
-      color: "#f59e0b",
-      desc: "Low-latency serverless architecture ensuring global distribution, instant cache invalidation, and bulletproof uptime for production startup applications.",
-      stats: "99.99% Edge Uptime"
-    }
+    { id: "NODE_01", title: "Frontend & Reactive UI Architecture", category: "CLIENT KERNEL", icon: Code, color: "#dc2626", desc: "Engineered with React, Next.js, and Tailwind CSS. Implements smooth custom magnetic cursors and GPU-accelerated spatial transformations.", stats: "60 FPS Render Rate" },
+    { id: "NODE_02", title: "Secure SQL & Relational Databases", category: "BACKEND INTEGRATION", icon: Database, color: "#3b82f6", desc: "Robust PostgreSQL and MySQL schemas optimized for high-throughput multi-tenant SaaS platforms and secure authentication pipelines.", stats: "ACID Compliant Storage" },
+    { id: "NODE_03", title: "Python Machine Learning & AI", category: "INTELLIGENT PIPELINES", icon: Cpu, color: "#10b981", desc: "Advanced neural networks and automated contract generation systems built with Python, PyTorch, and Vercel Edge functions.", stats: "Real-time AI Synthesis" },
+    { id: "NODE_04", title: "Global Vercel Edge Infrastructure", category: "CLOUD DEPLOYMENT", icon: Globe, color: "#f59e0b", desc: "Low-latency serverless architecture ensuring global distribution, instant cache invalidation, and bulletproof uptime.", stats: "99.99% Edge Uptime" }
   ];
 
   useEffect(() => {
@@ -572,18 +350,15 @@ const RadialOrbitalScrollytelling = () => {
 
     const handleScroll = () => {
       if (!containerRef.current) return;
-      
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
 
       animationFrameId = requestAnimationFrame(() => {
         const rect = containerRef.current.getBoundingClientRect();
         const totalHeight = rect.height - window.innerHeight;
-        
         if (totalHeight <= 0) return;
 
         let currentProgress = -rect.top / totalHeight;
         currentProgress = Math.max(0, Math.min(1, currentProgress));
-        
         const newIndex = Math.min(modules.length - 1, Math.floor(currentProgress * modules.length));
         setActiveIndex(newIndex);
       });
@@ -602,7 +377,7 @@ const RadialOrbitalScrollytelling = () => {
     <section ref={containerRef} id="ecosystem" className="relative h-[400vh] bg-transparent">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-between px-4 sm:px-16 py-12 sm:py-20 pointer-events-auto">
         
-        <div className="flex justify-between items-center border-b border-white/15 pb-4 sm:pb-6 bg-white/[0.03] backdrop-blur-2xl px-4 sm:px-6 rounded shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+        <div className="flex justify-between items-center border-b border-white/15 pb-4 sm:pb-6 bg-white/[0.03] backdrop-blur-2xl px-4 sm:px-6 rounded shadow-2xl">
           <div>
             <p className="text-[#dc2626] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-1">// RADIAL ORBITAL ECOSYSTEM</p>
             <h3 className="text-xl sm:text-4xl font-black uppercase tracking-tight text-white drop-shadow">Interactive Matrix</h3>
@@ -613,7 +388,6 @@ const RadialOrbitalScrollytelling = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-center my-auto">
-          
           <div className="lg:col-span-5 flex flex-col items-center justify-center relative py-4">
             <div className="absolute w-56 sm:w-72 h-56 sm:h-72 rounded-full border border-white/20 animate-spin" style={{ animationDuration: '25s' }}></div>
             <div className="absolute w-40 sm:w-52 h-40 sm:h-52 rounded-full border border-dashed border-white/30 animate-spin" style={{ animationDuration: '15s', animationDirection: 'reverse' }}></div>
@@ -629,9 +403,8 @@ const RadialOrbitalScrollytelling = () => {
             </div>
           </div>
 
-          <div className="lg:col-span-7 border border-white/20 bg-white/[0.04] backdrop-blur-3xl p-6 sm:p-12 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] relative overflow-hidden">
+          <div className="lg:col-span-7 border border-white/20 bg-white/[0.04] backdrop-blur-3xl p-6 sm:p-12 shadow-2xl relative overflow-hidden">
             <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-red-600/25 to-transparent pointer-events-none"></div>
-            
             <span className="text-[10px] sm:text-xs font-mono text-[#dc2626] block mb-2">{modules[activeIndex].id} // SYSTEM KERNEL</span>
             <h4 className="text-2xl sm:text-5xl font-black uppercase tracking-tighter text-white mb-4 sm:mb-6 leading-tight sm:leading-none drop-shadow">
               {modules[activeIndex].title}
@@ -639,7 +412,6 @@ const RadialOrbitalScrollytelling = () => {
             <p className="text-xs sm:text-base text-neutral-200 font-mono leading-relaxed mb-6 sm:mb-8">
               {modules[activeIndex].desc}
             </p>
-
             <div className="flex flex-col sm:flex-row sm:items-center justify-between pt-4 sm:pt-6 border-t border-white/15 gap-2 sm:gap-0">
               <div className="flex items-center gap-2">
                 <Network size={16} className="text-[#3b82f6] shrink-0" />
@@ -650,10 +422,9 @@ const RadialOrbitalScrollytelling = () => {
               </span>
             </div>
           </div>
-
         </div>
 
-        <div className="grid grid-cols-4 gap-2 sm:gap-4 border-t border-white/15 pt-4 sm:pt-6 bg-white/[0.03] backdrop-blur-2xl px-4 sm:px-6 pb-3 sm:pb-4 rounded shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+        <div className="grid grid-cols-4 gap-2 sm:gap-4 border-t border-white/15 pt-4 sm:pt-6 bg-white/[0.03] backdrop-blur-2xl px-4 sm:px-6 pb-3 sm:pb-4 rounded shadow-2xl">
           {modules.map((m, idx) => (
             <div 
               key={idx} 
@@ -673,7 +444,7 @@ const RadialOrbitalScrollytelling = () => {
 };
 
 /* ==========================================================================
-   FIXED PINNED SCROLLYTELLING CONTAINER (100% RELIABLE PINNING & SCRUBBING)
+   5. VIEW-LOCKED NARRATIVE SCROLLYTELLING CONTAINER
    ================================================================---------- */
 const ScrollytellingSection = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -691,18 +462,15 @@ const ScrollytellingSection = () => {
 
     const handleScroll = () => {
       if (!containerRef.current) return;
-      
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
 
       animationFrameId = requestAnimationFrame(() => {
         const rect = containerRef.current.getBoundingClientRect();
         const totalHeight = rect.height - window.innerHeight;
-        
         if (totalHeight <= 0) return;
 
         let progress = -rect.top / totalHeight;
         progress = Math.max(0, Math.min(1, progress));
-
         const newStep = Math.min(milestones.length - 1, Math.floor(progress * milestones.length));
         setActiveStep(newStep);
       });
@@ -720,10 +488,8 @@ const ScrollytellingSection = () => {
   return (
     <section ref={containerRef} id="scrollytelling" className="relative h-[400vh] bg-transparent border-b border-white/15">
       <div className="sticky top-0 h-screen overflow-hidden flex items-center px-4 sm:px-16">
-        <div className="max-w-7xl mx-w-full w-full grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-16 items-center">
-          
-          {/* Left Pinned Progress Card */}
-          <div className="lg:col-span-5 border border-white/20 bg-white/[0.04] backdrop-blur-3xl p-6 sm:p-10 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+        <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-16 items-center">
+          <div className="lg:col-span-5 border border-white/20 bg-white/[0.04] backdrop-blur-3xl p-6 sm:p-10 shadow-2xl">
             <p className="text-[#dc2626] text-xs font-bold tracking-[0.3em] uppercase mb-3 sm:mb-4">// NARRATIVE KERNEL PROGRESSION</p>
             <h3 className="text-2xl sm:text-4xl font-black uppercase tracking-tight text-white mb-4 sm:mb-6 drop-shadow">Development Lifecycle</h3>
             <div className="space-y-3 sm:space-y-4 font-mono text-xs">
@@ -736,15 +502,13 @@ const ScrollytellingSection = () => {
             </div>
           </div>
 
-          {/* Right Dynamic Active Card Display */}
           <div className="lg:col-span-7">
-            <div className="min-h-[45vh] sm:min-h-[55vh] flex flex-col justify-center border-l-2 border-white/30 pl-6 sm:pl-12 bg-white/[0.04] backdrop-blur-2xl p-6 sm:p-12 rounded shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] transition-all duration-300">
+            <div className="min-h-[45vh] sm:min-h-[55vh] flex flex-col justify-center border-l-2 border-white/30 pl-6 sm:pl-12 bg-white/[0.04] backdrop-blur-2xl p-6 sm:p-12 rounded shadow-2xl transition-all duration-300">
               <span className="text-xs font-mono text-[#dc2626] mb-2 sm:mb-3 tracking-widest">{milestones[activeStep].phase}</span>
               <h4 className="text-3xl sm:text-6xl font-black uppercase tracking-tighter text-white mb-4 sm:mb-6 leading-tight sm:leading-none drop-shadow">{milestones[activeStep].title}</h4>
               <p className="text-sm sm:text-base text-neutral-200 font-mono leading-relaxed">{milestones[activeStep].desc}</p>
             </div>
           </div>
-
         </div>
       </div>
     </section>
@@ -754,7 +518,7 @@ const ScrollytellingSection = () => {
 const Capabilities = () => (
   <section id="expertise" className="relative z-10 w-full border-b border-white/15 bg-transparent px-4 sm:px-8 py-20 sm:py-24">
     <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-4 gap-10 sm:gap-16">
-      <div className="bg-white/[0.04] backdrop-blur-2xl p-6 border border-white/20 rounded shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+      <div className="bg-white/[0.04] backdrop-blur-2xl p-6 border border-white/20 rounded shadow-2xl">
         <h3 className="text-xs tracking-[0.2em] uppercase font-bold flex items-center gap-3 mb-4 sm:mb-6 text-white drop-shadow">
           <Cpu size={16} className="text-[#dc2626]" /> Core Expertise
         </h3>
@@ -767,7 +531,7 @@ const Capabilities = () => (
           { icon: Box, title: 'WebGL & Three.js 3D', desc: 'Immersive browser experiences and high-performance visual engines.' },
           { icon: Layers, title: 'Python & AI Models', desc: 'Tailored machine learning models and medical-tech integrations.' }
         ].map((cap, idx) => (
-          <div key={idx} className="flex gap-4 p-5 border border-white/20 bg-white/[0.04] backdrop-blur-2xl hover:border-[#dc2626]/60 transition-colors shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+          <div key={idx} className="flex gap-4 p-5 border border-white/20 bg-white/[0.04] backdrop-blur-2xl hover:border-[#dc2626]/60 transition-colors shadow-2xl">
             <cap.icon size={24} className="text-[#dc2626] shrink-0 mt-1" />
             <div>
               <h5 className="text-sm font-bold uppercase tracking-widest mb-2 text-white drop-shadow">{cap.title}</h5>
@@ -782,9 +546,9 @@ const Capabilities = () => (
 
 const Footer = () => (
   <footer id="contact" className="relative z-10 w-full bg-transparent">
-    <div className="px-4 sm:px-8 py-20 sm:py-24 border-b border-white/15 grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16 bg-white/[0.03] backdrop-blur-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+    <div className="px-4 sm:px-8 py-20 sm:py-24 border-b border-white/15 grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16 bg-white/[0.03] backdrop-blur-2xl shadow-2xl">
       <div>
-        <h2 className="text-4xl sm:text-7xl font-black tracking-tighter uppercase text-white drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]">Let's build<br/>something great.</h2>
+        <h2 className="text-4xl sm:text-7xl font-black tracking-tighter uppercase text-white drop-shadow-2xl">Let's build<br/>something great.</h2>
         <p className="text-xs text-neutral-200 mt-4 sm:mt-6 tracking-widest uppercase font-bold">Reach out directly to discuss your SaaS or web platform.</p>
         <div className="mt-6 sm:mt-8 flex flex-col gap-3 sm:gap-4 text-xs font-bold tracking-widest">
           <a href="mailto:dev@healthcarepk.online" className="text-neutral-100 hover:text-[#dc2626] transition-colors truncate">DEV@HEALTHCAREPK.ONLINE</a>
@@ -802,7 +566,7 @@ const Footer = () => (
     </div>
     <div className="px-4 sm:px-8 py-5 sm:py-6 text-[10px] text-neutral-300 tracking-widest uppercase font-bold flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-0 bg-white/[0.02] backdrop-blur-xl border-t border-white/15">
       <div>&copy; {new Date().getFullYear()} USMAN UBAID // ALL RIGHTS RESERVED.</div>
-      <div>SAFARI_MOBILE_OPTIMIZED_KERNEL</div>
+      <div>R3F_SAFARI_OPTIMIZED_KERNEL</div>
     </div>
   </footer>
 );
@@ -810,7 +574,7 @@ const Footer = () => (
 export default function App() {
   return (
     <div className="min-h-screen relative font-mono text-white bg-black overflow-x-hidden">
-      <WebGLEngine />
+      <R3FCanvasLayer />
       <SystemStatus />
       <main className="relative z-10 pt-10 sm:pt-12">
         <Navigation />
