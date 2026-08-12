@@ -396,7 +396,7 @@ const worksData = [
 ];
 
 /* ==========================================================================
-   SLOW-SCROLL 3D INTERACTIVE WORKSPACE FOR WORKS SECTION
+   SLOW-SCROLL 3D INTERACTIVE WORKSPACE (ENHANCED CONTRAST & CARD SEPARATION)
    ================================================================---------- */
 const Works = () => {
   const containerRef = useRef(null);
@@ -419,14 +419,16 @@ const Works = () => {
 
         cardsRef.current.forEach((card, idx) => {
           if (card) {
-            const cardProgress = Math.max(0, Math.min(1, (progress * worksData.length) - idx));
-            const yOffset = (1 - cardProgress) * 80;
-            const zOffset = (1 - cardProgress) * -150;
-            const rotateX = (1 - cardProgress) * 12;
-            const scale = 0.85 + (cardProgress * 0.15);
+            // Extended multiplier range for smoother card staging and gap separation
+            const cardProgress = Math.max(0, Math.min(1, (progress * (worksData.length + 0.5)) - idx));
+            const yOffset = (1 - cardProgress) * 140;
+            const zOffset = (1 - cardProgress) * -220 - (idx * 40);
+            const rotateX = (1 - cardProgress) * 14;
+            const scale = 0.82 + (cardProgress * 0.18);
 
             card.style.transform = `translate3d(0, ${yOffset}px, ${zOffset}px) rotateX(${rotateX}deg) scale3d(${scale}, ${scale}, ${scale})`;
-            card.style.opacity = cardProgress;
+            card.style.opacity = cardProgress > 0.05 ? cardProgress : 0.2;
+            card.style.filter = `blur(${Math.max(0, (1 - cardProgress) * 8)}px)`;
           }
         });
       });
@@ -441,32 +443,32 @@ const Works = () => {
   }, []);
 
   return (
-    <section ref={containerRef} id="work" className="relative h-[350vh] bg-transparent">
+    <section ref={containerRef} id="work" className="relative h-[450vh] bg-transparent">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center px-4 sm:px-12 max-w-7xl mx-auto">
         
-        {/* High Contrast Header matching dark glossmorphic aesthetic */}
-        <div className="flex flex-col sm:flex-row border border-white/20 px-4 sm:px-8 py-5 sm:py-6 items-start sm:items-center justify-between bg-black/60 backdrop-blur-2xl mb-12 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] gap-3 sm:gap-0 rounded">
+        {/* High Contrast Header matching site dark glossmorphic theme */}
+        <div className="flex flex-col sm:flex-row border border-white/20 px-4 sm:px-8 py-5 sm:py-6 items-start sm:items-center justify-between bg-black/80 backdrop-blur-2xl mb-12 shadow-[0_8px_32px_0_rgba(0,0,0,0.8)] gap-3 sm:gap-0 rounded">
           <h3 className="text-xs sm:text-sm tracking-[0.2em] uppercase font-black flex items-center gap-3 text-white drop-shadow">
             <Database size={20} className="text-[#dc2626] animate-pulse shrink-0" /> Selected Production Work // 3D STACKED KERNEL
           </h3>
           <span className="text-xs text-[#dc2626] font-bold uppercase bg-white/[0.08] px-3 py-1 border border-white/25 backdrop-blur-xl shadow-lg">NODES: {worksData.length}</span>
         </div>
 
-        {/* 3D Stacked Interactive Cards Container */}
-        <div className="relative h-[500px] w-full flex items-center justify-center perspective-1000">
+        {/* 3D Stacked Interactive Cards Container with increased spacing */}
+        <div className="relative h-[450px] w-full flex items-center justify-center perspective-1000">
           {worksData.map((work, idx) => (
             <div 
               ref={el => cardsRef.current[idx] = el} 
               key={idx} 
-              className="absolute w-full max-w-4xl transition-transform duration-100 ease-out will-change-transform"
-              style={{ zIndex: idx + 1 }}
+              className="absolute w-full max-w-4xl transition-all duration-150 ease-out will-change-transform"
+              style={{ zIndex: (idx + 1) * 10 }}
             >
               <TiltCard className="w-full">
                 <a 
                   href={work.link} 
                   target={work.link !== '#' ? "_blank" : "_self"} 
                   rel="noopener noreferrer" 
-                  className="block relative bg-black/80 backdrop-blur-3xl text-white border-2 border-white/30 p-8 sm:p-12 h-80 sm:h-96 flex flex-col justify-between group hover:border-[#dc2626] hover:shadow-[0_0_50px_rgba(220,38,38,0.4)] transition-all shadow-2xl rounded"
+                  className="block relative bg-neutral-950/90 backdrop-blur-3xl text-white border border-white/25 p-8 sm:p-12 h-80 sm:h-96 flex flex-col justify-between group hover:border-[#dc2626] hover:shadow-[0_0_50px_rgba(220,38,38,0.5)] transition-all shadow-[0_20px_50px_rgba(0,0,0,0.9)] rounded"
                 >
                   <div className="flex justify-between items-start">
                     <span className="text-xs sm:text-sm bg-white/10 text-white px-3 py-1 font-black tracking-widest border border-white/20">{work.id}</span>
