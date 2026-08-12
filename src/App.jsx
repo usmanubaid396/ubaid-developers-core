@@ -396,11 +396,11 @@ const worksData = [
 ];
 
 /* ==========================================================================
-   SLOW-SCROLL 3D INTERACTIVE WORKSPACE (ENHANCED CONTRAST & CARD SEPARATION)
+   ULTRA-SMOOTH 3D CARD CAROUSEL DECK FOR WORKS SECTION
    ================================================================---------- */
 const Works = () => {
   const containerRef = useRef(null);
-  const cardsRef = useRef([]);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     let animationFrameId = null;
@@ -417,20 +417,8 @@ const Works = () => {
         let progress = -rect.top / scrollRange;
         progress = Math.max(0, Math.min(1, progress));
 
-        cardsRef.current.forEach((card, idx) => {
-          if (card) {
-            // Extended multiplier range for smoother card staging and gap separation
-            const cardProgress = Math.max(0, Math.min(1, (progress * (worksData.length + 0.5)) - idx));
-            const yOffset = (1 - cardProgress) * 140;
-            const zOffset = (1 - cardProgress) * -220 - (idx * 40);
-            const rotateX = (1 - cardProgress) * 14;
-            const scale = 0.82 + (cardProgress * 0.18);
-
-            card.style.transform = `translate3d(0, ${yOffset}px, ${zOffset}px) rotateX(${rotateX}deg) scale3d(${scale}, ${scale}, ${scale})`;
-            card.style.opacity = cardProgress > 0.05 ? cardProgress : 0.2;
-            card.style.filter = `blur(${Math.max(0, (1 - cardProgress) * 8)}px)`;
-          }
-        });
+        const newIndex = Math.min(worksData.length - 1, Math.floor(progress * worksData.length));
+        setActiveIndex(newIndex);
       });
     };
 
@@ -443,45 +431,96 @@ const Works = () => {
   }, []);
 
   return (
-    <section ref={containerRef} id="work" className="relative h-[450vh] bg-transparent">
+    <section ref={containerRef} id="work" className="relative h-[400vh] bg-transparent">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center px-4 sm:px-12 max-w-7xl mx-auto">
         
-        {/* High Contrast Header matching site dark glossmorphic theme */}
-        <div className="flex flex-col sm:flex-row border border-white/20 px-4 sm:px-8 py-5 sm:py-6 items-start sm:items-center justify-between bg-black/80 backdrop-blur-2xl mb-12 shadow-[0_8px_32px_0_rgba(0,0,0,0.8)] gap-3 sm:gap-0 rounded">
-          <h3 className="text-xs sm:text-sm tracking-[0.2em] uppercase font-black flex items-center gap-3 text-white drop-shadow">
-            <Database size={20} className="text-[#dc2626] animate-pulse shrink-0" /> Selected Production Work // 3D STACKED KERNEL
-          </h3>
-          <span className="text-xs text-[#dc2626] font-bold uppercase bg-white/[0.08] px-3 py-1 border border-white/25 backdrop-blur-xl shadow-lg">NODES: {worksData.length}</span>
+        {/* Dark Glossmorphic Header with High Contrast */}
+        <div className="flex flex-col sm:flex-row border border-white/20 px-6 py-5 items-start sm:items-center justify-between bg-black/85 backdrop-blur-2xl mb-8 shadow-[0_12px_40px_rgba(0,0,0,0.9)] rounded gap-3 sm:gap-0">
+          <div>
+            <p className="text-[#dc2626] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-1">// 3D SPATIAL CARD DECK</p>
+            <h3 className="text-xl sm:text-3xl font-black uppercase tracking-tight text-white drop-shadow">Selected Production Work</h3>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-mono text-neutral-400">NODE 0{activeIndex + 1} / 0{worksData.length}</span>
+            <span className="text-xs text-[#dc2626] font-bold uppercase bg-white/[0.08] px-3 py-1 border border-white/25 shadow-lg">ACTIVE</span>
+          </div>
         </div>
 
-        {/* 3D Stacked Interactive Cards Container with increased spacing */}
-        <div className="relative h-[450px] w-full flex items-center justify-center perspective-1000">
-          {worksData.map((work, idx) => (
+        {/* 3D Depth-Layered Card Stage */}
+        <div className="relative h-[420px] sm:h-[480px] w-full flex items-center justify-center perspective-1000">
+          {worksData.map((work, idx) => {
+            const distance = idx - activeIndex;
+            const isCurrent = distance === 0;
+            const isPrev = distance < 0;
+            
+            // Precise 3D Deck Transforms ensuring zero overlapping distortion
+            let transformStyle = '';
+            let opacityStyle = 0;
+            let filterStyle = 'blur(12px)';
+            let pointerEvents = 'none';
+
+            if (isCurrent) {
+              transformStyle = 'translate3d(0, 0, 0px) rotateX(0deg) scale3d(1, 1, 1)';
+              opacityStyle = 1;
+              filterStyle = 'blur(0px)';
+              pointerEvents = 'auto';
+            } else if (isPrev) {
+              transformStyle = 'translate3d(-80px, -40px, -200px) rotateY(15deg) rotateX(5deg) scale3d(0.85, 0.85, 0.85)';
+              opacityStyle = 0.35;
+              filterStyle = 'blur(6px)';
+            } else {
+              transformStyle = 'translate3d(120px, 60px, -300px) rotateY(-20deg) rotateX(-8deg) scale3d(0.75, 0.75, 0.75)';
+              opacityStyle = 0.2;
+              filterStyle = 'blur(10px)';
+            }
+
+            return (
+              <div 
+                key={idx} 
+                className="absolute w-full max-w-4xl transition-all duration-700 ease-out will-change-transform"
+                style={{ 
+                  transform: transformStyle,
+                  opacity: opacityStyle,
+                  filter: filterStyle,
+                  pointerEvents: pointerEvents,
+                  zIndex: isCurrent ? 50 : 10 - Math.abs(distance)
+                }}
+              >
+                <TiltCard className="w-full">
+                  <a 
+                    href={work.link} 
+                    target={work.link !== '#' ? "_blank" : "_self"} 
+                    rel="noopener noreferrer" 
+                    className="block relative bg-black/90 backdrop-blur-3xl text-white border-2 border-white/40 p-8 sm:p-14 h-80 sm:h-96 flex flex-col justify-between group hover:border-[#dc2626] hover:shadow-[0_0_60px_rgba(220,38,38,0.5)] transition-all shadow-[0_25px_60px_rgba(0,0,0,0.95)] rounded"
+                  >
+                    <div className="flex justify-between items-start">
+                      <span className="text-xs sm:text-sm bg-white/10 text-white px-3 py-1 font-black tracking-widest border border-white/20 shadow">{work.id}</span>
+                      <ArrowUpRight size={32} className="text-neutral-300 group-hover:text-[#dc2626] transition-transform group-hover:rotate-45" />
+                    </div>
+                    <div>
+                      <h4 className="text-3xl sm:text-6xl font-black tracking-tighter uppercase mb-4 text-white group-hover:text-[#dc2626] transition-colors drop-shadow-lg">{work.title}</h4>
+                      <span className="text-xs text-white bg-[#dc2626] px-3.5 py-1 font-bold inline-block mb-3 shadow-[0_0_15px_rgba(220,38,38,0.7)]">{work.type}</span>
+                      <p className="text-xs sm:text-sm text-neutral-300 font-mono tracking-wider">// {work.tech}</p>
+                    </div>
+                  </a>
+                </TiltCard>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Interactive Step Navigator Bar */}
+        <div className="grid grid-cols-3 gap-3 mt-8">
+          {worksData.map((_, idx) => (
             <div 
-              ref={el => cardsRef.current[idx] = el} 
               key={idx} 
-              className="absolute w-full max-w-4xl transition-all duration-150 ease-out will-change-transform"
-              style={{ zIndex: (idx + 1) * 10 }}
-            >
-              <TiltCard className="w-full">
-                <a 
-                  href={work.link} 
-                  target={work.link !== '#' ? "_blank" : "_self"} 
-                  rel="noopener noreferrer" 
-                  className="block relative bg-neutral-950/90 backdrop-blur-3xl text-white border border-white/25 p-8 sm:p-12 h-80 sm:h-96 flex flex-col justify-between group hover:border-[#dc2626] hover:shadow-[0_0_50px_rgba(220,38,38,0.5)] transition-all shadow-[0_20px_50px_rgba(0,0,0,0.9)] rounded"
-                >
-                  <div className="flex justify-between items-start">
-                    <span className="text-xs sm:text-sm bg-white/10 text-white px-3 py-1 font-black tracking-widest border border-white/20">{work.id}</span>
-                    <ArrowUpRight size={28} className="text-neutral-400 group-hover:text-[#dc2626] transition-transform group-hover:rotate-45" />
-                  </div>
-                  <div>
-                    <h4 className="text-3xl sm:text-5xl font-black tracking-tighter uppercase mb-4 text-white group-hover:text-[#dc2626] transition-colors drop-shadow">{work.title}</h4>
-                    <span className="text-xs text-white bg-[#dc2626] px-3 py-1 font-bold inline-block mb-3 shadow-[0_0_15px_rgba(220,38,38,0.6)]">{work.type}</span>
-                    <p className="text-xs text-neutral-300 font-mono tracking-wider">// {work.tech}</p>
-                  </div>
-                </a>
-              </TiltCard>
-            </div>
+              className={`h-1.5 transition-all duration-500 rounded cursor-pointer ${activeIndex === idx ? 'bg-[#dc2626] shadow-[0_0_15px_#dc2626]' : 'bg-white/20 hover:bg-white/40'}`}
+              onClick={() => {
+                if (!containerRef.current) return;
+                const scrollRange = containerRef.current.scrollHeight - window.innerHeight;
+                window.scrollTo({ top: (idx / worksData.length) * scrollRange + containerRef.current.offsetTop, behavior: 'smooth' });
+              }}
+            ></div>
           ))}
         </div>
 
