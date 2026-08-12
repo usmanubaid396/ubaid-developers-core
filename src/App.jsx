@@ -395,32 +395,38 @@ const worksData = [
   { id: 'SYS.03', title: 'UsmanUbaid Portfolio', type: 'Interactive 3D 60fps Web Engine', tech: 'React / Three.js / WebGL / Tailwind', link: '#' },
 ];
 
+/* ==========================================================================
+   SLOW-SCROLL 3D INTERACTIVE WORKSPACE FOR WORKS SECTION
+   ================================================================---------- */
 const Works = () => {
-  const sectionRef = useRef(null);
+  const containerRef = useRef(null);
   const cardsRef = useRef([]);
 
   useEffect(() => {
     let animationFrameId = null;
 
     const handleScroll = () => {
-      if (!sectionRef.current) return;
+      if (!containerRef.current) return;
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
 
       animationFrameId = requestAnimationFrame(() => {
-        const rect = sectionRef.current.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
-        const scrollProgress = 1 - (rect.top / windowHeight);
+        const rect = containerRef.current.getBoundingClientRect();
+        const scrollRange = rect.height - window.innerHeight;
+        if (scrollRange <= 0) return;
+
+        let progress = -rect.top / scrollRange;
+        progress = Math.max(0, Math.min(1, progress));
 
         cardsRef.current.forEach((card, idx) => {
           if (card) {
-            const offset = idx * 0.12;
-            const activeProgress = Math.max(0, Math.min(1, (scrollProgress - offset) * 1.5));
-            const yOffset = (1 - activeProgress) * 60;
-            const zOffset = (1 - activeProgress) * -100;
-            const rotateX = (1 - activeProgress) * 8;
+            const cardProgress = Math.max(0, Math.min(1, (progress * worksData.length) - idx));
+            const yOffset = (1 - cardProgress) * 80;
+            const zOffset = (1 - cardProgress) * -150;
+            const rotateX = (1 - cardProgress) * 12;
+            const scale = 0.85 + (cardProgress * 0.15);
 
-            card.style.transform = `translate3d(0, ${yOffset}px, ${zOffset}px) rotateX(${rotateX}deg)`;
-            card.style.opacity = activeProgress;
+            card.style.transform = `translate3d(0, ${yOffset}px, ${zOffset}px) rotateX(${rotateX}deg) scale3d(${scale}, ${scale}, ${scale})`;
+            card.style.opacity = cardProgress;
           }
         });
       });
@@ -435,39 +441,53 @@ const Works = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} id="work" className="relative z-10 w-full py-24 sm:py-32 bg-transparent perspective-1000">
-      <div className="flex flex-col sm:flex-row border-y border-white/15 px-4 sm:px-8 py-5 sm:py-6 items-start sm:items-center justify-between bg-white/[0.03] backdrop-blur-2xl mb-12 sm:mb-16 mx-4 sm:mx-8 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] gap-3 sm:gap-0">
-        <h3 className="text-xs sm:text-sm tracking-[0.2em] uppercase font-black flex items-center gap-3 text-white drop-shadow">
-          <Database size={20} className="text-[#dc2626] animate-pulse shrink-0" /> Selected Production Work
-        </h3>
-        <span className="text-xs text-[#dc2626] font-bold uppercase bg-white/[0.05] px-3 py-1 border border-white/20 backdrop-blur-xl shadow-lg">NODES: {worksData.length}</span>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-4 sm:px-8 max-w-7xl mx-auto perspective-1000">
-        {worksData.map((work, idx) => (
-          <div ref={el => cardsRef.current[idx] = el} key={idx} className="transition-transform duration-75 ease-out will-change-transform">
-            <TiltCard className="h-full">
-              <a href={work.link} target={work.link !== '#' ? "_blank" : "_self"} rel="noopener noreferrer" className="block relative bg-white/90 backdrop-blur-2xl text-black border-2 border-white/60 p-6 sm:p-10 h-80 sm:h-96 flex flex-col justify-between group hover:border-[#dc2626] hover:shadow-[0_20px_50px_rgba(220,38,38,0.4)] transition-all shadow-2xl">
-                <div className="flex justify-between items-start">
-                  <span className="text-xs sm:text-sm bg-black text-white px-3 py-1 font-black tracking-widest shadow">{work.id}</span>
-                  <ArrowUpRight size={24} className="text-black group-hover:text-[#dc2626] transition-transform group-hover:rotate-45" />
-                </div>
-                <div>
-                  <h4 className="text-2xl sm:text-4xl font-black tracking-tighter uppercase mb-3 sm:mb-4 text-black group-hover:text-[#dc2626] transition-colors">{work.title}</h4>
-                  <span className="text-[10px] sm:text-xs text-white bg-[#dc2626] px-2.5 py-1 font-bold inline-block mb-2 shadow-[0_0_12px_rgba(220,38,38,0.5)]">{work.type}</span>
-                  <p className="text-[11px] sm:text-xs text-neutral-800 font-bold">// {work.tech}</p>
-                </div>
-              </a>
-            </TiltCard>
-          </div>
-        ))}
+    <section ref={containerRef} id="work" className="relative h-[350vh] bg-transparent">
+      <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center px-4 sm:px-12 max-w-7xl mx-auto">
+        
+        {/* High Contrast Header matching dark glossmorphic aesthetic */}
+        <div className="flex flex-col sm:flex-row border border-white/20 px-4 sm:px-8 py-5 sm:py-6 items-start sm:items-center justify-between bg-black/60 backdrop-blur-2xl mb-12 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] gap-3 sm:gap-0 rounded">
+          <h3 className="text-xs sm:text-sm tracking-[0.2em] uppercase font-black flex items-center gap-3 text-white drop-shadow">
+            <Database size={20} className="text-[#dc2626] animate-pulse shrink-0" /> Selected Production Work // 3D STACKED KERNEL
+          </h3>
+          <span className="text-xs text-[#dc2626] font-bold uppercase bg-white/[0.08] px-3 py-1 border border-white/25 backdrop-blur-xl shadow-lg">NODES: {worksData.length}</span>
+        </div>
+
+        {/* 3D Stacked Interactive Cards Container */}
+        <div className="relative h-[500px] w-full flex items-center justify-center perspective-1000">
+          {worksData.map((work, idx) => (
+            <div 
+              ref={el => cardsRef.current[idx] = el} 
+              key={idx} 
+              className="absolute w-full max-w-4xl transition-transform duration-100 ease-out will-change-transform"
+              style={{ zIndex: idx + 1 }}
+            >
+              <TiltCard className="w-full">
+                <a 
+                  href={work.link} 
+                  target={work.link !== '#' ? "_blank" : "_self"} 
+                  rel="noopener noreferrer" 
+                  className="block relative bg-black/80 backdrop-blur-3xl text-white border-2 border-white/30 p-8 sm:p-12 h-80 sm:h-96 flex flex-col justify-between group hover:border-[#dc2626] hover:shadow-[0_0_50px_rgba(220,38,38,0.4)] transition-all shadow-2xl rounded"
+                >
+                  <div className="flex justify-between items-start">
+                    <span className="text-xs sm:text-sm bg-white/10 text-white px-3 py-1 font-black tracking-widest border border-white/20">{work.id}</span>
+                    <ArrowUpRight size={28} className="text-neutral-400 group-hover:text-[#dc2626] transition-transform group-hover:rotate-45" />
+                  </div>
+                  <div>
+                    <h4 className="text-3xl sm:text-5xl font-black tracking-tighter uppercase mb-4 text-white group-hover:text-[#dc2626] transition-colors drop-shadow">{work.title}</h4>
+                    <span className="text-xs text-white bg-[#dc2626] px-3 py-1 font-bold inline-block mb-3 shadow-[0_0_15px_rgba(220,38,38,0.6)]">{work.type}</span>
+                    <p className="text-xs text-neutral-300 font-mono tracking-wider">// {work.tech}</p>
+                  </div>
+                </a>
+              </TiltCard>
+            </div>
+          ))}
+        </div>
+
       </div>
     </section>
   );
 };
 
-/* ==========================================================================
-   SLOW-SCROLL EXTENDED HORIZONTAL SHOWCASE (ENHANCED DAMPING)
-   ================================================================---------- */
 const HorizontalShowcase = () => {
   const containerRef = useRef(null);
   const trackRef = useRef(null);
@@ -536,9 +556,6 @@ const HorizontalShowcase = () => {
   );
 };
 
-/* ==========================================================================
-   SLOW-SCROLL EXTENDED RADIAL ORBITAL SCROLLYTELLING
-   ================================================================---------- */
 const RadialOrbitalScrollytelling = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef(null);
@@ -650,9 +667,6 @@ const RadialOrbitalScrollytelling = () => {
   );
 };
 
-/* ==========================================================================
-   SLOW-SCROLL EXTENDED NARRATIVE SCROLLYTELLING
-   ================================================================---------- */
 const ScrollytellingSection = () => {
   const [activeStep, setActiveStep] = useState(0);
   const containerRef = useRef(null);
@@ -722,9 +736,6 @@ const ScrollytellingSection = () => {
   );
 };
 
-/* ==========================================================================
-   SLOW-SCROLL EXTENDED INTERACTIVE 3D HOLOGRAPHIC PRISM (CORE EXPERTISE)
-   ================================================================---------- */
 const Expertise3DMatrix = () => {
   const containerRef = useRef(null);
   const mountRef = useRef(null);
