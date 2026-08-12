@@ -465,6 +465,9 @@ const Works = () => {
   );
 };
 
+/* ==========================================================================
+   SLOW-SCROLL EXTENDED HORIZONTAL SHOWCASE (ENHANCED DAMPING)
+   ================================================================---------- */
 const HorizontalShowcase = () => {
   const containerRef = useRef(null);
   const trackRef = useRef(null);
@@ -499,10 +502,10 @@ const HorizontalShowcase = () => {
   }, []);
 
   return (
-    <section ref={containerRef} id="showcase" className="relative h-[300vh] bg-transparent">
+    <section ref={containerRef} id="showcase" className="relative h-[450vh] bg-transparent">
       <div className="sticky top-0 h-screen overflow-hidden flex items-center">
         <div className="absolute top-10 sm:top-12 left-4 sm:left-16 z-20 pointer-events-none">
-          <p className="text-[#3b82f6] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-2 bg-white/[0.04] px-3 sm:px-4 py-1.5 border border-white/25 w-fit backdrop-blur-2xl shadow-xl">// HORIZONTAL SCROLLING KERNEL</p>
+          <p className="text-[#3b82f6] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-2 bg-white/[0.04] px-3 sm:px-4 py-1.5 border border-white/25 w-fit backdrop-blur-2xl shadow-xl">// SLOW HORIZONTAL SCROLL KERNEL</p>
           <h3 className="text-2xl sm:text-5xl font-black tracking-tight uppercase text-white drop-shadow-[0_8px_20px_rgba(0,0,0,0.9)]">Immersive Case Studies</h3>
         </div>
         <div ref={trackRef} className="flex gap-6 sm:gap-12 pl-4 sm:pl-16 w-max pt-20 sm:pt-24 will-change-transform">
@@ -533,6 +536,9 @@ const HorizontalShowcase = () => {
   );
 };
 
+/* ==========================================================================
+   SLOW-SCROLL EXTENDED RADIAL ORBITAL SCROLLYTELLING
+   ================================================================---------- */
 const RadialOrbitalScrollytelling = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef(null);
@@ -573,12 +579,12 @@ const RadialOrbitalScrollytelling = () => {
   }, [modules.length]);
 
   return (
-    <section ref={containerRef} id="ecosystem" className="relative h-[300vh] bg-transparent">
+    <section ref={containerRef} id="ecosystem" className="relative h-[450vh] bg-transparent">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-between px-4 sm:px-16 py-12 sm:py-20 pointer-events-auto">
         
         <div className="flex justify-between items-center border-b border-white/15 pb-4 sm:pb-6 bg-white/[0.03] backdrop-blur-2xl px-4 sm:px-6 rounded shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
           <div>
-            <p className="text-[#dc2626] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-1">// RADIAL ORBITAL ECOSYSTEM</p>
+            <p className="text-[#dc2626] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-1">// SLOW-SCROLL ECOSYSTEM MATRIX</p>
             <h3 className="text-xl sm:text-4xl font-black uppercase tracking-tight text-white drop-shadow">Interactive Matrix</h3>
           </div>
           <div className="text-right font-mono text-[10px] sm:text-xs text-neutral-200">
@@ -644,6 +650,9 @@ const RadialOrbitalScrollytelling = () => {
   );
 };
 
+/* ==========================================================================
+   SLOW-SCROLL EXTENDED NARRATIVE SCROLLYTELLING
+   ================================================================---------- */
 const ScrollytellingSection = () => {
   const [activeStep, setActiveStep] = useState(0);
   const containerRef = useRef(null);
@@ -684,15 +693,15 @@ const ScrollytellingSection = () => {
   }, [milestones.length]);
 
   return (
-    <section ref={containerRef} id="scrollytelling" className="relative h-[300vh] bg-transparent border-b border-white/10">
+    <section ref={containerRef} id="scrollytelling" className="relative h-[450vh] bg-transparent border-b border-white/10">
       <div className="sticky top-0 h-screen overflow-hidden flex items-center px-4 sm:px-16">
         <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-16 items-center">
           <div className="lg:col-span-5 border border-white/15 bg-black/60 backdrop-blur-2xl p-8 sm:p-10 shadow-2xl">
-            <p className="text-[#dc2626] text-xs font-bold tracking-[0.3em] uppercase mb-4">// NARRATIVE KERNEL PROGRESSION</p>
-            <h3 className="text-3xl sm:text-4xl font-black uppercase tracking-tight text-white mb-6">Development Lifecycle</h3>
+            <p className="text-[#dc2626] text-xs font-bold tracking-[0.3em] uppercase mb-4">// SLOW NARRATIVE PROGRESSION</p>
+            <h3 className="text-2xl sm:text-4xl font-black uppercase tracking-tight text-white mb-6">Development Lifecycle</h3>
             <div className="space-y-4 font-mono text-xs">
               {milestones.map((m, idx) => (
-                <div key={idx} className={`p-4 border transition-all flex items-center justify-between ${activeStep === idx ? 'border-[#dc2626] bg-black/80 text-white shadow-[0_0_15px_rgba(220,38,38,0.3)]' : 'border-white/10 bg-black/40 text-neutral-400'}`}>
+                <div key={idx} className={`p-3 sm:p-4 border transition-all flex items-center justify-between ${activeStep === idx ? 'border-[#dc2626] bg-black/80 text-white shadow-[0_0_15px_rgba(220,38,38,0.3)]' : 'border-white/10 bg-black/40 text-neutral-400'}`}>
                   <span>{m.phase}</span>
                   {activeStep === idx && <div className="w-2 h-2 bg-[#dc2626] rounded-full animate-ping"></div>}
                 </div>
@@ -701,10 +710,10 @@ const ScrollytellingSection = () => {
           </div>
 
           <div className="lg:col-span-7">
-            <div className="min-h-[50vh] flex flex-col justify-center border-l-2 border-white/20 pl-8 sm:pl-12 bg-black/40 backdrop-blur-md p-8 rounded transition-all duration-300">
+            <div className="min-h-[45vh] sm:min-h-[55vh] flex flex-col justify-center border-l-2 border-white/20 pl-8 sm:pl-12 bg-black/40 backdrop-blur-md p-8 rounded transition-all duration-300">
               <span className="text-xs font-mono text-[#dc2626] mb-3 tracking-widest">{milestones[activeStep].phase}</span>
-              <h4 className="text-4xl sm:text-6xl font-black uppercase tracking-tighter text-white mb-6 leading-none">{milestones[activeStep].title}</h4>
-              <p className="text-base text-neutral-300 font-mono leading-relaxed">{milestones[activeStep].desc}</p>
+              <h4 className="text-3xl sm:text-6xl font-black uppercase tracking-tighter text-white mb-4 sm:mb-6 leading-tight sm:leading-none">{milestones[activeStep].title}</h4>
+              <p className="text-sm sm:text-base text-neutral-300 font-mono leading-relaxed">{milestones[activeStep].desc}</p>
             </div>
           </div>
         </div>
@@ -714,7 +723,7 @@ const ScrollytellingSection = () => {
 };
 
 /* ==========================================================================
-   INTERACTIVE 3D HOLOGRAPHIC PRISM & SCROLLING STACK ENGINE (CORE EXPERTISE)
+   SLOW-SCROLL EXTENDED INTERACTIVE 3D HOLOGRAPHIC PRISM (CORE EXPERTISE)
    ================================================================---------- */
 const Expertise3DMatrix = () => {
   const containerRef = useRef(null);
@@ -728,7 +737,6 @@ const Expertise3DMatrix = () => {
     { id: '04', title: 'Python & AI Pipelines', tech: 'PyTorch / ML / Automation', color: 0xf59e0b, desc: 'Tailored machine learning models and automated contract/data synthesis.' }
   ];
 
-  // Pinning and Slow Scroll-Driven 3D Interaction Hook
   useEffect(() => {
     const sectionEl = containerRef.current;
     const canvasContainer = mountRef.current;
@@ -825,11 +833,9 @@ const Expertise3DMatrix = () => {
       rafId = requestAnimationFrame(animate);
       const time = clock.getElapsedTime();
 
-      // Smooth mouse rotation combined with slow scroll rotation expansion
       prismGroup.rotation.y += (mouseX * 0.8 - prismGroup.rotation.y) * 0.08 + 0.004;
       prismGroup.rotation.x += (mouseY * 0.5 - prismGroup.rotation.x) * 0.08;
 
-      // Slow scroll-driven 3D explosion and layer highlighting
       const targetExplosion = 0.8 + currentScrollProgress * 1.8;
 
       layers.forEach((layer, idx) => {
@@ -867,15 +873,15 @@ const Expertise3DMatrix = () => {
   }, [activeLayer]);
 
   return (
-    <section ref={containerRef} id="expertise" className="relative h-[300vh] bg-transparent border-b border-white/10">
+    <section ref={containerRef} id="expertise" className="relative h-[450vh] bg-transparent border-b border-white/10">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center px-4 sm:px-16 py-12">
         
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-white/15 pb-6 mb-8 bg-white/[0.03] backdrop-blur-2xl px-6 rounded shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] gap-4">
           <div>
-            <p className="text-[#dc2626] text-xs font-bold tracking-[0.3em] uppercase mb-1">// 3D HOLOGRAPHIC CAPABILITIES MATRIX</p>
+            <p className="text-[#dc2626] text-xs font-bold tracking-[0.3em] uppercase mb-1">// SLOW-SCROLL 3D HOLOGRAPHIC MATRIX</p>
             <h3 className="text-2xl sm:text-4xl font-black uppercase tracking-tight text-white drop-shadow">Technical Blueprint & Stack</h3>
           </div>
-          <span className="text-xs font-mono text-neutral-300 bg-white/[0.05] px-3 py-1 border border-white/20">SLOW SCROLL 3D INTERACTION // PRISM EXPANSION</span>
+          <span className="text-xs font-mono text-neutral-300 bg-white/[0.05] px-3 py-1 border border-white/20">SLOW SCROLL PRISM EXPANSION // 3D INTERACTION</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
