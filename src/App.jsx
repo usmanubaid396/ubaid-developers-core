@@ -522,18 +522,122 @@ const Works = () => {
   );
 };
 
+/* ==========================================================================
+   ENHANCED 3D INTERACTIVE KINETIC HUD PIPELINE (HORIZONTAL SHOWCASE)
+   ================================================================---------- */
 const showcaseBlocks = [
-  { id: 'SC.01', tag: 'HEALTHCARE SYSTEM', title: 'Clinical Enterprise Cloud', desc: 'Secure HIPAA-compliant hospital architecture processing millions of real-time diagnostics securely.', tech: 'React / Node / PostgreSQL', highlight: 'Zero Latency' },
-  { id: 'SC.02', tag: 'LEGAL AUTOMATION', title: 'Universal Contract Synthesizer', desc: 'AI-powered document generation protocol compiling customized corporate agreements instantly on Vercel Edge.', tech: 'Next.js / Tailwind / Vercel Edge', highlight: 'Autonomous AI' },
-  { id: 'SC.03', tag: 'PHARMACEUTICAL ERP', title: 'Supply Chain Neural Hub', desc: 'Predictive data visualization dashboards monitoring pharmaceutical inventory flow and regional distribution.', tech: 'Python ML / WebGL / Pandas', highlight: 'Predictive ML' },
-  { id: 'SC.04', tag: 'FINANCIAL DEPOSITORY', title: 'Secured Asset Vault', desc: 'Electronic depository integration linked with Central Depository Company for regulated trading frameworks.', tech: 'TypeScript / REST / Vault API', highlight: 'Bank-Grade' },
-  { id: 'SC.05', tag: 'IMMERSIVE 3D KERNEL', title: 'WebGL Spatial Workspace', desc: 'Hardware-accelerated 60FPS browser-based 3D environment featuring raycasted mouse physics and shaders.', tech: 'Three.js / GLSL / Custom Shaders', highlight: '60 FPS 3D' },
-  { id: 'SC.06', tag: 'BIOMETRIC ANALYTICS', title: 'Diagnostic Vision Hub', desc: 'Neural network pattern recognition interface built for rapid processing of medical imaging data.', tech: 'PyTorch / FastApi / React', highlight: 'High Throughput' }
+  { id: 'SC.01', tag: 'HEALTHCARE SYSTEM', title: 'Clinical Enterprise Cloud', desc: 'Secure HIPAA-compliant hospital architecture processing millions of real-time diagnostics securely.', tech: 'React / Node / PostgreSQL', highlight: 'Zero Latency', color: '#dc2626' },
+  { id: 'SC.02', tag: 'LEGAL AUTOMATION', title: 'Universal Contract Synthesizer', desc: 'AI-powered document generation protocol compiling customized corporate agreements instantly on Vercel Edge.', tech: 'Next.js / Tailwind / Vercel Edge', highlight: 'Autonomous AI', color: '#3b82f6' },
+  { id: 'SC.03', tag: 'PHARMACEUTICAL ERP', title: 'Supply Chain Neural Hub', desc: 'Predictive data visualization dashboards monitoring pharmaceutical inventory flow and regional distribution.', tech: 'Python ML / WebGL / Pandas', highlight: 'Predictive ML', color: '#10b981' },
+  { id: 'SC.04', tag: 'FINANCIAL DEPOSITORY', title: 'Secured Asset Vault', desc: 'Electronic depository integration linked with Central Depository Company for regulated trading frameworks.', tech: 'TypeScript / REST / Vault API', highlight: 'Bank-Grade', color: '#f59e0b' },
+  { id: 'SC.05', tag: 'IMMERSIVE 3D KERNEL', title: 'WebGL Spatial Workspace', desc: 'Hardware-accelerated 60FPS browser-based 3D environment featuring raycasted mouse physics and shaders.', tech: 'Three.js / GLSL / Custom Shaders', highlight: '60 FPS 3D', color: '#8b5cf6' },
+  { id: 'SC.06', tag: 'BIOMETRIC ANALYTICS', title: 'Diagnostic Vision Hub', desc: 'Neural network pattern recognition interface built for rapid processing of medical imaging data.', tech: 'PyTorch / FastApi / React', highlight: 'High Throughput', color: '#ec4899' }
 ];
+
+/* Self-contained Interactive 3D Holographic Node Viewport */
+const Showcase3DNode = ({ hexColor, isActive }) => {
+  const mountRef = useRef(null);
+
+  useEffect(() => {
+    const container = mountRef.current;
+    if (!container) return;
+
+    const w = container.clientWidth;
+    const h = container.clientHeight;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(50, w / h, 0.1, 1000);
+    camera.position.z = 8;
+
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(w, h);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+
+    const group = new THREE.Group();
+
+    // Outer 3D Holographic Geometry
+    const geo = new THREE.IcosahedronGeometry(2.2, 1);
+    const mat = new THREE.MeshStandardMaterial({
+      color: new THREE.Color(hexColor),
+      wireframe: true,
+      transparent: true,
+      opacity: 0.85,
+      metalness: 0.9,
+      roughness: 0.1
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+
+    // Inner Glowing Core
+    const innerGeo = new THREE.OctahedronGeometry(1.2, 0);
+    const innerMat = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0.7 });
+    const innerMesh = new THREE.Mesh(innerGeo, innerMat);
+
+    group.add(mesh);
+    group.add(innerMesh);
+    scene.add(group);
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 2.5);
+    scene.add(ambientLight);
+    const pointLight = new THREE.PointLight(hexColor, 8, 50);
+    pointLight.position.set(5, 5, 5);
+    scene.add(pointLight);
+
+    let mouseX = 0;
+    let mouseY = 0;
+
+    const handleMouseMove = (e) => {
+      const rect = container.getBoundingClientRect();
+      mouseX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      mouseY = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+    };
+
+    container.addEventListener('mousemove', handleMouseMove);
+
+    let rafId;
+    const clock = new THREE.Clock();
+
+    const animate = () => {
+      rafId = requestAnimationFrame(animate);
+      const time = clock.getElapsedTime();
+
+      group.rotation.y += (mouseX * 0.8 - group.rotation.y) * 0.08 + 0.01;
+      group.rotation.x += (mouseY * 0.5 - group.rotation.x) * 0.08 + 0.005;
+      innerMesh.rotation.y = -time * 0.8;
+
+      const scale = isActive ? 1.15 : 0.95;
+      group.scale.lerp(new THREE.Vector3(scale, scale, scale), 0.1);
+
+      renderer.render(scene, camera);
+    };
+    animate();
+
+    const handleResize = () => {
+      if (!container) return;
+      const nw = container.clientWidth;
+      const nh = container.clientHeight;
+      camera.aspect = nw / nh;
+      camera.updateProjectionMatrix();
+      renderer.setSize(nw, nh);
+    };
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      container.removeEventListener('mousemove', handleMouseMove);
+      cancelAnimationFrame(rafId);
+      renderer.dispose();
+      if (container) container.innerHTML = '';
+    };
+  }, [hexColor, isActive]);
+
+  return <div ref={mountRef} className="w-full h-full cursor-grab active:cursor-grabbing" />;
+};
 
 const HorizontalShowcase = () => {
   const containerRef = useRef(null);
   const trackRef = useRef(null);
+  const [activeCard, setActiveCard] = useState(0);
 
   useEffect(() => {
     let animationFrameId = null;
@@ -552,6 +656,9 @@ const HorizontalShowcase = () => {
 
         const maxTranslate = trackRef.current.scrollWidth - window.innerWidth;
         trackRef.current.style.transform = `translate3d(-${progress * Math.max(0, maxTranslate)}px, 0, 0)`;
+
+        const currentActive = Math.min(showcaseBlocks.length - 1, Math.floor(progress * showcaseBlocks.length));
+        setActiveCard(currentActive);
       });
     };
 
@@ -568,30 +675,58 @@ const HorizontalShowcase = () => {
     <section ref={containerRef} id="showcase" className="relative h-[600vh] bg-transparent">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center">
         
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-16 mb-6 z-20 relative">
-          <div className="bg-black/85 backdrop-blur-3xl p-6 border border-white/20 shadow-[0_15px_50px_rgba(0,0,0,0.9)] rounded">
-            <p className="text-[#3b82f6] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-2 bg-white/[0.04] px-3 sm:px-4 py-1.5 border border-white/25 w-fit backdrop-blur-2xl shadow-xl">// EXPANDED SHOWCASE REPOSITORY</p>
-            <h3 className="text-2xl sm:text-4xl font-black tracking-tight uppercase text-white drop-shadow-[0_8px_20px_rgba(0,0,0,0.9)]">Ecosystem Architecture & Modules</h3>
-            <p className="text-xs sm:text-sm text-neutral-300 font-mono mt-1">Explore all 6 deployed systems driving high-end performance across healthcare, legal, and fintech sectors.</p>
+        {/* Fixed Title Header Positioned Safely Above Cards to Prevent Overlap */}
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-16 mb-6 z-20 relative shrink-0">
+          <div className="bg-black/90 backdrop-blur-3xl p-6 border border-white/20 shadow-[0_15px_50px_rgba(0,0,0,0.95)] rounded flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+            <div>
+              <p className="text-[#3b82f6] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-1 bg-white/[0.04] px-3 sm:px-4 py-1 border border-white/25 w-fit backdrop-blur-2xl shadow-xl">// EXPANDED KINETIC SHOWCASE PIPELINE</p>
+              <h3 className="text-xl sm:text-3xl font-black tracking-tight uppercase text-white drop-shadow-[0_8px_20px_rgba(0,0,0,0.9)]">Ecosystem Architecture & Modules</h3>
+            </div>
+            <div className="flex items-center gap-3 font-mono text-xs">
+              <span className="text-neutral-400">NODE 0{activeCard + 1} / 0{showcaseBlocks.length}</span>
+              <span className="text-emerald-400 font-bold bg-emerald-950/80 px-3 py-1 border border-emerald-500/40">// 3D KINETIC PIPELINE</span>
+            </div>
           </div>
         </div>
 
+        {/* Horizontal Sliding Cards Track with embedded 3D Viewports */}
         <div className="w-full overflow-hidden">
           <div ref={trackRef} className="flex gap-6 sm:gap-10 pl-4 sm:pl-16 w-max will-change-transform">
             {showcaseBlocks.map((item, idx) => (
-              <div key={idx} className="w-[85vw] md:w-[42vw] h-[50vh] sm:h-[55vh] border border-white/25 bg-neutral-950/95 backdrop-blur-3xl p-6 sm:p-12 flex flex-col justify-between relative group hover:border-[#3b82f6] transition-colors shadow-[0_20px_60px_rgba(0,0,0,0.95)] rounded">
-                <div className="flex justify-between items-center border-b border-white/10 pb-4">
+              <div 
+                key={idx} 
+                className={`w-[85vw] md:w-[48vw] h-[52vh] sm:h-[58vh] border transition-all duration-500 bg-neutral-950/95 backdrop-blur-3xl p-6 sm:p-10 flex flex-col justify-between relative group shadow-[0_25px_65px_rgba(0,0,0,0.98)] rounded ${
+                  activeCard === idx 
+                    ? 'border-[#3b82f6] shadow-[0_0_40px_rgba(59,130,246,0.3)]' 
+                    : 'border-white/20 opacity-80 hover:opacity-100 hover:border-white/40'
+                }`}
+              >
+                {/* Header Tag Bar */}
+                <div className="flex justify-between items-center border-b border-white/15 pb-3">
                   <span className="text-[10px] sm:text-xs font-mono text-[#3b82f6] bg-white/[0.06] px-3 py-1 border border-white/20">{item.tag}</span>
                   <span className="text-[10px] font-mono text-emerald-400 font-bold bg-emerald-950/50 px-2.5 py-1 border border-emerald-500/30">// {item.highlight}</span>
                 </div>
-                <div className="my-auto">
-                  <span className="text-xs font-mono text-neutral-500 block mb-1">{item.id}</span>
-                  <h4 className="text-2xl sm:text-4xl font-black uppercase tracking-tighter mb-3 text-white group-hover:text-[#3b82f6] transition-colors drop-shadow">{item.title}</h4>
-                  <p className="text-xs sm:text-sm text-neutral-300 font-mono leading-relaxed">{item.desc}</p>
+
+                {/* 3D Model Canvas Viewport & Information Split Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center my-auto">
+                  <div className="md:col-span-5 h-[160px] sm:h-[200px] border border-white/15 bg-black/60 rounded overflow-hidden relative shadow-inner">
+                    <Showcase3DNode hexColor={item.color} isActive={activeCard === idx} />
+                    <div className="absolute bottom-2 left-2 font-mono text-[8px] text-neutral-400 bg-black/80 px-2 py-0.5 border border-white/10 pointer-events-none">
+                      [3D NODE MODEL 0{idx + 1}]
+                    </div>
+                  </div>
+                  
+                  <div className="md:col-span-7">
+                    <span className="text-xs font-mono text-neutral-500 block mb-1">{item.id}</span>
+                    <h4 className="text-2xl sm:text-3xl font-black uppercase tracking-tighter mb-3 text-white group-hover:text-[#3b82f6] transition-colors drop-shadow">{item.title}</h4>
+                    <p className="text-xs sm:text-sm text-neutral-300 font-mono leading-relaxed">{item.desc}</p>
+                  </div>
                 </div>
-                <div className="pt-4 sm:pt-6 border-t border-white/15 flex justify-between items-center text-[10px] sm:text-xs font-bold uppercase tracking-widest text-neutral-300">
+
+                {/* Footer Controls Bar */}
+                <div className="pt-4 border-t border-white/15 flex justify-between items-center text-[10px] sm:text-xs font-bold uppercase tracking-widest text-neutral-300">
                   <span className="text-neutral-400">// {item.tech}</span>
-                  <span className="text-white group-hover:text-[#3b82f6] transition-colors flex items-center gap-1">INSPECT &rarr;</span>
+                  <span className="text-white group-hover:text-[#3b82f6] transition-colors flex items-center gap-1">INSPECT NODE &rarr;</span>
                 </div>
               </div>
             ))}
@@ -784,7 +919,7 @@ const ScrollytellingSection = () => {
 };
 
 /* ==========================================================================
-   PROFESSIONALLY REDESIGNED EXPERTISE 3D MATRIX (BALANCED, FULLY VISIBLE & SCALED)
+   FIXED EXPERTISE 3D MATRIX (COMPLETELY UNMASKED & BALANCED)
    ================================================================---------- */
 const Expertise3DMatrix = () => {
   const containerRef = useRef(null);
@@ -935,9 +1070,8 @@ const Expertise3DMatrix = () => {
 
   return (
     <section ref={containerRef} id="expertise" className="relative h-[600vh] bg-transparent border-b border-white/10">
-      <div className="sticky top-0 h-screen flex flex-col justify-center px-4 sm:px-12 lg:px-20 max-w-7xl mx-auto z-20">
+      <div className="sticky top-0 h-screen flex flex-col justify-center px-4 sm:px-12 lg:px-20 max-w-7xl mx-auto z-20 overflow-y-auto lg:overflow-hidden py-12">
         
-        {/* Professional Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border border-white/20 pb-4 pt-4 px-6 mb-6 bg-neutral-950/90 backdrop-blur-2xl rounded shadow-[0_12px_40px_rgba(0,0,0,0.9)] gap-3 shrink-0">
           <div>
             <p className="text-[#dc2626] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-0.5">// SLOW-SCROLL 3D HOLOGRAPHIC MATRIX</p>
@@ -946,10 +1080,8 @@ const Expertise3DMatrix = () => {
           <span className="text-[10px] sm:text-xs font-mono text-neutral-300 bg-white/[0.05] px-3 py-1 border border-white/20">PRISM EXPANSION // 3D INTERACTION</span>
         </div>
 
-        {/* Balanced Grid Layout guaranteeing 100% visibility for all 4 blocks & canvas */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
           
-          {/* Compact 3D Viewport Box */}
           <div className="lg:col-span-5 h-[280px] sm:h-[360px] border border-white/25 bg-neutral-950/95 backdrop-blur-3xl relative rounded overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.95)] flex items-center justify-center shrink-0">
             <div ref={mountRef} className="absolute inset-0 cursor-grab active:cursor-grabbing" />
             <div className="absolute bottom-3 left-3 pointer-events-none font-mono text-[9px] text-neutral-400 bg-black/80 px-2.5 py-1 border border-white/10">
@@ -957,7 +1089,6 @@ const Expertise3DMatrix = () => {
             </div>
           </div>
 
-          {/* Fully Spaced and Sized Blocks 01 to 04 */}
           <div className="lg:col-span-7 flex flex-col gap-3">
             {capabilitiesData.map((cap, idx) => (
               <div 
