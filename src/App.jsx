@@ -29,16 +29,10 @@ const WebGLEngine = () => {
     const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 1000);
     camera.position.z = 40;
     
-    const renderer = new THREE.WebGLRenderer({ 
-      alpha: true, 
-      antialias: true, 
-      powerPreference: "high-performance",
-      failIfMajorPerformanceCaveat: false
-    });
+    const renderer = new THREE.WebGLRenderer({ alpha: false, antialias: true, powerPreference: "high-performance" });
     renderer.setSize(w, h);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.outputColorSpace = THREE.SRGBColorSpace;
-    container.appendChild(renderer.domElement);
+    if (container) container.appendChild(renderer.domElement);
 
     const ambientLight = new THREE.AmbientLight(0x151515, 2.5);
     scene.add(ambientLight);
@@ -158,7 +152,7 @@ const WebGLEngine = () => {
     const animate = () => {
       rafId = requestAnimationFrame(animate);
       const time = clock.getElapsedTime();
-      currentScroll += (targetScroll - currentScroll) * 0.05;
+      currentScroll += (targetScroll - currentScroll) * 0.06;
       
       const targetCoreScale = isCoreHovered ? 1.5 : 1.0;
       const pulse = Math.sin(time * 5) * 0.09;
@@ -251,9 +245,9 @@ const TiltCard = ({ children, className }) => {
     const rect = cardRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -12;
-    const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 12;
-    cardRef.current.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+    const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -16;
+    const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 16;
+    cardRef.current.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.04, 1.04, 1.04)`;
   };
   const handleMouseLeave = () => {
     if (cardRef.current) cardRef.current.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
@@ -266,93 +260,58 @@ const TiltCard = ({ children, className }) => {
 };
 
 const SystemStatus = () => (
-  <div className="fixed top-0 w-full z-50 bg-black backdrop-blur-xl border-b border-white/15 text-[9px] sm:text-xs uppercase flex justify-between items-center px-3 sm:px-4 py-2 sm:py-3 font-light tracking-widest text-neutral-200">
-    <div className="flex items-center gap-2 text-white font-bold truncate">
-      <div className="w-2 h-2 bg-[#dc2626] rounded-full animate-pulse shadow-[0_0_15px_#dc2626] shrink-0"></div>
-      <span className="truncate">MUHAMMAD USMAN // FULL-STACK PORTFOLIO</span>
+  <div className="fixed top-0 w-full z-50 bg-black backdrop-blur-xl border-b border-white/15 text-[10px] sm:text-xs uppercase flex justify-between items-center px-4 py-3 font-light tracking-widest text-neutral-300">
+    <div className="flex items-center gap-2 text-white font-bold">
+      <div className="w-2 h-2 bg-[#dc2626] rounded-full animate-pulse shadow-[0_0_15px_#dc2626]"></div>
+      MUHAMMAD USMAN // FULL-STACK PORTFOLIO
     </div>
-    <div className="text-[#3b82f6] font-bold hidden md:block shrink-0">VEHARI & LAHORE, PK</div>
+    <div className="text-[#3b82f6] font-bold hidden sm:block">VEHARI & LAHORE, PK</div>
   </div>
 );
 
-const Navigation = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  return (
-    <nav className="relative z-40 mt-10 sm:mt-12 w-full px-4 sm:px-8 py-5 sm:py-6 flex justify-between items-center border-b border-white/15 bg-black backdrop-blur-2xl">
-      <div>
-        <h1 className="text-xl sm:text-2xl font-bold tracking-tighter text-white flex items-center gap-2">
-          Muhammad Usman <span className="text-[#dc2626]">.</span>
-        </h1>
-        <p className="text-[10px] sm:text-xs text-neutral-400 tracking-widest mt-0.5 uppercase hidden sm:block">Full-Stack Developer — SaaS, Healthcare, and Interactive Systems</p>
-      </div>
-
-      <div className="hidden lg:flex gap-6 text-xs font-bold tracking-[0.2em] uppercase items-center text-neutral-300">
-        {['About', 'Projects', 'Skills', 'Contact'].map((item, idx) => (
-          <a key={idx} href={`#${item.toLowerCase()}`} className="hover:text-[#dc2626] transition-colors">
-            [{item}]
-          </a>
-        ))}
-        <a href="#contact" className="bg-white/10 hover:bg-[#dc2626] text-white border border-white/20 px-4 py-2 transition-all">
-          Get in Touch
+const Navigation = () => (
+  <nav className="relative z-40 mt-12 w-full px-4 sm:px-8 py-6 flex flex-col md:flex-row justify-between items-start md:items-center border-b border-white/10 gap-4 bg-black backdrop-blur-md">
+    <div>
+      <h1 className="text-2xl font-bold tracking-tighter text-white flex items-center gap-2">
+        Muhammad Usman <span className="text-[#dc2626]">.</span>
+      </h1>
+      <p className="text-xs text-neutral-400 tracking-widest mt-1 uppercase">Full-Stack Developer — SaaS, Healthcare, and Interactive Systems</p>
+    </div>
+    <div className="flex gap-6 text-xs font-bold tracking-[0.2em] uppercase items-center">
+      {['About', 'Projects', 'Skills', 'Contact'].map((item, idx) => (
+        <a key={idx} href={`#${item.toLowerCase()}`} className="text-neutral-300 hover:text-[#dc2626] transition-colors">
+          [{item}]
         </a>
-      </div>
-
-      <button 
-        onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
-        className="lg:hidden text-white p-2 border border-neutral-800 bg-neutral-900"
-        aria-label="Toggle menu"
-      >
-        {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-      </button>
-
-      {mobileMenuOpen && (
-        <div className="absolute top-full left-0 w-full bg-black border-b border-neutral-800 p-6 flex flex-col gap-4 lg:hidden z-50">
-          {['About', 'Projects', 'Skills', 'Contact'].map((item, idx) => (
-            <a 
-              key={idx} 
-              href={`#${item.toLowerCase()}`} 
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-sm font-bold tracking-[0.2em] uppercase text-neutral-300 hover:text-[#dc2626] py-2 border-b border-neutral-900"
-            >
-              [{item}]
-            </a>
-          ))}
-          <a 
-            href="#contact" 
-            onClick={() => setMobileMenuOpen(false)}
-            className="bg-[#dc2626] text-white text-center py-3 font-bold uppercase tracking-widest mt-2"
-          >
-            Get in Touch
-          </a>
-        </div>
-      )}
-    </nav>
-  );
-};
+      ))}
+      <a href="#contact" className="bg-white/90 text-black px-4 py-2 hover:bg-[#dc2626] hover:text-white transition-colors">
+        Get in Touch
+      </a>
+    </div>
+  </nav>
+);
 
 const Hero = () => (
-  <section id="about" className="relative z-10 w-full px-4 sm:px-8 pt-20 sm:pt-24 pb-24 sm:pb-32 border-b border-white/15 bg-black">
+  <section id="about" className="relative z-10 w-full px-4 sm:px-8 pt-24 pb-32 border-b border-white/10 bg-black">
     <div className="max-w-6xl">
-      <p className="text-[#dc2626] text-xs sm:text-sm tracking-[0.3em] mb-6 sm:mb-8 font-bold flex items-center gap-2 bg-neutral-950 w-fit px-3 sm:px-4 py-1.5 border border-neutral-800">
-        <Crosshair size={16} className="shrink-0" /> <span className="truncate">VEHARI & LAHORE, PAKISTAN</span>
+      <p className="text-[#dc2626] text-xs sm:text-sm tracking-[0.3em] mb-8 font-bold flex items-center gap-2 bg-black w-fit px-3 py-1 border border-white/10 backdrop-blur-md">
+        <Crosshair size={16} /> VEHARI & LAHORE, PAKISTAN
       </p>
-      <h2 className="text-4xl sm:text-7xl md:text-9xl font-black tracking-tighter uppercase leading-[0.9] sm:leading-[0.85] text-white">
+      <h2 className="text-5xl sm:text-7xl md:text-9xl font-black tracking-tighter uppercase leading-[0.85] text-white drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]">
         Full-Stack Developer <br /><span className="text-neutral-500">— SaaS, Healthcare, & Interactive Systems.</span>
       </h2>
-      <p className="mt-6 sm:mt-8 text-xs sm:text-lg text-neutral-300 max-w-3xl font-light tracking-wide leading-relaxed bg-neutral-950 p-6 sm:p-8 border border-neutral-800">
+      <p className="mt-8 text-sm sm:text-lg text-neutral-300 max-w-3xl font-light tracking-wide leading-relaxed bg-black p-6 border border-white/10 backdrop-blur-md">
         Selected work across solo builds, client engagements, and team projects. Public samples available on GitHub; proprietary work available on request. I work across the stack depending on the project scope — from solo MVPs to leading frontend teams on regulated client products. My public GitHub shows sample work; detailed case studies for proprietary projects are available by request.
       </p>
-      
-      <div className="mt-10 sm:mt-12 flex flex-wrap gap-4 text-xs font-mono uppercase">
-        <a href="mailto:dev@healthcarepk.online" className="inline-flex items-center gap-2 bg-white text-black px-6 py-4 font-bold hover:bg-[#dc2626] hover:text-white transition-colors border border-white">
+
+      <div className="mt-12 flex flex-wrap gap-4 text-xs font-mono uppercase">
+        <a href="mailto:dev@healthcarepk.online" className="inline-flex items-center gap-3 bg-white text-black px-8 py-5 font-bold hover:bg-[#dc2626] hover:text-white transition-all border border-white shadow-[0_0_25px_rgba(255,255,255,0.25)]">
           <Mail size={16} /> dev@healthcarepk.online
         </a>
-        <a href="https://github.com/usmanubaid396" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-neutral-900 border border-neutral-800 text-white px-6 py-4 hover:border-[#dc2626] transition-colors">
-          <Github size={16} /> github.com/usmanubaid396
+        <a href="https://github.com/usmanubaid396" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 bg-black text-white px-8 py-5 font-bold hover:border-[#3b82f6] transition-all border border-white/20">
+          <Code size={16} /> github.com/usmanubaid396
         </a>
-        <a href="https://linkedin.com/in/uu51" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-neutral-900 border border-neutral-800 text-white px-6 py-4 hover:border-[#dc2626] transition-colors">
-          <Linkedin size={16} /> linkedin.com/in/uu51
+        <a href="https://linkedin.com/in/uu51" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 bg-black text-white px-8 py-5 font-bold hover:border-[#3b82f6] transition-all border border-white/20">
+          <Globe size={16} /> linkedin.com/in/uu51
         </a>
       </div>
     </div>
@@ -437,10 +396,10 @@ const Works = () => {
   }, []);
 
   return (
-    <section ref={containerRef} id="projects" className="relative h-[400vh] bg-transparent">
+    <section ref={containerRef} id="projects" className="relative h-[400vh] bg-black">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center px-4 sm:px-12 max-w-7xl mx-auto">
         
-        <div className="flex flex-col sm:flex-row border border-white/10 px-6 py-5 items-start sm:items-center justify-between bg-black/60 backdrop-blur-2xl mb-8 shadow-2xl rounded gap-3 sm:gap-0">
+        <div className="flex flex-col sm:flex-row border border-white/10 px-6 py-5 items-start sm:items-center justify-between bg-black backdrop-blur-2xl mb-8 shadow-2xl rounded gap-3 sm:gap-0">
           <div>
             <p className="text-[#dc2626] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-1">// PROJECTS & CONTRIBUTIONS</p>
             <h3 className="text-xl sm:text-3xl font-black uppercase tracking-tight text-white">Selected Engagements</h3>
@@ -490,7 +449,7 @@ const Works = () => {
                 }}
               >
                 <TiltCard className="w-full">
-                  <div className="block relative bg-black/90 backdrop-blur-3xl text-white border-2 border-white/20 p-8 sm:p-14 h-80 sm:h-96 flex flex-col justify-between shadow-2xl rounded">
+                  <div className="block relative bg-black text-white border-2 border-white/20 p-8 sm:p-14 h-80 sm:h-96 flex flex-col justify-between shadow-2xl rounded">
                     <div>
                       <div className="flex justify-between items-start mb-3">
                         <span className="text-[10px] font-bold text-[#dc2626] bg-[#dc2626]/20 border border-[#dc2626]/40 px-2.5 py-1">
@@ -554,12 +513,12 @@ const Skills = () => {
         <h3 className="text-2xl sm:text-4xl font-black uppercase tracking-tight text-white">Skills</h3>
       </div>
 
-      <div className="relative w-full overflow-hidden py-4 bg-neutral-950/80 border-y border-white/20 backdrop-blur-md">
+      <div className="relative w-full overflow-hidden py-4 bg-black border-y border-white/20 backdrop-blur-md">
         <div className="flex w-max animate-marquee gap-6">
           {tickerItems.map((skill, idx) => (
             <div 
               key={idx} 
-              className="flex items-center gap-3 px-6 py-4 border-2 border-white/30 bg-black/90 backdrop-blur-2xl shadow-[0_10px_30px_rgba(0,0,0,0.8)] rounded text-sm font-mono font-bold tracking-wider uppercase text-white hover:border-[#dc2626] hover:shadow-[0_0_25px_rgba(220,38,38,0.4)] transition-all shrink-0"
+              className="flex items-center gap-3 px-6 py-4 border-2 border-white/30 bg-black shadow-[0_10px_30px_rgba(0,0,0,0.8)] rounded text-sm font-mono font-bold tracking-wider uppercase text-white hover:border-[#dc2626] hover:shadow-[0_0_25px_rgba(220,38,38,0.4)] transition-all shrink-0"
             >
               <span className="w-2.5 h-2.5 bg-[#dc2626] rounded-full animate-pulse"></span>
               {skill}
@@ -588,7 +547,7 @@ const Skills = () => {
 
 const Footer = () => (
   <footer id="contact" className="relative z-10 w-full bg-black font-mono text-xs">
-    <div className="px-4 sm:px-8 py-24 border-b border-white/10 max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 bg-black/50 backdrop-blur-md">
+    <div className="px-4 sm:px-8 py-24 border-b border-white/10 max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 bg-black">
       <div>
         <h2 className="text-4xl sm:text-6xl font-black tracking-tight uppercase text-white mb-4">Get in touch.</h2>
         <p className="text-xs text-neutral-300 tracking-widest uppercase font-bold mb-6">Reach out directly via email or connect via profile links.</p>
@@ -599,14 +558,14 @@ const Footer = () => (
         </div>
       </div>
       <div>
-        <form className="flex flex-col gap-4 bg-black/60 p-8 border border-white/15 backdrop-blur-xl shadow-2xl" onSubmit={(e) => { e.preventDefault(); window.location.href = 'mailto:dev@healthcarepk.online'; }}>
-          <input type="email" placeholder="YOUR EMAIL" required className="bg-black/80 border border-white/15 p-4 text-xs font-bold uppercase text-white focus:border-[#dc2626] outline-none transition-colors" />
-          <textarea placeholder="MESSAGE / INQUIRY" rows="4" required className="bg-black/80 border border-white/15 p-4 text-xs font-bold uppercase text-white focus:border-[#dc2626] outline-none resize-none transition-colors"></textarea>
+        <form className="flex flex-col gap-4 bg-black p-8 border border-white/15 shadow-2xl" onSubmit={(e) => { e.preventDefault(); window.location.href = 'mailto:dev@healthcarepk.online'; }}>
+          <input type="email" placeholder="YOUR EMAIL" required className="bg-black border border-white/15 p-4 text-xs font-bold uppercase text-white focus:border-[#dc2626] outline-none transition-colors" />
+          <textarea placeholder="MESSAGE / INQUIRY" rows="4" required className="bg-black border border-white/15 p-4 text-xs font-bold uppercase text-white focus:border-[#dc2626] outline-none resize-none transition-colors"></textarea>
           <button type="submit" className="bg-white text-black py-4 text-xs font-black uppercase tracking-widest hover:bg-[#dc2626] hover:text-white transition-colors border border-white shadow-[0_0_20px_rgba(255,255,255,0.2)]">Send Message</button>
         </form>
       </div>
     </div>
-    <div className="px-4 sm:px-8 py-6 text-[10px] text-neutral-400 tracking-widest uppercase font-bold flex flex-col sm:flex-row justify-between items-center gap-2 max-w-6xl mx-auto bg-black/80 backdrop-blur-md">
+    <div className="px-4 sm:px-8 py-6 text-[10px] text-neutral-400 tracking-widest uppercase font-bold flex flex-col sm:flex-row justify-between items-center gap-2 max-w-6xl mx-auto bg-black">
       <div>&copy; {new Date().getFullYear()} Muhammad Usman. All rights reserved.</div>
       <div>Full-Stack Developer Portfolio</div>
     </div>
@@ -619,7 +578,6 @@ export default function App() {
       <WebGLEngine />
       <SystemStatus />
       <main className="relative z-10 pt-12">
-        <Navigation />
         <Navigation />
         <Hero />
         <Works />
