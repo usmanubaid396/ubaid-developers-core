@@ -784,7 +784,7 @@ const ScrollytellingSection = () => {
 };
 
 /* ==========================================================================
-   FIXED EXPERTISE 3D MATRIX (COMPLETELY UNMASKED & FULLY VISIBLE)
+   PROFESSIONALLY REDESIGNED EXPERTISE 3D MATRIX (BALANCED, FULLY VISIBLE & SCALED)
    ================================================================---------- */
 const Expertise3DMatrix = () => {
   const containerRef = useRef(null);
@@ -807,8 +807,8 @@ const Expertise3DMatrix = () => {
     const h = canvasContainer.clientHeight;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(50, w / h, 0.1, 1000);
-    camera.position.z = 25;
+    const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 1000);
+    camera.position.z = 24;
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(w, h);
@@ -821,7 +821,7 @@ const Expertise3DMatrix = () => {
     capabilitiesData.forEach((cap, idx) => {
       const layerGroup = new THREE.Group();
       
-      const geo = new THREE.CylinderGeometry(5 - idx * 0.7, 5 - idx * 0.7, 0.5, 6);
+      const geo = new THREE.CylinderGeometry(4.2 - idx * 0.5, 4.2 - idx * 0.5, 0.4, 6);
       const mat = new THREE.MeshStandardMaterial({
         color: cap.color,
         wireframe: true,
@@ -832,7 +832,7 @@ const Expertise3DMatrix = () => {
       });
       const mesh = new THREE.Mesh(geo, mat);
       
-      const ringGeo = new THREE.TorusGeometry(4.2 - idx * 0.5, 0.04, 16, 50);
+      const ringGeo = new THREE.TorusGeometry(3.6 - idx * 0.4, 0.03, 16, 50);
       const ringMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.6 });
       const ring = new THREE.Mesh(ringGeo, ringMat);
       ring.rotation.x = Math.PI / 2;
@@ -840,9 +840,9 @@ const Expertise3DMatrix = () => {
       layerGroup.add(mesh);
       layerGroup.add(ring);
       
-      layerGroup.position.y = (idx - 1.5) * 2.2;
+      layerGroup.position.y = (idx - 1.5) * 1.8;
       prismGroup.add(layerGroup);
-      layers.push({ group: layerGroup, basePosY: (idx - 1.5) * 2.2 });
+      layers.push({ group: layerGroup, basePosY: (idx - 1.5) * 1.8 });
     });
 
     scene.add(prismGroup);
@@ -897,11 +897,11 @@ const Expertise3DMatrix = () => {
       prismGroup.rotation.y += (mouseX * 0.8 - prismGroup.rotation.y) * 0.08 + 0.004;
       prismGroup.rotation.x += (mouseY * 0.5 - prismGroup.rotation.x) * 0.08;
 
-      const targetExplosion = 0.6 + currentScrollProgress * 1.4;
+      const targetExplosion = 0.5 + currentScrollProgress * 1.2;
 
       layers.forEach((layer, idx) => {
         const isHighlighted = idx === activeLayer;
-        const explosionMultiplier = isHighlighted ? 1.6 : 0.8;
+        const explosionMultiplier = isHighlighted ? 1.5 : 0.8;
         const targetPosY = layer.basePosY * targetExplosion * explosionMultiplier;
         
         layer.group.position.y += (targetPosY - layer.group.position.y) * 0.1;
@@ -935,11 +935,10 @@ const Expertise3DMatrix = () => {
 
   return (
     <section ref={containerRef} id="expertise" className="relative h-[600vh] bg-transparent border-b border-white/10">
-      {/* FIXED: Removed overflow-hidden and added full padding support so all blocks and text stay completely unmasked */}
-      <div className="sticky top-0 h-screen flex flex-col justify-start px-4 sm:px-16 pt-16 sm:pt-20 pb-12 z-20 overflow-y-auto">
+      <div className="sticky top-0 h-screen flex flex-col justify-center px-4 sm:px-12 lg:px-20 max-w-7xl mx-auto z-20">
         
-        {/* Safe Header Position */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-white/15 pb-4 mb-6 bg-black/95 backdrop-blur-2xl px-6 rounded shadow-[0_8px_32px_0_rgba(0,0,0,0.8)] gap-4 shrink-0">
+        {/* Professional Header */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border border-white/20 pb-4 pt-4 px-6 mb-6 bg-neutral-950/90 backdrop-blur-2xl rounded shadow-[0_12px_40px_rgba(0,0,0,0.9)] gap-3 shrink-0">
           <div>
             <p className="text-[#dc2626] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-0.5">// SLOW-SCROLL 3D HOLOGRAPHIC MATRIX</p>
             <h3 className="text-xl sm:text-3xl font-black uppercase tracking-tight text-white drop-shadow">Technical Blueprint & Stack</h3>
@@ -947,22 +946,24 @@ const Expertise3DMatrix = () => {
           <span className="text-[10px] sm:text-xs font-mono text-neutral-300 bg-white/[0.05] px-3 py-1 border border-white/20">PRISM EXPANSION // 3D INTERACTION</span>
         </div>
 
-        {/* Unmasked Grid Layout for Canvas and 4 Capability Blocks */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start pb-16">
+        {/* Balanced Grid Layout guaranteeing 100% visibility for all 4 blocks & canvas */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
           
-          <div className="lg:col-span-5 h-[300px] sm:h-[380px] border border-white/20 bg-neutral-950/90 backdrop-blur-3xl relative rounded overflow-hidden shadow-[0_15px_50px_rgba(0,0,0,0.9)] flex items-center justify-center shrink-0">
+          {/* Compact 3D Viewport Box */}
+          <div className="lg:col-span-5 h-[280px] sm:h-[360px] border border-white/25 bg-neutral-950/95 backdrop-blur-3xl relative rounded overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.95)] flex items-center justify-center shrink-0">
             <div ref={mountRef} className="absolute inset-0 cursor-grab active:cursor-grabbing" />
             <div className="absolute bottom-3 left-3 pointer-events-none font-mono text-[9px] text-neutral-400 bg-black/80 px-2.5 py-1 border border-white/10">
               [SLOW SCROLL TO EXPAND // DRAG TO ROTATE]
             </div>
           </div>
 
-          <div className="lg:col-span-7 flex flex-col gap-3 pb-8">
+          {/* Fully Spaced and Sized Blocks 01 to 04 */}
+          <div className="lg:col-span-7 flex flex-col gap-3">
             {capabilitiesData.map((cap, idx) => (
               <div 
                 key={idx}
                 onMouseEnter={() => setActiveLayer(idx)}
-                className={`border p-3.5 sm:p-4 transition-all duration-300 cursor-pointer backdrop-blur-3xl shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] flex items-start gap-4 rounded ${
+                className={`border p-4 sm:p-5 transition-all duration-300 cursor-pointer backdrop-blur-3xl shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] flex items-start gap-4 rounded ${
                   activeLayer === idx 
                     ? 'border-[#dc2626] bg-neutral-900/95 shadow-[0_0_30px_rgba(220,38,38,0.4)] translate-x-1' 
                     : 'border-white/15 bg-neutral-950/80 opacity-70 hover:opacity-100 hover:border-white/40'
@@ -970,7 +971,7 @@ const Expertise3DMatrix = () => {
               >
                 <span className="text-xs font-mono font-bold px-2 py-0.5 bg-black text-white border border-white/20 shrink-0">{cap.id}</span>
                 <div className="w-full">
-                  <div className="flex justify-between items-center mb-0.5">
+                  <div className="flex justify-between items-center mb-1">
                     <h5 className="text-sm sm:text-base font-black uppercase tracking-tight text-white">{cap.title}</h5>
                     <span className="text-[10px] font-mono text-[#dc2626] font-bold">{cap.tech}</span>
                   </div>
