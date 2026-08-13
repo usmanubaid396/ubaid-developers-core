@@ -784,7 +784,7 @@ const ScrollytellingSection = () => {
 };
 
 /* ==========================================================================
-   FIXED EXPERTISE 3D MATRIX (NO TEXT MASKING, CLEAR PADDING & Z-INDEX)
+   FIXED EXPERTISE 3D MATRIX (COMPLETELY UNMASKED & FULLY VISIBLE)
    ================================================================---------- */
 const Expertise3DMatrix = () => {
   const containerRef = useRef(null);
@@ -935,10 +935,11 @@ const Expertise3DMatrix = () => {
 
   return (
     <section ref={containerRef} id="expertise" className="relative h-[600vh] bg-transparent border-b border-white/10">
-      <div className="sticky top-0 h-screen overflow-y-auto lg:overflow-hidden flex flex-col justify-center px-4 sm:px-16 py-20 z-20">
+      {/* FIXED: Removed overflow-hidden and added full padding support so all blocks and text stay completely unmasked */}
+      <div className="sticky top-0 h-screen flex flex-col justify-start px-4 sm:px-16 pt-16 sm:pt-20 pb-12 z-20 overflow-y-auto">
         
-        {/* FIXED: Safe Header Position with explicit spacing */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-white/15 pb-4 mb-6 bg-black/90 backdrop-blur-2xl px-6 rounded shadow-[0_8px_32px_0_rgba(0,0,0,0.8)] gap-4 z-30">
+        {/* Safe Header Position */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-white/15 pb-4 mb-6 bg-black/95 backdrop-blur-2xl px-6 rounded shadow-[0_8px_32px_0_rgba(0,0,0,0.8)] gap-4 shrink-0">
           <div>
             <p className="text-[#dc2626] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-0.5">// SLOW-SCROLL 3D HOLOGRAPHIC MATRIX</p>
             <h3 className="text-xl sm:text-3xl font-black uppercase tracking-tight text-white drop-shadow">Technical Blueprint & Stack</h3>
@@ -946,22 +947,22 @@ const Expertise3DMatrix = () => {
           <span className="text-[10px] sm:text-xs font-mono text-neutral-300 bg-white/[0.05] px-3 py-1 border border-white/20">PRISM EXPANSION // 3D INTERACTION</span>
         </div>
 
-        {/* FIXED: Grid layout with safe top/bottom margins so Block 4 never gets masked */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center pb-12">
+        {/* Unmasked Grid Layout for Canvas and 4 Capability Blocks */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start pb-16">
           
-          <div className="lg:col-span-5 h-[320px] sm:h-[420px] border border-white/20 bg-neutral-950/90 backdrop-blur-3xl relative rounded overflow-hidden shadow-[0_15px_50px_rgba(0,0,0,0.9)] flex items-center justify-center">
+          <div className="lg:col-span-5 h-[300px] sm:h-[380px] border border-white/20 bg-neutral-950/90 backdrop-blur-3xl relative rounded overflow-hidden shadow-[0_15px_50px_rgba(0,0,0,0.9)] flex items-center justify-center shrink-0">
             <div ref={mountRef} className="absolute inset-0 cursor-grab active:cursor-grabbing" />
             <div className="absolute bottom-3 left-3 pointer-events-none font-mono text-[9px] text-neutral-400 bg-black/80 px-2.5 py-1 border border-white/10">
               [SLOW SCROLL TO EXPAND // DRAG TO ROTATE]
             </div>
           </div>
 
-          <div className="lg:col-span-7 flex flex-col gap-3 max-h-[75vh] overflow-y-auto pr-2">
+          <div className="lg:col-span-7 flex flex-col gap-3 pb-8">
             {capabilitiesData.map((cap, idx) => (
               <div 
                 key={idx}
                 onMouseEnter={() => setActiveLayer(idx)}
-                className={`border p-4 sm:p-5 transition-all duration-300 cursor-pointer backdrop-blur-3xl shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] flex items-start gap-4 rounded ${
+                className={`border p-3.5 sm:p-4 transition-all duration-300 cursor-pointer backdrop-blur-3xl shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] flex items-start gap-4 rounded ${
                   activeLayer === idx 
                     ? 'border-[#dc2626] bg-neutral-900/95 shadow-[0_0_30px_rgba(220,38,38,0.4)] translate-x-1' 
                     : 'border-white/15 bg-neutral-950/80 opacity-70 hover:opacity-100 hover:border-white/40'
@@ -969,7 +970,7 @@ const Expertise3DMatrix = () => {
               >
                 <span className="text-xs font-mono font-bold px-2 py-0.5 bg-black text-white border border-white/20 shrink-0">{cap.id}</span>
                 <div className="w-full">
-                  <div className="flex justify-between items-center mb-1">
+                  <div className="flex justify-between items-center mb-0.5">
                     <h5 className="text-sm sm:text-base font-black uppercase tracking-tight text-white">{cap.title}</h5>
                     <span className="text-[10px] font-mono text-[#dc2626] font-bold">{cap.tech}</span>
                   </div>
