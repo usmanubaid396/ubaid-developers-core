@@ -174,32 +174,32 @@ const WebGLEngine = () => {
     const animate = () => {
       rafId = requestAnimationFrame(animate);
       const time = clock.getElapsedTime();
-      currentScroll += (targetScroll - currentScroll) * 0.08;
+      currentScroll += (targetScroll - currentScroll) * 0.05;
       
       const targetCoreScale = isCoreHovered ? 1.5 : 1.0;
       const pulse = Math.sin(time * 5) * 0.09;
       coreTargetScale.setScalar(targetCoreScale + pulse);
       coreGroup.scale.lerp(coreTargetScale, 0.12);
       
-      coreGroup.rotation.y = time * 0.4 + (currentScroll * 0.0025);
-      coreGroup.rotation.x = Math.sin(time * 0.3) * 0.3 + (currentScroll * 0.0015);
-      innerMesh.rotation.x = -time * 0.7;
-      ring1.rotation.z = time * 0.5;
-      ring2.rotation.y = -time * 0.4;
+      coreGroup.rotation.y = time * 0.3 + (currentScroll * 0.0015);
+      coreGroup.rotation.x = Math.sin(time * 0.2) * 0.2 + (currentScroll * 0.001);
+      innerMesh.rotation.x = -time * 0.5;
+      ring1.rotation.z = time * 0.3;
+      ring2.rotation.y = -time * 0.25;
       
-      const camTargetX = (mouse.x * 16);
-      const camTargetY = (-(currentScroll * 0.022) + (mouse.y * 16));
-      const camTargetZ = 40 - (currentScroll * 0.035);
+      const camTargetX = (mouse.x * 12);
+      const camTargetY = (-(currentScroll * 0.015) + (mouse.y * 12));
+      const camTargetZ = 40 - (currentScroll * 0.025);
       
-      camera.position.x += (camTargetX - camera.position.x) * 0.08;
-      camera.position.y += (camTargetY - camera.position.y) * 0.08;
-      camera.position.z += (camTargetZ - camera.position.z) * 0.08;
+      camera.position.x += (camTargetX - camera.position.x) * 0.06;
+      camera.position.y += (camTargetY - camera.position.y) * 0.06;
+      camera.position.z += (camTargetZ - camera.position.z) * 0.06;
       camera.lookAt(0, 0, 0);
 
       shards.forEach((shard) => {
         shard.rotation.x += shard.userData.rotSpeedX;
         shard.rotation.y += shard.userData.rotSpeedY;
-        shard.position.y = shard.userData.originY + Math.sin(time * 4 + shard.userData.phase) * 3.2;
+        shard.position.y = shard.userData.originY + Math.sin(time * 3 + shard.userData.phase) * 3.2;
         const distToMouse = shard.position.distanceTo(targetMouse);
         if(distToMouse < 28) {
           const dir = shard.position.clone().sub(targetMouse).normalize();
@@ -231,7 +231,7 @@ const WebGLEngine = () => {
         positions[i+2] += (particleOriginalPos[i+2] - positions[i+2]) * 0.09;
       }
       particleGeo.attributes.position.needsUpdate = true;
-      particles.rotation.y = time * 0.07;
+      particles.rotation.y = time * 0.05;
 
       renderer.render(scene, camera);
     };
@@ -395,9 +395,6 @@ const worksData = [
   { id: 'SYS.03', title: 'UsmanUbaid Portfolio', type: 'Interactive 3D 60fps Web Engine', tech: 'React / Three.js / WebGL / Tailwind', link: '#' },
 ];
 
-/* ==========================================================================
-   ULTRA-SMOOTH 3D CARD CAROUSEL DECK FOR WORKS SECTION
-   ================================================================---------- */
 const Works = () => {
   const containerRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -571,7 +568,6 @@ const HorizontalShowcase = () => {
     <section ref={containerRef} id="showcase" className="relative h-[600vh] bg-transparent">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center">
         
-        {/* FIXED: Added a dedicated top flex container with clear spacing and z-index so text never coincides or masks with sliding blocks */}
         <div className="w-full max-w-7xl mx-auto px-4 sm:px-16 mb-6 z-20 relative">
           <div className="bg-black/85 backdrop-blur-3xl p-6 border border-white/20 shadow-[0_15px_50px_rgba(0,0,0,0.9)] rounded">
             <p className="text-[#3b82f6] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-2 bg-white/[0.04] px-3 sm:px-4 py-1.5 border border-white/25 w-fit backdrop-blur-2xl shadow-xl">// EXPANDED SHOWCASE REPOSITORY</p>
@@ -580,7 +576,6 @@ const HorizontalShowcase = () => {
           </div>
         </div>
 
-        {/* Horizontal Sliding Cards Track positioned below header with clear vertical gap */}
         <div className="w-full overflow-hidden">
           <div ref={trackRef} className="flex gap-6 sm:gap-10 pl-4 sm:pl-16 w-max will-change-transform">
             {showcaseBlocks.map((item, idx) => (
@@ -788,6 +783,9 @@ const ScrollytellingSection = () => {
   );
 };
 
+/* ==========================================================================
+   FIXED EXPERTISE 3D MATRIX (NO TEXT MASKING, CLEAR PADDING & Z-INDEX)
+   ================================================================---------- */
 const Expertise3DMatrix = () => {
   const containerRef = useRef(null);
   const mountRef = useRef(null);
@@ -823,7 +821,7 @@ const Expertise3DMatrix = () => {
     capabilitiesData.forEach((cap, idx) => {
       const layerGroup = new THREE.Group();
       
-      const geo = new THREE.CylinderGeometry(6 - idx * 0.8, 6 - idx * 0.8, 0.6, 6);
+      const geo = new THREE.CylinderGeometry(5 - idx * 0.7, 5 - idx * 0.7, 0.5, 6);
       const mat = new THREE.MeshStandardMaterial({
         color: cap.color,
         wireframe: true,
@@ -834,7 +832,7 @@ const Expertise3DMatrix = () => {
       });
       const mesh = new THREE.Mesh(geo, mat);
       
-      const ringGeo = new THREE.TorusGeometry(5 - idx * 0.6, 0.04, 16, 50);
+      const ringGeo = new THREE.TorusGeometry(4.2 - idx * 0.5, 0.04, 16, 50);
       const ringMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.6 });
       const ring = new THREE.Mesh(ringGeo, ringMat);
       ring.rotation.x = Math.PI / 2;
@@ -842,9 +840,9 @@ const Expertise3DMatrix = () => {
       layerGroup.add(mesh);
       layerGroup.add(ring);
       
-      layerGroup.position.y = (idx - 1.5) * 2.8;
+      layerGroup.position.y = (idx - 1.5) * 2.2;
       prismGroup.add(layerGroup);
-      layers.push({ group: layerGroup, basePosY: (idx - 1.5) * 2.8 });
+      layers.push({ group: layerGroup, basePosY: (idx - 1.5) * 2.2 });
     });
 
     scene.add(prismGroup);
@@ -899,11 +897,11 @@ const Expertise3DMatrix = () => {
       prismGroup.rotation.y += (mouseX * 0.8 - prismGroup.rotation.y) * 0.08 + 0.004;
       prismGroup.rotation.x += (mouseY * 0.5 - prismGroup.rotation.x) * 0.08;
 
-      const targetExplosion = 0.8 + currentScrollProgress * 1.8;
+      const targetExplosion = 0.6 + currentScrollProgress * 1.4;
 
       layers.forEach((layer, idx) => {
         const isHighlighted = idx === activeLayer;
-        const explosionMultiplier = isHighlighted ? 1.9 : 0.9;
+        const explosionMultiplier = isHighlighted ? 1.6 : 0.8;
         const targetPosY = layer.basePosY * targetExplosion * explosionMultiplier;
         
         layer.group.position.y += (targetPosY - layer.group.position.y) * 0.1;
@@ -937,43 +935,45 @@ const Expertise3DMatrix = () => {
 
   return (
     <section ref={containerRef} id="expertise" className="relative h-[600vh] bg-transparent border-b border-white/10">
-      <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center px-4 sm:px-16 py-12">
+      <div className="sticky top-0 h-screen overflow-y-auto lg:overflow-hidden flex flex-col justify-center px-4 sm:px-16 py-20 z-20">
         
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-white/15 pb-6 mb-8 bg-white/[0.03] backdrop-blur-2xl px-6 rounded shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] gap-4">
+        {/* FIXED: Safe Header Position with explicit spacing */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-b border-white/15 pb-4 mb-6 bg-black/90 backdrop-blur-2xl px-6 rounded shadow-[0_8px_32px_0_rgba(0,0,0,0.8)] gap-4 z-30">
           <div>
-            <p className="text-[#dc2626] text-xs font-bold tracking-[0.3em] uppercase mb-1">// SLOW-SCROLL 3D HOLOGRAPHIC MATRIX</p>
-            <h3 className="text-2xl sm:text-4xl font-black uppercase tracking-tight text-white drop-shadow">Technical Blueprint & Stack</h3>
+            <p className="text-[#dc2626] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-0.5">// SLOW-SCROLL 3D HOLOGRAPHIC MATRIX</p>
+            <h3 className="text-xl sm:text-3xl font-black uppercase tracking-tight text-white drop-shadow">Technical Blueprint & Stack</h3>
           </div>
-          <span className="text-xs font-mono text-neutral-300 bg-white/[0.05] px-3 py-1 border border-white/20">SLOW SCROLL PRISM EXPANSION // 3D INTERACTION</span>
+          <span className="text-[10px] sm:text-xs font-mono text-neutral-300 bg-white/[0.05] px-3 py-1 border border-white/20">PRISM EXPANSION // 3D INTERACTION</span>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        {/* FIXED: Grid layout with safe top/bottom margins so Block 4 never gets masked */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center pb-12">
           
-          <div className="lg:col-span-6 h-[400px] sm:h-[480px] border border-white/20 bg-white/[0.02] backdrop-blur-3xl relative rounded overflow-hidden shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] flex items-center justify-center">
+          <div className="lg:col-span-5 h-[320px] sm:h-[420px] border border-white/20 bg-neutral-950/90 backdrop-blur-3xl relative rounded overflow-hidden shadow-[0_15px_50px_rgba(0,0,0,0.9)] flex items-center justify-center">
             <div ref={mountRef} className="absolute inset-0 cursor-grab active:cursor-grabbing" />
-            <div className="absolute bottom-4 left-4 pointer-events-none font-mono text-[10px] text-neutral-400 bg-black/60 px-3 py-1 border border-white/10">
-              [SLOW SCROLL TO EXPAND LAYERS // DRAG TO ROTATE]
+            <div className="absolute bottom-3 left-3 pointer-events-none font-mono text-[9px] text-neutral-400 bg-black/80 px-2.5 py-1 border border-white/10">
+              [SLOW SCROLL TO EXPAND // DRAG TO ROTATE]
             </div>
           </div>
 
-          <div className="lg:col-span-6 flex flex-col gap-4">
+          <div className="lg:col-span-7 flex flex-col gap-3 max-h-[75vh] overflow-y-auto pr-2">
             {capabilitiesData.map((cap, idx) => (
               <div 
                 key={idx}
                 onMouseEnter={() => setActiveLayer(idx)}
-                className={`border p-4 sm:p-6 transition-all duration-300 cursor-pointer backdrop-blur-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] flex items-start gap-4 ${
+                className={`border p-4 sm:p-5 transition-all duration-300 cursor-pointer backdrop-blur-3xl shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] flex items-start gap-4 rounded ${
                   activeLayer === idx 
-                    ? 'border-[#dc2626] bg-white/[0.08] shadow-[0_0_25px_rgba(220,38,38,0.3)] translate-x-2' 
-                    : 'border-white/15 bg-white/[0.03] opacity-60 hover:opacity-100 hover:border-white/40'
+                    ? 'border-[#dc2626] bg-neutral-900/95 shadow-[0_0_30px_rgba(220,38,38,0.4)] translate-x-1' 
+                    : 'border-white/15 bg-neutral-950/80 opacity-70 hover:opacity-100 hover:border-white/40'
                 }`}
               >
-                <span className="text-xs font-mono font-bold px-2.5 py-1 bg-black text-white border border-white/20 shrink-0">{cap.id}</span>
+                <span className="text-xs font-mono font-bold px-2 py-0.5 bg-black text-white border border-white/20 shrink-0">{cap.id}</span>
                 <div className="w-full">
                   <div className="flex justify-between items-center mb-1">
-                    <h5 className="text-base sm:text-lg font-black uppercase tracking-tight text-white">{cap.title}</h5>
+                    <h5 className="text-sm sm:text-base font-black uppercase tracking-tight text-white">{cap.title}</h5>
                     <span className="text-[10px] font-mono text-[#dc2626] font-bold">{cap.tech}</span>
                   </div>
-                  <p className="text-xs text-neutral-300 font-mono leading-relaxed">{cap.desc}</p>
+                  <p className="text-[11px] sm:text-xs text-neutral-300 font-mono leading-relaxed">{cap.desc}</p>
                 </div>
               </div>
             ))}
