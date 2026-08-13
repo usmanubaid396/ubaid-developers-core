@@ -284,7 +284,7 @@ const TiltCard = ({ children, className }) => {
 };
 
 const SystemStatus = () => (
-  <div className="fixed top-0 w-full z-50 bg-black/50 backdrop-blur-xl border-b border-white/15 text-[9px] sm:text-xs uppercase flex justify-between items-center px-3 sm:px-4 py-2 sm:py-3 font-light tracking-widest text-neutral-200 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+  <div className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-xl border-b border-white/15 text-[9px] sm:text-xs uppercase flex justify-between items-center px-3 sm:px-4 py-2 sm:py-3 font-light tracking-widest text-neutral-200 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
     <div className="flex items-center gap-2 text-white font-bold truncate">
       <div className="w-2 h-2 bg-[#dc2626] rounded-full animate-pulse shadow-[0_0_15px_#dc2626] shrink-0"></div>
       <span className="truncate">USMAN_UBAID // SAFARI GLOSSMORPHIC KERNEL</span>
@@ -297,7 +297,7 @@ const Navigation = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <nav className="relative z-40 mt-10 sm:mt-12 w-full px-4 sm:px-8 py-5 sm:py-6 flex justify-between items-center border-b border-white/15 bg-white/[0.03] backdrop-blur-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+    <nav className="relative z-40 mt-10 sm:mt-12 w-full px-4 sm:px-8 py-5 sm:py-6 flex justify-between items-center border-b border-white/15 bg-neutral-950/90 backdrop-blur-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
       <div>
         <h1 className="text-xl sm:text-2xl font-bold tracking-tighter text-white flex items-center gap-2 drop-shadow-md">
           Usman Ubaid <span className="text-[#dc2626]">.</span>
@@ -352,26 +352,26 @@ const Navigation = () => {
 const Hero = () => (
   <section id="index" className="relative z-10 w-full px-4 sm:px-8 pt-20 sm:pt-24 pb-24 sm:pb-32 border-b border-white/15 bg-transparent">
     <div className="max-w-6xl">
-      <p className="text-[#dc2626] text-xs sm:text-sm tracking-[0.3em] mb-6 sm:mb-8 font-bold flex items-center gap-2 bg-white/[0.05] backdrop-blur-xl w-fit px-3 sm:px-4 py-1.5 border border-white/20 shadow-xl">
+      <p className="text-[#dc2626] text-xs sm:text-sm tracking-[0.3em] mb-6 sm:mb-8 font-bold flex items-center gap-2 bg-neutral-950/80 backdrop-blur-xl w-fit px-3 sm:px-4 py-1.5 border border-white/20 shadow-xl">
         <Crosshair size={16} className="shrink-0" /> <span className="truncate">FULL-STACK SaaS & 3D IMMERSIVE WORKSPACE</span>
       </p>
       <h2 className="text-4xl sm:text-7xl md:text-9xl font-black tracking-tighter uppercase leading-[0.9] sm:leading-[0.85] text-white drop-shadow-[0_15px_30px_rgba(0,0,0,0.9)]">
         I build high-end <br /><span className="stroke-text">SaaS products</span> & web apps that scale.
       </h2>
-      <p className="mt-6 sm:mt-8 text-xs sm:text-lg text-neutral-200 max-w-2xl font-light tracking-wide leading-relaxed bg-white/[0.04] p-6 sm:p-8 border border-white/15 backdrop-blur-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+      <p className="mt-6 sm:mt-8 text-xs sm:text-lg text-neutral-200 max-w-2xl font-light tracking-wide leading-relaxed bg-neutral-950/80 p-6 sm:p-8 border border-white/15 backdrop-blur-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
         I'm Usman Ubaid — a full-stack engineer turning complex startup ideas, medical architectures, and AI/ML model integrations into production-ready web platforms using Next.js, React, SQL, Python, and Vercel.
       </p>
 
       <div className="mt-12 sm:mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 max-w-4xl">
-        <div className="border border-white/15 bg-white/[0.04] p-5 sm:p-6 backdrop-blur-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+        <div className="border border-white/15 bg-neutral-950/80 p-5 sm:p-6 backdrop-blur-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
           <div className="text-3xl sm:text-5xl font-black text-white mb-1 drop-shadow">4+</div>
           <div className="text-[10px] sm:text-xs text-neutral-300 uppercase tracking-widest font-bold">Years Shipping Code</div>
         </div>
-        <div className="border border-white/15 bg-white/[0.04] p-5 sm:p-6 backdrop-blur-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+        <div className="border border-white/15 bg-neutral-950/80 p-5 sm:p-6 backdrop-blur-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
           <div className="text-3xl sm:text-5xl font-black text-[#dc2626] mb-1 drop-shadow">8+</div>
           <div className="text-[10px] sm:text-xs text-neutral-300 uppercase tracking-widest font-bold">SaaS & Web Apps Launched</div>
         </div>
-        <div className="border border-white/15 bg-white/[0.04] p-5 sm:p-6 backdrop-blur-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+        <div className="border border-white/15 bg-neutral-950/80 p-5 sm:p-6 backdrop-blur-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
           <div className="text-3xl sm:text-5xl font-black text-[#3b82f6] mb-1 drop-shadow">14+</div>
           <div className="text-[10px] sm:text-xs text-neutral-300 uppercase tracking-widest font-bold">Advanced Technologies</div>
         </div>
@@ -381,7 +381,7 @@ const Hero = () => (
         <a href="#contact" className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-white/90 text-black px-6 sm:px-8 py-4 sm:py-5 text-xs sm:text-sm font-bold uppercase tracking-[0.2em] hover:bg-[#dc2626] hover:text-white transition-all border border-white/40 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] backdrop-blur-md">
           Start a project <ArrowUpRight size={18} />
         </a>
-        <a href="#work" className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-white/[0.04] backdrop-blur-2xl text-white px-6 sm:px-8 py-4 sm:py-5 text-xs sm:text-sm font-bold uppercase tracking-[0.2em] hover:border-[#3b82f6] transition-all border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+        <a href="#work" className="w-full sm:w-auto inline-flex items-center justify-center gap-3 bg-neutral-950/80 backdrop-blur-2xl text-white px-6 sm:px-8 py-4 sm:py-5 text-xs sm:text-sm font-bold uppercase tracking-[0.2em] hover:border-[#3b82f6] transition-all border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
           Selected work <Activity size={18} className="text-[#3b82f6]" />
         </a>
       </div>
@@ -522,122 +522,18 @@ const Works = () => {
   );
 };
 
-/* ==========================================================================
-   ENHANCED 3D INTERACTIVE KINETIC HUD PIPELINE (HORIZONTAL SHOWCASE)
-   ================================================================---------- */
 const showcaseBlocks = [
-  { id: 'SC.01', tag: 'HEALTHCARE SYSTEM', title: 'Clinical Enterprise Cloud', desc: 'Secure HIPAA-compliant hospital architecture processing millions of real-time diagnostics securely.', tech: 'React / Node / PostgreSQL', highlight: 'Zero Latency', color: '#dc2626' },
-  { id: 'SC.02', tag: 'LEGAL AUTOMATION', title: 'Universal Contract Synthesizer', desc: 'AI-powered document generation protocol compiling customized corporate agreements instantly on Vercel Edge.', tech: 'Next.js / Tailwind / Vercel Edge', highlight: 'Autonomous AI', color: '#3b82f6' },
-  { id: 'SC.03', tag: 'PHARMACEUTICAL ERP', title: 'Supply Chain Neural Hub', desc: 'Predictive data visualization dashboards monitoring pharmaceutical inventory flow and regional distribution.', tech: 'Python ML / WebGL / Pandas', highlight: 'Predictive ML', color: '#10b981' },
-  { id: 'SC.04', tag: 'FINANCIAL DEPOSITORY', title: 'Secured Asset Vault', desc: 'Electronic depository integration linked with Central Depository Company for regulated trading frameworks.', tech: 'TypeScript / REST / Vault API', highlight: 'Bank-Grade', color: '#f59e0b' },
-  { id: 'SC.05', tag: 'IMMERSIVE 3D KERNEL', title: 'WebGL Spatial Workspace', desc: 'Hardware-accelerated 60FPS browser-based 3D environment featuring raycasted mouse physics and shaders.', tech: 'Three.js / GLSL / Custom Shaders', highlight: '60 FPS 3D', color: '#8b5cf6' },
-  { id: 'SC.06', tag: 'BIOMETRIC ANALYTICS', title: 'Diagnostic Vision Hub', desc: 'Neural network pattern recognition interface built for rapid processing of medical imaging data.', tech: 'PyTorch / FastApi / React', highlight: 'High Throughput', color: '#ec4899' }
+  { id: 'SC.01', tag: 'HEALTHCARE SYSTEM', title: 'Clinical Enterprise Cloud', desc: 'Secure HIPAA-compliant hospital architecture processing millions of real-time diagnostics securely.', tech: 'React / Node / PostgreSQL', highlight: 'Zero Latency' },
+  { id: 'SC.02', tag: 'LEGAL AUTOMATION', title: 'Universal Contract Synthesizer', desc: 'AI-powered document generation protocol compiling customized corporate agreements instantly on Vercel Edge.', tech: 'Next.js / Tailwind / Vercel Edge', highlight: 'Autonomous AI' },
+  { id: 'SC.03', tag: 'PHARMACEUTICAL ERP', title: 'Supply Chain Neural Hub', desc: 'Predictive data visualization dashboards monitoring pharmaceutical inventory flow and regional distribution.', tech: 'Python ML / WebGL / Pandas', highlight: 'Predictive ML' },
+  { id: 'SC.04', tag: 'FINANCIAL DEPOSITORY', title: 'Secured Asset Vault', desc: 'Electronic depository integration linked with Central Depository Company for regulated trading frameworks.', tech: 'TypeScript / REST / Vault API', highlight: 'Bank-Grade' },
+  { id: 'SC.05', tag: 'IMMERSIVE 3D KERNEL', title: 'WebGL Spatial Workspace', desc: 'Hardware-accelerated 60FPS browser-based 3D environment featuring raycasted mouse physics and shaders.', tech: 'Three.js / GLSL / Custom Shaders', highlight: '60 FPS 3D' },
+  { id: 'SC.06', tag: 'BIOMETRIC ANALYTICS', title: 'Diagnostic Vision Hub', desc: 'Neural network pattern recognition interface built for rapid processing of medical imaging data.', tech: 'PyTorch / FastApi / React', highlight: 'High Throughput' }
 ];
-
-/* Self-contained Interactive 3D Holographic Node Viewport */
-const Showcase3DNode = ({ hexColor, isActive }) => {
-  const mountRef = useRef(null);
-
-  useEffect(() => {
-    const container = mountRef.current;
-    if (!container) return;
-
-    const w = container.clientWidth;
-    const h = container.clientHeight;
-
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(50, w / h, 0.1, 1000);
-    camera.position.z = 8;
-
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(w, h);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    container.appendChild(renderer.domElement);
-
-    const group = new THREE.Group();
-
-    // Outer 3D Holographic Geometry
-    const geo = new THREE.IcosahedronGeometry(2.2, 1);
-    const mat = new THREE.MeshStandardMaterial({
-      color: new THREE.Color(hexColor),
-      wireframe: true,
-      transparent: true,
-      opacity: 0.85,
-      metalness: 0.9,
-      roughness: 0.1
-    });
-    const mesh = new THREE.Mesh(geo, mat);
-
-    // Inner Glowing Core
-    const innerGeo = new THREE.OctahedronGeometry(1.2, 0);
-    const innerMat = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, transparent: true, opacity: 0.7 });
-    const innerMesh = new THREE.Mesh(innerGeo, innerMat);
-
-    group.add(mesh);
-    group.add(innerMesh);
-    scene.add(group);
-
-    const ambientLight = new THREE.AmbientLight(0xffffff, 2.5);
-    scene.add(ambientLight);
-    const pointLight = new THREE.PointLight(hexColor, 8, 50);
-    pointLight.position.set(5, 5, 5);
-    scene.add(pointLight);
-
-    let mouseX = 0;
-    let mouseY = 0;
-
-    const handleMouseMove = (e) => {
-      const rect = container.getBoundingClientRect();
-      mouseX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      mouseY = -((e.clientY - rect.top) / rect.height) * 2 + 1;
-    };
-
-    container.addEventListener('mousemove', handleMouseMove);
-
-    let rafId;
-    const clock = new THREE.Clock();
-
-    const animate = () => {
-      rafId = requestAnimationFrame(animate);
-      const time = clock.getElapsedTime();
-
-      group.rotation.y += (mouseX * 0.8 - group.rotation.y) * 0.08 + 0.01;
-      group.rotation.x += (mouseY * 0.5 - group.rotation.x) * 0.08 + 0.005;
-      innerMesh.rotation.y = -time * 0.8;
-
-      const scale = isActive ? 1.15 : 0.95;
-      group.scale.lerp(new THREE.Vector3(scale, scale, scale), 0.1);
-
-      renderer.render(scene, camera);
-    };
-    animate();
-
-    const handleResize = () => {
-      if (!container) return;
-      const nw = container.clientWidth;
-      const nh = container.clientHeight;
-      camera.aspect = nw / nh;
-      camera.updateProjectionMatrix();
-      renderer.setSize(nw, nh);
-    };
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      container.removeEventListener('mousemove', handleMouseMove);
-      cancelAnimationFrame(rafId);
-      renderer.dispose();
-      if (container) container.innerHTML = '';
-    };
-  }, [hexColor, isActive]);
-
-  return <div ref={mountRef} className="w-full h-full cursor-grab active:cursor-grabbing" />;
-};
 
 const HorizontalShowcase = () => {
   const containerRef = useRef(null);
   const trackRef = useRef(null);
-  const [activeCard, setActiveCard] = useState(0);
 
   useEffect(() => {
     let animationFrameId = null;
@@ -656,9 +552,6 @@ const HorizontalShowcase = () => {
 
         const maxTranslate = trackRef.current.scrollWidth - window.innerWidth;
         trackRef.current.style.transform = `translate3d(-${progress * Math.max(0, maxTranslate)}px, 0, 0)`;
-
-        const currentActive = Math.min(showcaseBlocks.length - 1, Math.floor(progress * showcaseBlocks.length));
-        setActiveCard(currentActive);
       });
     };
 
@@ -675,58 +568,30 @@ const HorizontalShowcase = () => {
     <section ref={containerRef} id="showcase" className="relative h-[600vh] bg-transparent">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center">
         
-        {/* Fixed Title Header Positioned Safely Above Cards to Prevent Overlap */}
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-16 mb-6 z-20 relative shrink-0">
-          <div className="bg-black/90 backdrop-blur-3xl p-6 border border-white/20 shadow-[0_15px_50px_rgba(0,0,0,0.95)] rounded flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div>
-              <p className="text-[#3b82f6] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-1 bg-white/[0.04] px-3 sm:px-4 py-1 border border-white/25 w-fit backdrop-blur-2xl shadow-xl">// EXPANDED KINETIC SHOWCASE PIPELINE</p>
-              <h3 className="text-xl sm:text-3xl font-black tracking-tight uppercase text-white drop-shadow-[0_8px_20px_rgba(0,0,0,0.9)]">Ecosystem Architecture & Modules</h3>
-            </div>
-            <div className="flex items-center gap-3 font-mono text-xs">
-              <span className="text-neutral-400">NODE 0{activeCard + 1} / 0{showcaseBlocks.length}</span>
-              <span className="text-emerald-400 font-bold bg-emerald-950/80 px-3 py-1 border border-emerald-500/40">// 3D KINETIC PIPELINE</span>
-            </div>
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-16 mb-6 z-20 relative">
+          <div className="bg-neutral-950/90 backdrop-blur-3xl p-6 border border-white/20 shadow-[0_15px_50px_rgba(0,0,0,0.9)] rounded">
+            <p className="text-[#3b82f6] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-2 bg-neutral-950/80 px-3 sm:px-4 py-1.5 border border-white/25 w-fit backdrop-blur-2xl shadow-xl">// EXPANDED SHOWCASE REPOSITORY</p>
+            <h3 className="text-2xl sm:text-4xl font-black tracking-tight uppercase text-white drop-shadow-[0_8px_20px_rgba(0,0,0,0.9)]">Ecosystem Architecture & Modules</h3>
+            <p className="text-xs sm:text-sm text-neutral-300 font-mono mt-1">Explore all 6 deployed systems driving high-end performance across healthcare, legal, and fintech sectors.</p>
           </div>
         </div>
 
-        {/* Horizontal Sliding Cards Track with embedded 3D Viewports */}
         <div className="w-full overflow-hidden">
           <div ref={trackRef} className="flex gap-6 sm:gap-10 pl-4 sm:pl-16 w-max will-change-transform">
             {showcaseBlocks.map((item, idx) => (
-              <div 
-                key={idx} 
-                className={`w-[85vw] md:w-[48vw] h-[52vh] sm:h-[58vh] border transition-all duration-500 bg-neutral-950/95 backdrop-blur-3xl p-6 sm:p-10 flex flex-col justify-between relative group shadow-[0_25px_65px_rgba(0,0,0,0.98)] rounded ${
-                  activeCard === idx 
-                    ? 'border-[#3b82f6] shadow-[0_0_40px_rgba(59,130,246,0.3)]' 
-                    : 'border-white/20 opacity-80 hover:opacity-100 hover:border-white/40'
-                }`}
-              >
-                {/* Header Tag Bar */}
-                <div className="flex justify-between items-center border-b border-white/15 pb-3">
+              <div key={idx} className="w-[85vw] md:w-[42vw] h-[50vh] sm:h-[55vh] border border-white/25 bg-neutral-950/95 backdrop-blur-3xl p-6 sm:p-12 flex flex-col justify-between relative group hover:border-[#3b82f6] transition-colors shadow-[0_20px_60px_rgba(0,0,0,0.95)] rounded">
+                <div className="flex justify-between items-center border-b border-white/10 pb-4">
                   <span className="text-[10px] sm:text-xs font-mono text-[#3b82f6] bg-white/[0.06] px-3 py-1 border border-white/20">{item.tag}</span>
                   <span className="text-[10px] font-mono text-emerald-400 font-bold bg-emerald-950/50 px-2.5 py-1 border border-emerald-500/30">// {item.highlight}</span>
                 </div>
-
-                {/* 3D Model Canvas Viewport & Information Split Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center my-auto">
-                  <div className="md:col-span-5 h-[160px] sm:h-[200px] border border-white/15 bg-black/60 rounded overflow-hidden relative shadow-inner">
-                    <Showcase3DNode hexColor={item.color} isActive={activeCard === idx} />
-                    <div className="absolute bottom-2 left-2 font-mono text-[8px] text-neutral-400 bg-black/80 px-2 py-0.5 border border-white/10 pointer-events-none">
-                      [3D NODE MODEL 0{idx + 1}]
-                    </div>
-                  </div>
-                  
-                  <div className="md:col-span-7">
-                    <span className="text-xs font-mono text-neutral-500 block mb-1">{item.id}</span>
-                    <h4 className="text-2xl sm:text-3xl font-black uppercase tracking-tighter mb-3 text-white group-hover:text-[#3b82f6] transition-colors drop-shadow">{item.title}</h4>
-                    <p className="text-xs sm:text-sm text-neutral-300 font-mono leading-relaxed">{item.desc}</p>
-                  </div>
+                <div className="my-auto">
+                  <span className="text-xs font-mono text-neutral-500 block mb-1">{item.id}</span>
+                  <h4 className="text-2xl sm:text-4xl font-black uppercase tracking-tighter mb-3 text-white group-hover:text-[#3b82f6] transition-colors drop-shadow">{item.title}</h4>
+                  <p className="text-xs sm:text-sm text-neutral-300 font-mono leading-relaxed">{item.desc}</p>
                 </div>
-
-                {/* Footer Controls Bar */}
-                <div className="pt-4 border-t border-white/15 flex justify-between items-center text-[10px] sm:text-xs font-bold uppercase tracking-widest text-neutral-300">
+                <div className="pt-4 sm:pt-6 border-t border-white/15 flex justify-between items-center text-[10px] sm:text-xs font-bold uppercase tracking-widest text-neutral-300">
                   <span className="text-neutral-400">// {item.tech}</span>
-                  <span className="text-white group-hover:text-[#3b82f6] transition-colors flex items-center gap-1">INSPECT NODE &rarr;</span>
+                  <span className="text-white group-hover:text-[#3b82f6] transition-colors flex items-center gap-1">INSPECT &rarr;</span>
                 </div>
               </div>
             ))}
@@ -781,7 +646,7 @@ const RadialOrbitalScrollytelling = () => {
     <section ref={containerRef} id="ecosystem" className="relative h-[600vh] bg-transparent">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-between px-4 sm:px-16 py-12 sm:py-20 pointer-events-auto">
         
-        <div className="flex justify-between items-center border-b border-white/15 pb-4 sm:pb-6 bg-white/[0.03] backdrop-blur-2xl px-4 sm:px-6 rounded shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+        <div className="flex justify-between items-center border-b border-white/15 pb-4 sm:pb-6 bg-neutral-950/90 backdrop-blur-2xl px-4 sm:px-6 rounded shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
           <div>
             <p className="text-[#dc2626] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-1">// SLOW-SCROLL ECOSYSTEM MATRIX</p>
             <h3 className="text-xl sm:text-4xl font-black uppercase tracking-tight text-white drop-shadow">Interactive Matrix</h3>
@@ -796,18 +661,18 @@ const RadialOrbitalScrollytelling = () => {
             <div className="absolute w-56 sm:w-72 h-56 sm:h-72 rounded-full border border-white/20 animate-spin" style={{ animationDuration: '25s' }}></div>
             <div className="absolute w-40 sm:w-52 h-40 sm:h-52 rounded-full border border-dashed border-white/30 animate-spin" style={{ animationDuration: '15s', animationDirection: 'reverse' }}></div>
             
-            <div className="w-28 sm:w-36 h-28 sm:h-36 rounded-full bg-white/[0.05] backdrop-blur-2xl border-2 border-[#dc2626] flex items-center justify-center shadow-[0_0_50px_rgba(220,38,38,0.5)] relative z-10 transition-all duration-500">
+            <div className="w-28 sm:w-36 h-28 sm:h-36 rounded-full bg-neutral-950/90 backdrop-blur-2xl border-2 border-[#dc2626] flex items-center justify-center shadow-[0_0_50px_rgba(220,38,38,0.5)] relative z-10 transition-all duration-500">
               {React.createElement(modules[activeIndex].icon, { size: 36, style: { color: modules[activeIndex].color } })}
             </div>
             
             <div className="mt-6 sm:mt-8 text-center relative z-10">
-              <span className="text-[10px] sm:text-xs font-mono px-3 sm:px-4 py-1.5 bg-white/[0.06] backdrop-blur-2xl border border-white/20 text-white uppercase shadow-lg">
+              <span className="text-[10px] sm:text-xs font-mono px-3 sm:px-4 py-1.5 bg-neutral-950/90 backdrop-blur-2xl border border-white/20 text-white uppercase shadow-lg">
                 {modules[activeIndex].category}
               </span>
             </div>
           </div>
 
-          <div className="lg:col-span-7 border border-white/20 bg-white/[0.04] backdrop-blur-3xl p-6 sm:p-12 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] relative overflow-hidden">
+          <div className="lg:col-span-7 border border-white/20 bg-neutral-950/90 backdrop-blur-3xl p-6 sm:p-12 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] relative overflow-hidden rounded">
             <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-red-600/25 to-transparent pointer-events-none"></div>
             
             <span className="text-[10px] sm:text-xs font-mono text-[#dc2626] block mb-2">{modules[activeIndex].id} // SYSTEM KERNEL</span>
@@ -823,14 +688,14 @@ const RadialOrbitalScrollytelling = () => {
                 <Network size={16} className="text-[#3b82f6] shrink-0" />
                 <span className="text-[11px] sm:text-xs font-mono text-neutral-300 uppercase">Performance Benchmark:</span>
               </div>
-              <span className="text-[11px] sm:text-xs font-mono font-bold text-white bg-white/[0.06] backdrop-blur-xl px-3 py-1 border border-white/20 w-fit">
+              <span className="text-[11px] sm:text-xs font-mono font-bold text-white bg-neutral-950/90 backdrop-blur-xl px-3 py-1 border border-white/20 w-fit">
                 {modules[activeIndex].stats}
               </span>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-4 gap-2 sm:gap-4 border-t border-white/15 pt-4 sm:pt-6 bg-white/[0.03] backdrop-blur-2xl px-4 sm:px-6 pb-3 sm:pb-4 rounded shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
+        <div className="grid grid-cols-4 gap-2 sm:gap-4 border-t border-white/15 pt-4 sm:pt-6 bg-neutral-950/90 backdrop-blur-2xl px-4 sm:px-6 pb-3 sm:pb-4 rounded shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
           {modules.map((m, idx) => (
             <div 
               key={idx} 
@@ -892,12 +757,12 @@ const ScrollytellingSection = () => {
     <section ref={containerRef} id="scrollytelling" className="relative h-[600vh] bg-transparent border-b border-white/10">
       <div className="sticky top-0 h-screen overflow-hidden flex items-center px-4 sm:px-16">
         <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-16 items-center">
-          <div className="lg:col-span-5 border border-white/15 bg-black/60 backdrop-blur-2xl p-8 sm:p-10 shadow-2xl">
+          <div className="lg:col-span-5 border border-white/15 bg-neutral-950/90 backdrop-blur-2xl p-8 sm:p-10 shadow-2xl rounded">
             <p className="text-[#dc2626] text-xs font-bold tracking-[0.3em] uppercase mb-4">// SLOW NARRATIVE PROGRESSION</p>
             <h3 className="text-2xl sm:text-4xl font-black uppercase tracking-tight text-white mb-6">Development Lifecycle</h3>
             <div className="space-y-4 font-mono text-xs">
               {milestones.map((m, idx) => (
-                <div key={idx} className={`p-3 sm:p-4 border transition-all flex items-center justify-between ${activeStep === idx ? 'border-[#dc2626] bg-black/80 text-white shadow-[0_0_15px_rgba(220,38,38,0.3)]' : 'border-white/10 bg-black/40 text-neutral-400'}`}>
+                <div key={idx} className={`p-3 sm:p-4 border transition-all flex items-center justify-between ${activeStep === idx ? 'border-[#dc2626] bg-neutral-900 text-white shadow-[0_0_15px_rgba(220,38,38,0.3)]' : 'border-white/10 bg-neutral-950 text-neutral-400'}`}>
                   <span>{m.phase}</span>
                   {activeStep === idx && <div className="w-2 h-2 bg-[#dc2626] rounded-full animate-ping"></div>}
                 </div>
@@ -906,7 +771,7 @@ const ScrollytellingSection = () => {
           </div>
 
           <div className="lg:col-span-7">
-            <div className="min-h-[45vh] sm:min-h-[55vh] flex flex-col justify-center border-l-2 border-white/20 pl-8 sm:pl-12 bg-black/40 backdrop-blur-md p-8 rounded transition-all duration-300">
+            <div className="min-h-[45vh] sm:min-h-[55vh] flex flex-col justify-center border-l-2 border-white/20 pl-8 sm:pl-12 bg-neutral-950/90 backdrop-blur-md p-8 rounded shadow-2xl transition-all duration-300">
               <span className="text-xs font-mono text-[#dc2626] mb-3 tracking-widest">{milestones[activeStep].phase}</span>
               <h4 className="text-3xl sm:text-6xl font-black uppercase tracking-tighter text-white mb-4 sm:mb-6 leading-tight sm:leading-none">{milestones[activeStep].title}</h4>
               <p className="text-sm sm:text-base text-neutral-300 font-mono leading-relaxed">{milestones[activeStep].desc}</p>
@@ -919,7 +784,7 @@ const ScrollytellingSection = () => {
 };
 
 /* ==========================================================================
-   FIXED EXPERTISE 3D MATRIX (COMPLETELY UNMASKED & BALANCED)
+   PROFESSIONALLY REDESIGNED EXPERTISE 3D MATRIX (BALANCED & FULLY VISIBLE)
    ================================================================---------- */
 const Expertise3DMatrix = () => {
   const containerRef = useRef(null);
@@ -1077,7 +942,7 @@ const Expertise3DMatrix = () => {
             <p className="text-[#dc2626] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-0.5">// SLOW-SCROLL 3D HOLOGRAPHIC MATRIX</p>
             <h3 className="text-xl sm:text-3xl font-black uppercase tracking-tight text-white drop-shadow">Technical Blueprint & Stack</h3>
           </div>
-          <span className="text-[10px] sm:text-xs font-mono text-neutral-300 bg-white/[0.05] px-3 py-1 border border-white/20">PRISM EXPANSION // 3D INTERACTION</span>
+          <span className="text-[10px] sm:text-xs font-mono text-neutral-300 bg-neutral-950/80 px-3 py-1 border border-white/20">PRISM EXPANSION // 3D INTERACTION</span>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
