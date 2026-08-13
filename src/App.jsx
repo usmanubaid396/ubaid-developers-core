@@ -174,32 +174,32 @@ const WebGLEngine = () => {
     const animate = () => {
       rafId = requestAnimationFrame(animate);
       const time = clock.getElapsedTime();
-      currentScroll += (targetScroll - currentScroll) * 0.05; // Ultra-smooth space-travel damping
+      currentScroll += (targetScroll - currentScroll) * 0.08;
       
       const targetCoreScale = isCoreHovered ? 1.5 : 1.0;
       const pulse = Math.sin(time * 5) * 0.09;
       coreTargetScale.setScalar(targetCoreScale + pulse);
       coreGroup.scale.lerp(coreTargetScale, 0.12);
       
-      coreGroup.rotation.y = time * 0.3 + (currentScroll * 0.0015);
-      coreGroup.rotation.x = Math.sin(time * 0.2) * 0.2 + (currentScroll * 0.001);
-      innerMesh.rotation.x = -time * 0.5;
-      ring1.rotation.z = time * 0.3;
-      ring2.rotation.y = -time * 0.25;
+      coreGroup.rotation.y = time * 0.4 + (currentScroll * 0.0025);
+      coreGroup.rotation.x = Math.sin(time * 0.3) * 0.3 + (currentScroll * 0.0015);
+      innerMesh.rotation.x = -time * 0.7;
+      ring1.rotation.z = time * 0.5;
+      ring2.rotation.y = -time * 0.4;
       
-      const camTargetX = (mouse.x * 12);
-      const camTargetY = (-(currentScroll * 0.015) + (mouse.y * 12));
-      const camTargetZ = 40 - (currentScroll * 0.025); // Deep space travel zoom effect
+      const camTargetX = (mouse.x * 16);
+      const camTargetY = (-(currentScroll * 0.022) + (mouse.y * 16));
+      const camTargetZ = 40 - (currentScroll * 0.035);
       
-      camera.position.x += (camTargetX - camera.position.x) * 0.06;
-      camera.position.y += (camTargetY - camera.position.y) * 0.06;
-      camera.position.z += (camTargetZ - camera.position.z) * 0.06;
+      camera.position.x += (camTargetX - camera.position.x) * 0.08;
+      camera.position.y += (camTargetY - camera.position.y) * 0.08;
+      camera.position.z += (camTargetZ - camera.position.z) * 0.08;
       camera.lookAt(0, 0, 0);
 
       shards.forEach((shard) => {
         shard.rotation.x += shard.userData.rotSpeedX;
         shard.rotation.y += shard.userData.rotSpeedY;
-        shard.position.y = shard.userData.originY + Math.sin(time * 3 + shard.userData.phase) * 3.2;
+        shard.position.y = shard.userData.originY + Math.sin(time * 4 + shard.userData.phase) * 3.2;
         const distToMouse = shard.position.distanceTo(targetMouse);
         if(distToMouse < 28) {
           const dir = shard.position.clone().sub(targetMouse).normalize();
@@ -231,7 +231,7 @@ const WebGLEngine = () => {
         positions[i+2] += (particleOriginalPos[i+2] - positions[i+2]) * 0.09;
       }
       particleGeo.attributes.position.needsUpdate = true;
-      particles.rotation.y = time * 0.05;
+      particles.rotation.y = time * 0.07;
 
       renderer.render(scene, camera);
     };
@@ -431,10 +431,9 @@ const Works = () => {
   }, []);
 
   return (
-    <section ref={containerRef} id="work" className="relative h-[600vh] bg-transparent">
+    <section ref={containerRef} id="work" className="relative h-[400vh] bg-transparent">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center px-4 sm:px-12 max-w-7xl mx-auto">
         
-        {/* Deep Dark Glossmorphic Header */}
         <div className="flex flex-col sm:flex-row border border-white/20 px-6 py-5 items-start sm:items-center justify-between bg-neutral-950/90 backdrop-blur-2xl mb-8 shadow-[0_12px_40px_rgba(0,0,0,0.95)] rounded gap-3 sm:gap-0">
           <div>
             <p className="text-[#dc2626] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-1">// 3D SPATIAL CARD DECK</p>
@@ -446,7 +445,6 @@ const Works = () => {
           </div>
         </div>
 
-        {/* 3D Depth-Layered Card Stage */}
         <div className="relative h-[420px] sm:h-[480px] w-full flex items-center justify-center perspective-1000">
           {worksData.map((work, idx) => {
             const distance = idx - activeIndex;
@@ -508,7 +506,6 @@ const Works = () => {
           })}
         </div>
 
-        {/* Interactive Step Navigator Bar */}
         <div className="grid grid-cols-3 gap-3 mt-8">
           {worksData.map((_, idx) => (
             <div 
@@ -528,9 +525,6 @@ const Works = () => {
   );
 };
 
-/* ==========================================================================
-   EXPANDED IMMERSIVE SHOWCASE SECTION (FIXED TEXT OVERLAP & PADDING)
-   ================================================================---------- */
 const showcaseBlocks = [
   { id: 'SC.01', tag: 'HEALTHCARE SYSTEM', title: 'Clinical Enterprise Cloud', desc: 'Secure HIPAA-compliant hospital architecture processing millions of real-time diagnostics securely.', tech: 'React / Node / PostgreSQL', highlight: 'Zero Latency' },
   { id: 'SC.02', tag: 'LEGAL AUTOMATION', title: 'Universal Contract Synthesizer', desc: 'AI-powered document generation protocol compiling customized corporate agreements instantly on Vercel Edge.', tech: 'Next.js / Tailwind / Vercel Edge', highlight: 'Autonomous AI' },
@@ -577,18 +571,20 @@ const HorizontalShowcase = () => {
     <section ref={containerRef} id="showcase" className="relative h-[600vh] bg-transparent">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center">
         
-        {/* Fixed Title Header Positioned Safely Above Cards to Prevent Overlap */}
-        <div className="px-4 sm:px-16 mb-8 pointer-events-none max-w-5xl">
-          <p className="text-[#3b82f6] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-2 bg-white/[0.04] px-3 sm:px-4 py-1.5 border border-white/25 w-fit backdrop-blur-2xl shadow-xl">// EXPANDED SHOWCASE REPOSITORY</p>
-          <h3 className="text-3xl sm:text-5xl font-black tracking-tight uppercase text-white drop-shadow-[0_8px_20px_rgba(0,0,0,0.9)]">Ecosystem Architecture & Modules</h3>
-          <p className="text-xs sm:text-sm text-neutral-300 font-mono mt-2">Explore all 6 deployed systems driving high-end performance across healthcare, legal, and fintech sectors.</p>
+        {/* FIXED: Added a dedicated top flex container with clear spacing and z-index so text never coincides or masks with sliding blocks */}
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-16 mb-6 z-20 relative">
+          <div className="bg-black/85 backdrop-blur-3xl p-6 border border-white/20 shadow-[0_15px_50px_rgba(0,0,0,0.9)] rounded">
+            <p className="text-[#3b82f6] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-2 bg-white/[0.04] px-3 sm:px-4 py-1.5 border border-white/25 w-fit backdrop-blur-2xl shadow-xl">// EXPANDED SHOWCASE REPOSITORY</p>
+            <h3 className="text-2xl sm:text-4xl font-black tracking-tight uppercase text-white drop-shadow-[0_8px_20px_rgba(0,0,0,0.9)]">Ecosystem Architecture & Modules</h3>
+            <p className="text-xs sm:text-sm text-neutral-300 font-mono mt-1">Explore all 6 deployed systems driving high-end performance across healthcare, legal, and fintech sectors.</p>
+          </div>
         </div>
 
-        {/* Horizontal Sliding Cards Track */}
+        {/* Horizontal Sliding Cards Track positioned below header with clear vertical gap */}
         <div className="w-full overflow-hidden">
           <div ref={trackRef} className="flex gap-6 sm:gap-10 pl-4 sm:pl-16 w-max will-change-transform">
             {showcaseBlocks.map((item, idx) => (
-              <div key={idx} className="w-[85vw] md:w-[42vw] h-[52vh] sm:h-[58vh] border border-white/25 bg-neutral-950/95 backdrop-blur-3xl p-6 sm:p-12 flex flex-col justify-between relative group hover:border-[#3b82f6] transition-colors shadow-[0_20px_60px_rgba(0,0,0,0.95)] rounded">
+              <div key={idx} className="w-[85vw] md:w-[42vw] h-[50vh] sm:h-[55vh] border border-white/25 bg-neutral-950/95 backdrop-blur-3xl p-6 sm:p-12 flex flex-col justify-between relative group hover:border-[#3b82f6] transition-colors shadow-[0_20px_60px_rgba(0,0,0,0.95)] rounded">
                 <div className="flex justify-between items-center border-b border-white/10 pb-4">
                   <span className="text-[10px] sm:text-xs font-mono text-[#3b82f6] bg-white/[0.06] px-3 py-1 border border-white/20">{item.tag}</span>
                   <span className="text-[10px] font-mono text-emerald-400 font-bold bg-emerald-950/50 px-2.5 py-1 border border-emerald-500/30">// {item.highlight}</span>
@@ -1006,7 +1002,7 @@ const Footer = () => (
         <form className="flex flex-col gap-4 bg-black/60 p-8 border border-white/15 backdrop-blur-xl shadow-2xl" onSubmit={(e) => { e.preventDefault(); window.location.href = 'mailto:dev@healthcarepk.online'; }}>
           <input type="email" placeholder="YOUR EMAIL" required className="bg-black/80 border border-white/15 p-4 text-xs font-bold uppercase text-white focus:border-[#dc2626] outline-none transition-colors" />
           <textarea placeholder="PROJECT DETAILS / MESSAGE" rows="4" required className="bg-black/80 border border-white/15 p-4 text-xs font-bold uppercase text-white focus:border-[#dc2626] outline-none resize-none transition-colors"></textarea>
-          <button type="submit" className="bg-white text-black py-4 text-xs font-black uppercase tracking-widest hover:bg-[#dc2626] hover:text-white transition-colors border border-white shadow-[0_0_20px_rgba(255,255,255,0.2)]">Send MessageBox</button>
+          <button type="submit" className="bg-white text-black py-4 text-xs font-black uppercase tracking-widest hover:bg-[#dc2626] hover:text-white transition-colors border border-white shadow-[0_0_20px_rgba(255,255,255,0.2)]">Send Message</button>
         </form>
       </div>
     </div>
