@@ -17,6 +17,9 @@ const WebGLEngine = () => {
   const mountRef = useRef(null);
 
   useEffect(() => {
+    const container = mountRef.current;
+    if (!container) return;
+
     const w = window.innerWidth;
     const h = window.innerHeight;
     
@@ -26,10 +29,16 @@ const WebGLEngine = () => {
     const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 1000);
     camera.position.z = 40;
     
-    const renderer = new THREE.WebGLRenderer({ alpha: false, antialias: true, powerPreference: "high-performance" });
+    const renderer = new THREE.WebGLRenderer({ 
+      alpha: true, 
+      antialias: true, 
+      powerPreference: "high-performance",
+      failIfMajorPerformanceCaveat: false
+    });
     renderer.setSize(w, h);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    if (mountRef.current) mountRef.current.appendChild(renderer.domElement);
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
+    container.appendChild(renderer.domElement);
 
     const ambientLight = new THREE.AmbientLight(0x151515, 2.5);
     scene.add(ambientLight);
@@ -149,7 +158,7 @@ const WebGLEngine = () => {
     const animate = () => {
       rafId = requestAnimationFrame(animate);
       const time = clock.getElapsedTime();
-      currentScroll += (targetScroll - currentScroll) * 0.06;
+      currentScroll += (targetScroll - currentScroll) * 0.05;
       
       const targetCoreScale = isCoreHovered ? 1.5 : 1.0;
       const pulse = Math.sin(time * 5) * 0.09;
@@ -225,11 +234,11 @@ const WebGLEngine = () => {
       window.removeEventListener('scroll', onScroll);
       cancelAnimationFrame(rafId);
       renderer.dispose();
-      if (mountRef.current) mountRef.current.innerHTML = '';
+      if (container) container.innerHTML = '';
     };
   }, []);
 
-  return <div ref={mountRef} className="fixed inset-0 z-0 bg-black pointer-events-none" />;
+  return <div ref={mountRef} className="fixed inset-0 z-0 bg-black pointer-events-none" style={{ WebkitTransform: 'translateZ(0)' }} />;
 };
 
 /* ==========================================================================
@@ -242,9 +251,9 @@ const TiltCard = ({ children, className }) => {
     const rect = cardRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -16;
-    const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 16;
-    cardRef.current.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.04, 1.04, 1.04)`;
+    const rotateX = ((y - rect.height / 2) / (rect.height / 2)) * -12;
+    const rotateY = ((x - rect.width / 2) / (rect.width / 2)) * 12;
+    cardRef.current.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
   };
   const handleMouseLeave = () => {
     if (cardRef.current) cardRef.current.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
@@ -257,58 +266,93 @@ const TiltCard = ({ children, className }) => {
 };
 
 const SystemStatus = () => (
-  <div className="fixed top-0 w-full z-50 bg-black/70 backdrop-blur-md border-b border-white/10 text-[10px] sm:text-xs uppercase flex justify-between items-center px-4 py-3 font-light tracking-widest text-neutral-300">
-    <div className="flex items-center gap-2 text-white font-bold">
-      <div className="w-2 h-2 bg-[#dc2626] rounded-full animate-pulse shadow-[0_0_15px_#dc2626]"></div>
-      MUHAMMAD USMAN // FULL-STACK PORTFOLIO
+  <div className="fixed top-0 w-full z-50 bg-black backdrop-blur-xl border-b border-white/15 text-[9px] sm:text-xs uppercase flex justify-between items-center px-3 sm:px-4 py-2 sm:py-3 font-light tracking-widest text-neutral-200">
+    <div className="flex items-center gap-2 text-white font-bold truncate">
+      <div className="w-2 h-2 bg-[#dc2626] rounded-full animate-pulse shadow-[0_0_15px_#dc2626] shrink-0"></div>
+      <span className="truncate">MUHAMMAD USMAN // FULL-STACK PORTFOLIO</span>
     </div>
-    <div className="text-[#3b82f6] font-bold hidden sm:block">VEHARI & LAHORE, PK</div>
+    <div className="text-[#3b82f6] font-bold hidden md:block shrink-0">VEHARI & LAHORE, PK</div>
   </div>
 );
 
-const Navigation = () => (
-  <nav className="relative z-40 mt-12 w-full px-4 sm:px-8 py-6 flex flex-col md:flex-row justify-between items-start md:items-center border-b border-white/10 gap-4 bg-black/40 backdrop-blur-md">
-    <div>
-      <h1 className="text-2xl font-bold tracking-tighter text-white flex items-center gap-2">
-        Muhammad Usman <span className="text-[#dc2626]">.</span>
-      </h1>
-      <p className="text-xs text-neutral-400 tracking-widest mt-1 uppercase">Full-Stack Developer — SaaS, Healthcare, and Interactive Systems</p>
-    </div>
-    <div className="flex gap-6 text-xs font-bold tracking-[0.2em] uppercase items-center">
-      {['About', 'Projects', 'Skills', 'Contact'].map((item, idx) => (
-        <a key={idx} href={`#${item.toLowerCase()}`} className="text-neutral-300 hover:text-[#dc2626] transition-colors">
-          [{item}]
+const Navigation = () => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  return (
+    <nav className="relative z-40 mt-10 sm:mt-12 w-full px-4 sm:px-8 py-5 sm:py-6 flex justify-between items-center border-b border-white/15 bg-black backdrop-blur-2xl">
+      <div>
+        <h1 className="text-xl sm:text-2xl font-bold tracking-tighter text-white flex items-center gap-2">
+          Muhammad Usman <span className="text-[#dc2626]">.</span>
+        </h1>
+        <p className="text-[10px] sm:text-xs text-neutral-400 tracking-widest mt-0.5 uppercase hidden sm:block">Full-Stack Developer — SaaS, Healthcare, and Interactive Systems</p>
+      </div>
+
+      <div className="hidden lg:flex gap-6 text-xs font-bold tracking-[0.2em] uppercase items-center text-neutral-300">
+        {['About', 'Projects', 'Skills', 'Contact'].map((item, idx) => (
+          <a key={idx} href={`#${item.toLowerCase()}`} className="hover:text-[#dc2626] transition-colors">
+            [{item}]
+          </a>
+        ))}
+        <a href="#contact" className="bg-white/10 hover:bg-[#dc2626] text-white border border-white/20 px-4 py-2 transition-all">
+          Get in Touch
         </a>
-      ))}
-      <a href="#contact" className="bg-white/90 text-black px-4 py-2 hover:bg-[#dc2626] hover:text-white transition-colors">
-        Get in Touch
-      </a>
-    </div>
-  </nav>
-);
+      </div>
+
+      <button 
+        onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
+        className="lg:hidden text-white p-2 border border-neutral-800 bg-neutral-900"
+        aria-label="Toggle menu"
+      >
+        {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+      </button>
+
+      {mobileMenuOpen && (
+        <div className="absolute top-full left-0 w-full bg-black border-b border-neutral-800 p-6 flex flex-col gap-4 lg:hidden z-50">
+          {['About', 'Projects', 'Skills', 'Contact'].map((item, idx) => (
+            <a 
+              key={idx} 
+              href={`#${item.toLowerCase()}`} 
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-sm font-bold tracking-[0.2em] uppercase text-neutral-300 hover:text-[#dc2626] py-2 border-b border-neutral-900"
+            >
+              [{item}]
+            </a>
+          ))}
+          <a 
+            href="#contact" 
+            onClick={() => setMobileMenuOpen(false)}
+            className="bg-[#dc2626] text-white text-center py-3 font-bold uppercase tracking-widest mt-2"
+          >
+            Get in Touch
+          </a>
+        </div>
+      )}
+    </nav>
+  );
+};
 
 const Hero = () => (
-  <section id="about" className="relative z-10 w-full px-4 sm:px-8 pt-24 pb-32 border-b border-white/10 bg-transparent">
+  <section id="about" className="relative z-10 w-full px-4 sm:px-8 pt-20 sm:pt-24 pb-24 sm:pb-32 border-b border-white/15 bg-black">
     <div className="max-w-6xl">
-      <p className="text-[#dc2626] text-xs sm:text-sm tracking-[0.3em] mb-8 font-bold flex items-center gap-2 bg-black/40 w-fit px-3 py-1 border border-white/10 backdrop-blur-md">
-        <Crosshair size={16} /> VEHARI & LAHORE, PAKISTAN
+      <p className="text-[#dc2626] text-xs sm:text-sm tracking-[0.3em] mb-6 sm:mb-8 font-bold flex items-center gap-2 bg-neutral-950 w-fit px-3 sm:px-4 py-1.5 border border-neutral-800">
+        <Crosshair size={16} className="shrink-0" /> <span className="truncate">VEHARI & LAHORE, PAKISTAN</span>
       </p>
-      <h2 className="text-5xl sm:text-7xl md:text-9xl font-black tracking-tighter uppercase leading-[0.85] text-white drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]">
+      <h2 className="text-4xl sm:text-7xl md:text-9xl font-black tracking-tighter uppercase leading-[0.9] sm:leading-[0.85] text-white">
         Full-Stack Developer <br /><span className="text-neutral-500">— SaaS, Healthcare, & Interactive Systems.</span>
       </h2>
-      <p className="mt-8 text-sm sm:text-lg text-neutral-300 max-w-3xl font-light tracking-wide leading-relaxed bg-black/50 p-6 border border-white/10 backdrop-blur-md">
+      <p className="mt-6 sm:mt-8 text-xs sm:text-lg text-neutral-300 max-w-3xl font-light tracking-wide leading-relaxed bg-neutral-950 p-6 sm:p-8 border border-neutral-800">
         Selected work across solo builds, client engagements, and team projects. Public samples available on GitHub; proprietary work available on request. I work across the stack depending on the project scope — from solo MVPs to leading frontend teams on regulated client products. My public GitHub shows sample work; detailed case studies for proprietary projects are available by request.
       </p>
-
-      <div className="mt-12 flex flex-wrap gap-4 text-xs font-mono uppercase">
-        <a href="mailto:dev@healthcarepk.online" className="inline-flex items-center gap-3 bg-white text-black px-8 py-5 font-bold hover:bg-[#dc2626] hover:text-white transition-all border border-white shadow-[0_0_25px_rgba(255,255,255,0.25)]">
+      
+      <div className="mt-10 sm:mt-12 flex flex-wrap gap-4 text-xs font-mono uppercase">
+        <a href="mailto:dev@healthcarepk.online" className="inline-flex items-center gap-2 bg-white text-black px-6 py-4 font-bold hover:bg-[#dc2626] hover:text-white transition-colors border border-white">
           <Mail size={16} /> dev@healthcarepk.online
         </a>
-        <a href="https://github.com/usmanubaid396" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 bg-black/50 backdrop-blur-md text-white px-8 py-5 font-bold hover:border-[#3b82f6] transition-all border border-white/20">
-          <Code size={16} /> github.com/usmanubaid396
+        <a href="https://github.com/usmanubaid396" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-neutral-900 border border-neutral-800 text-white px-6 py-4 hover:border-[#dc2626] transition-colors">
+          <Github size={16} /> github.com/usmanubaid396
         </a>
-        <a href="https://linkedin.com/in/uu51" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-3 bg-black/50 backdrop-blur-md text-white px-8 py-5 font-bold hover:border-[#3b82f6] transition-all border border-white/20">
-          <Globe size={16} /> linkedin.com/in/uu51
+        <a href="https://linkedin.com/in/uu51" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-neutral-900 border border-neutral-800 text-white px-6 py-4 hover:border-[#dc2626] transition-colors">
+          <Linkedin size={16} /> linkedin.com/in/uu51
         </a>
       </div>
     </div>
@@ -501,7 +545,6 @@ const Skills = () => {
     'Python', 'PostgreSQL', 'Three.js', 'Tailwind CSS', 'REST APIs'
   ];
 
-  // Duplicate list to ensure seamless endless ticker effect
   const tickerItems = [...skillsList, ...skillsList, ...skillsList];
 
   return (
@@ -511,7 +554,6 @@ const Skills = () => {
         <h3 className="text-2xl sm:text-4xl font-black uppercase tracking-tight text-white">Skills</h3>
       </div>
 
-      {/* Horizontal News Ticker Wrapper */}
       <div className="relative w-full overflow-hidden py-4 bg-neutral-950/80 border-y border-white/20 backdrop-blur-md">
         <div className="flex w-max animate-marquee gap-6">
           {tickerItems.map((skill, idx) => (
@@ -526,7 +568,6 @@ const Skills = () => {
         </div>
       </div>
 
-      {/* Tailwind Custom Keyframes for Marquee ticker embedded via style injection or standard utility classes */}
       <style>{`
         @keyframes marquee {
           0% { transform: translateX(0%); }
@@ -546,7 +587,7 @@ const Skills = () => {
 };
 
 const Footer = () => (
-  <footer id="contact" className="relative z-10 w-full bg-transparent font-mono text-xs">
+  <footer id="contact" className="relative z-10 w-full bg-black font-mono text-xs">
     <div className="px-4 sm:px-8 py-24 border-b border-white/10 max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 bg-black/50 backdrop-blur-md">
       <div>
         <h2 className="text-4xl sm:text-6xl font-black tracking-tight uppercase text-white mb-4">Get in touch.</h2>
@@ -578,6 +619,7 @@ export default function App() {
       <WebGLEngine />
       <SystemStatus />
       <main className="relative z-10 pt-12">
+        <Navigation />
         <Navigation />
         <Hero />
         <Works />
