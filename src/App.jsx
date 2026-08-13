@@ -6,7 +6,8 @@ import {
   CpuIcon, Globe, TerminalSquare, Workflow, Flame, CheckCircle2,
   Layers3, Sparkles, Command, GitBranch, Eye, Maximize2, RefreshCw, 
   Compass, BoxSelect, Cpu as CpuSymbol, Play, Pause, ChevronRight,
-  Radio, CpuShare, Terminal as TerminalIcon, Cpu as Microchip, Hexagon, Network, Menu, X
+  Radio, CpuShare, Terminal as TerminalIcon, Cpu as Microchip, Hexagon, Network, Menu, X,
+  Github, Linkedin, ExternalLink
 } from 'lucide-react';
 
 /* ==========================================================================
@@ -491,28 +492,55 @@ const Works = () => {
   );
 };
 
+/* ==========================================================================
+   SKILLS SECTION — HORIZONTAL NEWS TICKER & PROMINENT BLOCKS
+   ================================================================---------- */
 const Skills = () => {
   const skillsList = [
     'JavaScript', 'TypeScript', 'React', 'Next.js', 'Node.js', 
     'Python', 'PostgreSQL', 'Three.js', 'Tailwind CSS', 'REST APIs'
   ];
 
-  return (
-    <section id="skills" className="relative z-10 w-full px-4 sm:px-8 py-24 border-b border-white/10 bg-transparent">
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-10">
-          <p className="text-[#dc2626] text-xs tracking-widest uppercase mb-2">// TECHNICAL COMPETENCIES</p>
-          <h3 className="text-2xl sm:text-4xl font-black uppercase tracking-tight text-white">Skills</h3>
-        </div>
+  // Duplicate list to ensure seamless endless ticker effect
+  const tickerItems = [...skillsList, ...skillsList, ...skillsList];
 
-        <div className="flex flex-wrap gap-3">
-          {skillsList.map((skill, idx) => (
-            <div key={idx} className="border border-white/15 bg-black/60 backdrop-blur-xl px-5 py-3 text-xs font-mono text-neutral-200">
+  return (
+    <section id="skills" className="relative z-10 w-full py-24 border-b border-white/10 bg-black overflow-hidden">
+      <div className="max-w-6xl mx-auto px-4 sm:px-8 mb-10">
+        <p className="text-[#dc2626] text-xs tracking-widest uppercase mb-2">// TECHNICAL COMPETENCIES</p>
+        <h3 className="text-2xl sm:text-4xl font-black uppercase tracking-tight text-white">Skills</h3>
+      </div>
+
+      {/* Horizontal News Ticker Wrapper */}
+      <div className="relative w-full overflow-hidden py-4 bg-neutral-950/80 border-y border-white/20 backdrop-blur-md">
+        <div className="flex w-max animate-marquee gap-6">
+          {tickerItems.map((skill, idx) => (
+            <div 
+              key={idx} 
+              className="flex items-center gap-3 px-6 py-4 border-2 border-white/30 bg-black/90 backdrop-blur-2xl shadow-[0_10px_30px_rgba(0,0,0,0.8)] rounded text-sm font-mono font-bold tracking-wider uppercase text-white hover:border-[#dc2626] hover:shadow-[0_0_25px_rgba(220,38,38,0.4)] transition-all shrink-0"
+            >
+              <span className="w-2.5 h-2.5 bg-[#dc2626] rounded-full animate-pulse"></span>
               {skill}
             </div>
           ))}
         </div>
       </div>
+
+      {/* Tailwind Custom Keyframes for Marquee ticker embedded via style injection or standard utility classes */}
+      <style>{`
+        @keyframes marquee {
+          0% { transform: translateX(0%); }
+          100% { transform: translateX(-33.333%); }
+        }
+        .animate-marquee {
+          display: flex;
+          width: max-content;
+          animation: marquee 25s linear infinite;
+        }
+        .animate-marquee:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
     </section>
   );
 };
