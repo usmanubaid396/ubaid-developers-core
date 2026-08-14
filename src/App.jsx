@@ -753,113 +753,135 @@ const ScrollytellingSection = () => {
 };
 
 /* ==========================================================================
-   ULTRA-PROFESSIONAL 3D FLOATING ORBITAL CORE EXPERTISE SECTION
+   ULTRA-PROFESSIONAL 3D CINEMATIC ORBITAL DOCK & KERNEL MATRIX (EXPERTISE)
    ================================================================---------- */
-const ProfessionalExpertise3D = () => {
+const CinematicExpertiseMatrix = () => {
   const containerRef = useRef(null);
-  const mountRef = useRef(null);
-  const [activeTab, setActiveTab] = useState(0);
+  const canvasRef = useRef(null);
+  const [selectedModule, setSelectedModule] = useState(0);
 
-  const capabilities = [
+  const expertiseNodes = [
     {
       id: '01',
-      title: 'Full-Stack Architecture & React',
-      tag: 'FRONTEND KERNEL',
-      desc: 'Engineered high-performance, reactive interfaces using Next.js, React, and Tailwind CSS with fluid GPU-accelerated micro-interactions.',
-      metrics: '99.9% Performance Index'
+      title: 'Full-Stack Architecture',
+      category: 'REACTIVE SYSTEM KERNEL',
+      description: 'High-performance reactive interfaces and scalable server-side infrastructure built using React, Next.js, and Node.js with precise micro-state control.',
+      metrics: '99.9% Uptime Efficiency',
+      accentColor: '#dc2626'
     },
     {
       id: '02',
       title: 'Relational Database Engineering',
-      tag: 'BACKEND INTEGRATION',
-      desc: 'Optimized multi-tenant PostgreSQL schemas, secure token authorization pipelines, and complex relational query structures ensuring strict ACID compliance.',
-      metrics: 'Zero-Latency Query Index'
+      category: 'SECURE STORAGE PROTOCOL',
+      description: 'Optimized multi-tenant PostgreSQL schemas, robust authentication security pipelines, and ACID-compliant transaction records.',
+      metrics: 'Sub-Millisecond Query Latency',
+      accentColor: '#3b82f6'
     },
     {
       id: '03',
-      title: 'WebGL & Immersive 3D Engines',
-      tag: 'SPATIAL GRAPHICS',
-      desc: 'Built custom browser-based 3D environments, particle matrices, and raycasted mouse physics utilizing Three.js and custom GLSL shader pipelines.',
-      metrics: '60 FPS Frame Stability'
+      title: 'WebGL & 3D Spatial Engines',
+      category: 'IMMERSIVE GRAPHICS PIPELINE',
+      description: 'Immersive browser-based 3D environments, custom GLSL vertex shaders, raycasted physics, and 60FPS hardware-accelerated rendering.',
+      metrics: '60 FPS Stable Render Rate',
+      accentColor: '#10b981'
     },
     {
       id: '04',
-      title: 'Python Neural & AI Automations',
-      tag: 'INTELLIGENT PIPELINES',
-      desc: 'Developed backend machine learning prediction models, PyTorch data inference wrappers, and serverless automated contract synthesisers.',
-      metrics: 'Autonomous Pipeline Sync'
+      title: 'Python Machine Learning & AI',
+      category: 'AUTONOMOUS SYNTHESIS',
+      description: 'Tailored predictive machine learning models, PyTorch data classification pipelines, and automated legal/contract document generators.',
+      metrics: 'Real-Time Neural Inference',
+      accentColor: '#f59e0b'
     }
   ];
 
   useEffect(() => {
-    const sectionEl = containerRef.current;
-    const canvasContainer = mountRef.current;
-    if (!sectionEl || !canvasContainer) return;
+    const container = canvasRef.current;
+    const parentSection = containerRef.current;
+    if (!container || !parentSection) return;
 
-    const w = canvasContainer.clientWidth;
-    const h = canvasContainer.clientHeight;
+    const width = container.clientWidth;
+    const height = container.clientHeight;
 
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 1000);
-    camera.position.z = 22;
+    const camera = new THREE.PerspectiveCamera(50, width / height, 0.1, 1000);
+    camera.position.z = 20;
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'high-performance' });
-    renderer.setSize(w, h);
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    renderer.setSize(width, height);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    canvasContainer.appendChild(renderer.domElement);
+    container.appendChild(renderer.domElement);
 
-    const group = new THREE.Group();
-    scene.add(group);
+    // Cinematic Central Holographic Structure
+    const centralGroup = new THREE.Group();
+    scene.add(centralGroup);
 
-    // Complex multi-layered orbital rings and crystal core
-    const coreGeo = new THREE.IcosahedronGeometry(4.5, 1);
-    const coreMat = new THREE.MeshStandardMaterial({
-      color: 0x050505,
-      roughness: 0.2,
-      metalness: 0.95,
-      wireframe: false
+    // Outer Dodecahedron Shell
+    const shellGeo = new THREE.DodecahedronGeometry(5, 0);
+    const shellMat = new THREE.MeshStandardMaterial({
+      color: 0x0a0a0a,
+      roughness: 0.1,
+      metalness: 0.9,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.7
     });
+    const shellMesh = new THREE.Mesh(shellGeo, shellMat);
+    centralGroup.add(shellMesh);
+
+    // Inner Glowing Core Octahedron
+    const coreGeo = new THREE.OctahedronGeometry(2.5, 0);
+    const coreMat = new THREE.MeshBasicMaterial({ color: 0xdc2626, wireframe: true, transparent: true, opacity: 0.9 });
     const coreMesh = new THREE.Mesh(coreGeo, coreMat);
-    group.add(coreMesh);
+    centralGroup.add(coreMesh);
 
-    const wireGeo = new THREE.IcosahedronGeometry(5.2, 1);
-    const wireMat = new THREE.MeshBasicMaterial({ color: 0xdc2626, wireframe: true, transparent: true, opacity: 0.85 });
-    const wireMesh = new THREE.Mesh(wireGeo, wireMat);
-    group.add(wireMesh);
-
-    const ringGeos = [
-      new THREE.TorusGeometry(7.5, 0.03, 16, 100),
-      new THREE.TorusGeometry(9.5, 0.02, 16, 100),
-      new THREE.TorusGeometry(11.5, 0.015, 16, 100)
-    ];
-    const rings = ringGeos.map((geo, i) => {
-      const mat = new THREE.MeshBasicMaterial({ 
-        color: i === 0 ? 0xdc2626 : i === 1 ? 0x3b82f6 : 0xffffff, 
-        transparent: true, 
-        opacity: 0.5 
+    // Floating Data Rings
+    const rings = [];
+    for (let i = 0; i < 3; i++) {
+      const ringGeo = new THREE.TorusGeometry(6.5 + i * 1.5, 0.02, 16, 100);
+      const ringMat = new THREE.MeshBasicMaterial({
+        color: i === 0 ? 0xdc2626 : i === 1 ? 0x3b82f6 : 0x10b981,
+        transparent: true,
+        opacity: 0.5
       });
-      const mesh = new THREE.Mesh(geo, mat);
-      mesh.rotation.x = Math.random() * Math.PI;
-      mesh.rotation.y = Math.random() * Math.PI;
-      group.add(mesh);
-      return mesh;
-    });
+      const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+      ringMesh.rotation.x = Math.PI / (2 + i);
+      ringMesh.rotation.y = Math.PI / (4 + i);
+      centralGroup.add(ringMesh);
+      rings.push(ringMesh);
+    }
 
+    // Lighting
     const ambientLight = new THREE.AmbientLight(0xffffff, 2.0);
     scene.add(ambientLight);
-    const pointLight = new THREE.PointLight(0xdc2626, 8, 50);
-    pointLight.position.set(10, 10, 10);
+
+    const pointLight = new THREE.PointLight(0xdc2626, 10, 100);
+    pointLight.position.set(10, 15, 10);
     scene.add(pointLight);
 
     let mouseX = 0;
     let mouseY = 0;
 
-    const handleMouseMove = (e) => {
-      const rect = canvasContainer.getBoundingClientRect();
+    const onMouseMove = (e) => {
+      const rect = container.getBoundingClientRect();
       mouseX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       mouseY = -((e.clientY - rect.top) / rect.height) * 2 + 1;
     };
-    canvasContainer.addEventListener('mousemove', handleMouseMove);
+    container.addEventListener('mousemove', onMouseMove);
+
+    let currentScrollProgress = 0;
+    const onScroll = () => {
+      const rect = parentSection.getBoundingClientRect();
+      const scrollRange = rect.height - window.innerHeight;
+      if (scrollRange <= 0) return;
+      let progress = -rect.top / scrollRange;
+      currentScrollProgress = Math.max(0, Math.min(1, progress));
+      
+      // Auto-switch selected module based on smooth scroll threshold
+      const activeIdx = Math.min(expertiseNodes.length - 1, Math.floor(progress * expertiseNodes.length));
+      setSelectedModule(activeIdx);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
 
     let rafId;
     const clock = new THREE.Clock();
@@ -868,100 +890,103 @@ const ProfessionalExpertise3D = () => {
       rafId = requestAnimationFrame(animate);
       const time = clock.getElapsedTime();
 
-      group.rotation.y += (mouseX * 0.6 - group.rotation.y) * 0.08 + 0.005;
-      group.rotation.x += (mouseY * 0.4 - group.rotation.x) * 0.08;
+      // Smooth interactive rotation reacting to mouse and scroll progression
+      centralGroup.rotation.y += (mouseX * 0.8 - centralGroup.rotation.y) * 0.08 + 0.005;
+      centralGroup.rotation.x += (mouseY * 0.5 - centralGroup.rotation.x) * 0.08;
 
-      wireMesh.rotation.y = -time * 0.3;
-      coreMesh.rotation.z = time * 0.15;
+      shellMesh.rotation.y = time * 0.2 + currentScrollProgress * Math.PI;
+      coreMesh.rotation.y = -time * 0.5;
 
       rings.forEach((ring, idx) => {
-        ring.rotation.x += (idx + 1) * 0.005;
-        ring.rotation.y += (idx + 1) * 0.008;
+        ring.rotation.z = time * (0.2 + idx * 0.1);
+        ring.rotation.y = time * (0.1 + idx * 0.05);
       });
 
       renderer.render(scene, camera);
     };
     animate();
 
-    const handleResize = () => {
-      if (!canvasContainer) return;
-      const nw = canvasContainer.clientWidth;
-      const nh = canvasContainer.clientHeight;
+    const onResize = () => {
+      if (!container) return;
+      const nw = container.clientWidth;
+      const nh = container.clientHeight;
       camera.aspect = nw / nh;
       camera.updateProjectionMatrix();
       renderer.setSize(nw, nh);
     };
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', onResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
-      canvasContainer.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('resize', onResize);
+      container.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('scroll', onScroll);
       cancelAnimationFrame(rafId);
       renderer.dispose();
-      if (canvasContainer) canvasContainer.innerHTML = '';
+      if (container) container.innerHTML = '';
     };
   }, []);
 
   return (
-    <section ref={containerRef} id="expertise" className="relative py-28 bg-black border-b border-white/10 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-8">
+    <section ref={containerRef} id="expertise" className="relative h-[500vh] bg-transparent border-b border-white/10">
+      <div className="sticky top-0 h-screen flex flex-col justify-center px-4 sm:px-12 lg:px-20 max-w-7xl mx-auto z-20 overflow-hidden">
         
-        {/* Section Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 border-b border-white/15 pb-6 gap-4">
+        {/* Header Bar */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border border-white/20 pb-4 pt-4 px-6 mb-8 bg-neutral-950/90 backdrop-blur-2xl rounded-xl shadow-[0_15px_50px_rgba(0,0,0,0.9)] gap-3 shrink-0">
           <div>
-            <p className="text-[#dc2626] text-xs font-bold tracking-[0.3em] uppercase mb-2">// CORE TECHNICAL MATRIX</p>
-            <h3 className="text-3xl sm:text-5xl font-black uppercase tracking-tight text-white drop-shadow">Engineering Expertise</h3>
+            <p className="text-[#dc2626] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-0.5">// CINEMATIC 3D EXPERTISE KERNEL</p>
+            <h3 className="text-2xl sm:text-4xl font-black uppercase tracking-tight text-white drop-shadow">Core Technical Matrix</h3>
           </div>
-          <p className="text-xs font-mono text-neutral-400 max-w-md">
-            Interactive breakdown of core production proficiencies, architectural ownership, and high-performance system delivery.
-          </p>
+          <div className="flex items-center gap-3 font-mono text-xs">
+            <span className="text-neutral-400">NODE 0{selectedModule + 1} / 0{expertiseNodes.length}</span>
+            <span className="text-[#dc2626] font-bold uppercase bg-black px-3 py-1 border border-white/20 rounded">ACTIVE SYSTEM</span>
+          </div>
         </div>
 
-        {/* Main Split Layout: 3D Core Viewport on Left, Interactive Capability Cards on Right */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        {/* Dynamic Grid Layout: 3D Central Core Viewport + Active Module Interactive HUD */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           
-          {/* Left: 3D Interactive Core Container */}
-          <div className="lg:col-span-5 h-[380px] sm:h-[450px] border border-white/20 bg-neutral-950/90 backdrop-blur-3xl rounded-xl relative overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.95)] flex items-center justify-center group">
-            <div ref={mountRef} className="absolute inset-0 cursor-grab active:cursor-grabbing" />
-            <div className="absolute top-4 left-4 font-mono text-[10px] text-neutral-400 bg-black/80 px-3 py-1 border border-white/15 rounded backdrop-blur-md">
-              [INTERACTIVE 3D CORE SYSTEM]
+          {/* Left: 3D Viewport */}
+          <div className="lg:col-span-5 h-[320px] sm:h-[420px] border border-white/25 bg-neutral-950/95 backdrop-blur-3xl relative rounded-2xl overflow-hidden shadow-[0_25px_70px_rgba(0,0,0,0.98)] flex items-center justify-center shrink-0">
+            <div ref={canvasRef} className="absolute inset-0 cursor-grab active:cursor-grabbing" />
+            <div className="absolute bottom-4 left-4 pointer-events-none font-mono text-[10px] text-neutral-400 bg-black/90 px-3 py-1.5 border border-white/15 rounded backdrop-blur-md">
+              [DRAG TO ROTATE // SCROLL TO NAVIGATE]
             </div>
-            <div className="absolute bottom-4 right-4 font-mono text-[10px] text-[#dc2626] bg-black/80 px-3 py-1 border border-[#dc2626]/40 rounded backdrop-blur-md animate-pulse">
-              ACTIVE NODE // 0{activeTab + 1}
+            <div className="absolute top-4 right-4 pointer-events-none font-mono text-[10px] text-emerald-400 bg-emerald-950/60 px-3 py-1.5 border border-emerald-500/40 rounded backdrop-blur-md">
+              60 FPS // KERNEL ACTIVE
             </div>
           </div>
 
-          {/* Right: Interactive Professional Tabbed/Card Stack */}
+          {/* Right: Interactive Professional HUD Display Cards */}
           <div className="lg:col-span-7 flex flex-col gap-4">
-            {capabilities.map((cap, idx) => (
+            {expertiseNodes.map((node, idx) => (
               <div 
                 key={idx}
-                onClick={() => setActiveTab(idx)}
-                className={`border p-6 sm:p-7 transition-all duration-300 cursor-pointer backdrop-blur-3xl rounded-xl relative overflow-hidden group ${
-                  activeTab === idx 
-                    ? 'border-[#dc2626] bg-neutral-900/95 shadow-[0_10px_40px_rgba(220,38,38,0.25)] translate-x-2' 
-                    : 'border-white/15 bg-neutral-950/70 hover:border-white/40 hover:bg-neutral-950/90'
+                onClick={() => setSelectedModule(idx)}
+                className={`border p-6 sm:p-7 transition-all duration-500 cursor-pointer backdrop-blur-3xl rounded-xl relative overflow-hidden group shadow-2xl ${
+                  selectedModule === idx 
+                    ? 'border-[#dc2626] bg-neutral-900/95 shadow-[0_0_35px_rgba(220,38,38,0.35)] translate-x-2' 
+                    : 'border-white/15 bg-neutral-950/70 opacity-60 hover:opacity-100 hover:border-white/40 hover:bg-neutral-950/9onn'
                 }`}
               >
-                {activeTab === idx && (
+                {selectedModule === idx && (
                   <div className="absolute top-0 left-0 w-1.5 h-full bg-[#dc2626] shadow-[0_0_15px_#dc2626]"></div>
                 )}
                 
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-3 gap-2">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-2 gap-2">
                   <div className="flex items-center gap-3">
-                    <span className="text-xs font-mono font-black text-neutral-400 px-2.5 py-1 bg-black rounded border border-white/10">{cap.id}</span>
-                    <h4 className="text-lg sm:text-xl font-black uppercase tracking-tight text-white group-hover:text-[#dc2626] transition-colors">{cap.title}</h4>
+                    <span className="text-xs font-mono font-bold px-2.5 py-1 bg-black text-white rounded border border-white/20">{node.id}</span>
+                    <h4 className="text-xl sm:text-2xl font-black uppercase tracking-tight text-white group-hover:text-[#dc2626] transition-colors">{node.title}</h4>
                   </div>
-                  <span className="text-[10px] font-mono text-[#3b82f6] bg-blue-950/40 border border-blue-500/30 px-3 py-1 rounded font-bold">{cap.tag}</span>
+                  <span className="text-[10px] font-mono text-[#3b82f6] bg-blue-950/60 border border-blue-500/40 px-3 py-1 rounded font-bold">{node.category}</span>
                 </div>
 
                 <p className="text-xs sm:text-sm text-neutral-300 font-mono leading-relaxed mb-4 pl-0 sm:pl-11">
-                  {cap.desc}
+                  {node.description}
                 </p>
 
-                <div className="flex justify-between items-center pt-3 border-t border-white/10 pl-0 sm:pl-11 text-[11px] font-mono">
-                  <span className="text-neutral-400">Benchmark Metric:</span>
-                  <span className="text-emerald-400 font-bold bg-emerald-950/50 px-2.5 py-0.5 rounded border border-emerald-500/30">{cap.metrics}</span>
+                <div className="flex justify-between items-center pt-3 border-t border-white/10 pl-0 sm:pl-11 text-xs font-mono">
+                  <span className="text-neutral-400">System Benchmark:</span>
+                  <span className="text-emerald-400 font-bold bg-emerald-950/60 px-3 py-1 rounded border border-emerald-500/40">{node.metrics}</span>
                 </div>
               </div>
             ))}
@@ -1013,7 +1038,7 @@ export default function App() {
         <SkillsTicker />
         <RadialOrbitalScrollytelling />
         <ScrollytellingSection />
-        <ProfessionalExpertise3D />
+        <CinematicExpertiseMatrix />
         <Footer />
       </main>
     </div>
