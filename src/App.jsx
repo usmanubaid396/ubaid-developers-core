@@ -760,8 +760,8 @@ const Footer = () => (
         <p className="text-xs text-neutral-300 mt-6 tracking-widest uppercase font-bold">Reach out directly to discuss your SaaS or web platform.</p>
         <div className="mt-8 flex flex-col gap-4 text-xs font-bold tracking-widest">
           <a href="mailto:dev@healthcarepk.online" className="text-neutral-200 hover:text-[#dc2626] transition-colors">DEV@HEALTHCAREPK.ONLINE</a>
-          <a href="tel:+923041381382" className="text-neutral-200 hover:text-[#dc2626] transition-colors">+92 304 1381382</a>
-          <span className="text-[#3b82f6]">LAHORE, PAKISTAN [31.5204° N, 74.3587° E]</span>
+          <a href="https://github.com/usmanubaid396" target="_blank" rel="noopener noreferrer" className="text-neutral-200 hover:text-[#dc2626] transition-colors">GITHUB.COM/USMANUBAID396</a>
+          <a href="https://linkedin.com/in/uu51" target="_blank" rel="noopener noreferrer" className="text-neutral-200 hover:text-[#dc2626] transition-colors">LINKEDIN.COM/IN/UU51</a>
         </div>
       </div>
       <div>
