@@ -306,7 +306,7 @@ const Navigation = () => {
       </div>
 
       <div className="hidden lg:flex gap-6 text-xs font-bold tracking-[0.2em] uppercase items-center">
-        {['Work', 'Showcase', 'Ecosystem', 'Scrollytelling', 'Expertise', 'Contact'].map((item, idx) => (
+        {['Work', 'Ecosystem', 'Scrollytelling', 'Expertise', 'Contact'].map((item, idx) => (
           <a key={idx} href={`#${item.toLowerCase()}`} className="text-neutral-200 hover:text-[#dc2626] transition-colors">
             [{item}]
           </a>
@@ -326,7 +326,7 @@ const Navigation = () => {
 
       {mobileMenuOpen && (
         <div className="absolute top-full left-0 w-full bg-black/95 backdrop-blur-3xl border-b border-white/20 p-6 flex flex-col gap-4 lg:hidden shadow-2xl">
-          {['Work', 'Showcase', 'Ecosystem', 'Scrollytelling', 'Expertise', 'Contact'].map((item, idx) => (
+          {['Work', 'Ecosystem', 'Scrollytelling', 'Expertise', 'Contact'].map((item, idx) => (
             <a 
               key={idx} 
               href={`#${item.toLowerCase()}`} 
@@ -430,7 +430,7 @@ const Works = () => {
   return (
     <section ref={containerRef} id="work" className="relative h-[400vh] bg-transparent">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center px-4 sm:px-12 max-w-7xl mx-auto">
-
+        
         <div className="flex flex-col sm:flex-row border border-white/20 px-6 py-5 items-start sm:items-center justify-between bg-neutral-950/90 backdrop-blur-2xl mb-8 shadow-[0_12px_40px_rgba(0,0,0,0.95)] rounded gap-3 sm:gap-0">
           <div>
             <p className="text-[#dc2626] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-1">// 3D SPATIAL CARD DECK</p>
@@ -447,7 +447,7 @@ const Works = () => {
             const distance = idx - activeIndex;
             const isCurrent = distance === 0;
             const isPrev = distance < 0;
-
+            
             let transformStyle = '';
             let opacityStyle = 0;
             let filterStyle = 'blur(12px)';
@@ -522,92 +522,6 @@ const Works = () => {
   );
 };
 
-const showcaseBlocks = [
-  { id: 'SC.01', tag: 'HEALTHCARE SYSTEM', title: 'Clinical Enterprise Cloud', desc: 'Secure HIPAA-compliant hospital architecture processing millions of real-time diagnostics securely.', tech: 'React / Node / PostgreSQL', highlight: 'Zero Latency' },
-  { id: 'SC.01.5', tag: 'FULL-STACK PLATFORM', title: 'MBI Platform', desc: 'Full-stack application featuring modern responsive UI layout and production routing architecture.', tech: 'React / Vercel / Tailwind', highlight: 'Live Production', link: 'https://mbi-two.vercel.app/' },
-  { id: 'SC.02', tag: 'LEGAL AUTOMATION', title: 'Universal Contract Synthesizer', desc: 'AI-powered document generation protocol compiling customized corporate agreements instantly on Vercel Edge.', tech: 'Next.js / Tailwind / Vercel Edge', highlight: 'Autonomous AI' },
-  { id: 'SC.03', tag: 'PHARMACEUTICAL ERP', title: 'Supply Chain Neural Hub', desc: 'Predictive data visualization dashboards monitoring pharmaceutical inventory flow and regional distribution.', tech: 'Python ML / WebGL / Pandas', highlight: 'Predictive ML' },
-  { id: 'SC.04', tag: 'FINANCIAL DEPOSITORY', title: 'Secured Asset Vault', desc: 'Electronic depository integration linked with Central Depository Company for regulated trading frameworks.', tech: 'TypeScript / REST / Vault API', highlight: 'Bank-Grade' },
-  { id: 'SC.05', tag: 'IMMERSIVE 3D KERNEL', title: 'WebGL Spatial Workspace', desc: 'Hardware-accelerated 60FPS browser-based 3D environment featuring raycasted mouse physics and shaders.', tech: 'Three.js / GLSL / Custom Shaders', highlight: '60 FPS 3D' },
-  { id: 'SC.06', tag: 'BIOMETRIC ANALYTICS', title: 'Diagnostic Vision Hub', desc: 'Neural network pattern recognition interface built for rapid processing of medical imaging data.', tech: 'PyTorch / FastApi / React', highlight: 'High Throughput' }
-];
-
-const HorizontalShowcase = () => {
-  const containerRef = useRef(null);
-  const trackRef = useRef(null);
-
-  useEffect(() => {
-    let animationFrameId = null;
-
-    const handleScroll = () => {
-      if (!containerRef.current || !trackRef.current) return;
-      if (animationFrameId) cancelAnimationFrame(animationFrameId);
-
-      animationFrameId = requestAnimationFrame(() => {
-        const rect = containerRef.current.getBoundingClientRect();
-        const scrollRange = rect.height - window.innerHeight;
-        if (scrollRange <= 0) return;
-
-        let progress = -rect.top / scrollRange;
-        progress = Math.max(0, Math.min(1, progress));
-
-        const maxTranslate = trackRef.current.scrollWidth - window.innerWidth;
-        trackRef.current.style.transform = `translate3d(-${progress * Math.max(0, maxTranslate)}px, 0, 0)`;
-      });
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      if (animationFrameId) cancelAnimationFrame(animationFrameId);
-    };
-  }, []);
-
-  return (
-    <section ref={containerRef} id="showcase" className="relative h-[600vh] bg-transparent">
-      <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center">
-
-        <div className="w-full max-w-7xl mx-auto px-4 sm:px-16 mb-6 z-20 relative">
-          <div className="bg-neutral-950/90 backdrop-blur-3xl p-6 border border-white/20 shadow-[0_15px_50px_rgba(0,0,0,0.9)] rounded">
-            <p className="text-[#3b82f6] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-2 bg-neutral-950/80 px-3 sm:px-4 py-1.5 border border-white/25 w-fit backdrop-blur-2xl shadow-xl">// EXPANDED SHOWCASE REPOSITORY</p>
-            <h3 className="text-2xl sm:text-4xl font-black tracking-tight uppercase text-white drop-shadow-[0_8px_20px_rgba(0,0,0,0.9)]">Ecosystem Architecture & Modules</h3>
-            <p className="text-xs sm:text-sm text-neutral-300 font-mono mt-1">Explore all deployed systems driving high-end performance across healthcare, legal, and fintech sectors.</p>
-          </div>
-        </div>
-
-        <div className="w-full overflow-hidden">
-          <div ref={trackRef} className="flex gap-6 sm:gap-10 pl-4 sm:pl-16 w-max will-change-transform">
-            {showcaseBlocks.map((item, idx) => (
-              <div key={idx} className="w-[85vw] md:w-[42vw] h-[50vh] sm:h-[55vh] border border-white/25 bg-neutral-950/95 backdrop-blur-3xl p-6 sm:p-12 flex flex-col justify-between relative group hover:border-[#3b82f6] transition-colors shadow-[0_20px_60px_rgba(0,0,0,0.95)] rounded">
-                <div className="flex justify-between items-center border-b border-white/10 pb-4">
-                  <span className="text-[10px] sm:text-xs font-mono text-[#3b82f6] bg-white/[0.06] px-3 py-1 border border-white/20">{item.tag}</span>
-                  <span className="text-[10px] font-mono text-emerald-400 font-bold bg-emerald-950/50 px-2.5 py-1 border border-emerald-500/30">// {item.highlight}</span>
-                </div>
-                <div className="my-auto">
-                  <span className="text-xs font-mono text-neutral-500 block mb-1">{item.id}</span>
-                  <h4 className="text-2xl sm:text-4xl font-black uppercase tracking-tighter mb-3 text-white group-hover:text-[#3b82f6] transition-colors drop-shadow">{item.title}</h4>
-                  <p className="text-xs sm:text-sm text-neutral-300 font-mono leading-relaxed">{item.desc}</p>
-                </div>
-                <div className="pt-4 sm:pt-6 border-t border-white/15 flex justify-between items-center text-[10px] sm:text-xs font-bold uppercase tracking-widest text-neutral-300">
-                  <span className="text-neutral-400">// {item.tech}</span>
-                  {item.link ? (
-                    <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-white group-hover:text-[#3b82f6] transition-colors flex items-center gap-1">VISIT LIVE &rarr;</a>
-                  ) : (
-                    <span className="text-white group-hover:text-[#3b82f6] transition-colors flex items-center gap-1">INSPECT &rarr;</span>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-      </div>
-    </section>
-  );
-};
-
 const RadialOrbitalScrollytelling = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef(null);
@@ -650,7 +564,7 @@ const RadialOrbitalScrollytelling = () => {
   return (
     <section ref={containerRef} id="ecosystem" className="relative h-[600vh] bg-transparent">
       <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-between px-4 sm:px-16 py-12 sm:py-20 pointer-events-auto">
-
+        
         <div className="flex justify-between items-center border-b border-white/15 pb-4 sm:pb-6 bg-neutral-950/90 backdrop-blur-2xl px-4 sm:px-6 rounded shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
           <div>
             <p className="text-[#dc2626] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-1">// SLOW-SCROLL ECOSYSTEM MATRIX</p>
@@ -665,11 +579,11 @@ const RadialOrbitalScrollytelling = () => {
           <div className="lg:col-span-5 flex flex-col items-center justify-center relative py-4">
             <div className="absolute w-56 sm:w-72 h-56 sm:h-72 rounded-full border border-white/20 animate-spin" style={{ animationDuration: '25s' }}></div>
             <div className="absolute w-40 sm:w-52 h-40 sm:h-52 rounded-full border border-dashed border-white/30 animate-spin" style={{ animationDuration: '15s', animationDirection: 'reverse' }}></div>
-
+            
             <div className="w-28 sm:w-36 h-28 sm:h-36 rounded-full bg-neutral-950/90 backdrop-blur-2xl border-2 border-[#dc2626] flex items-center justify-center shadow-[0_0_50px_rgba(220,38,38,0.5)] relative z-10 transition-all duration-500">
               {React.createElement(modules[activeIndex].icon, { size: 36, style: { color: modules[activeIndex].color } })}
             </div>
-
+            
             <div className="mt-6 sm:mt-8 text-center relative z-10">
               <span className="text-[10px] sm:text-xs font-mono px-3 sm:px-4 py-1.5 bg-neutral-950/90 backdrop-blur-2xl border border-white/20 text-white uppercase shadow-lg">
                 {modules[activeIndex].category}
@@ -679,7 +593,7 @@ const RadialOrbitalScrollytelling = () => {
 
           <div className="lg:col-span-7 border border-white/20 bg-neutral-950/90 backdrop-blur-3xl p-6 sm:p-12 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] relative overflow-hidden rounded">
             <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-red-600/25 to-transparent pointer-events-none"></div>
-
+            
             <span className="text-[10px] sm:text-xs font-mono text-[#dc2626] block mb-2">{modules[activeIndex].id} // SYSTEM KERNEL</span>
             <h4 className="text-2xl sm:text-5xl font-black uppercase tracking-tighter text-white mb-4 sm:mb-6 leading-tight sm:leading-none drop-shadow">
               {modules[activeIndex].title}
@@ -959,7 +873,7 @@ const Expertise3DMatrix = () => {
             </div>
           </div>
 
-        <div className="lg:col-span-7 flex flex-col gap-3">
+          <div className="lg:col-span-7 flex flex-col gap-3">
             {capabilitiesData.map((cap, idx) => (
               <div 
                 key={idx}
@@ -1019,7 +933,7 @@ const Footer = () => (
 export default function App() {
   return (
     <div className="min-h-screen relative font-mono text-white bg-black">
-      <WebGLEngine />
+      <WebGL Engine />
       <SystemStatus />
       <main className="relative z-10 pt-12">
         <Navigation />
