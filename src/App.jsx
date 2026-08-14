@@ -531,7 +531,6 @@ const SkillsTicker = () => {
     'Three.js', 'Node.js', 'Python', 'PostgreSQL', 'REST APIs', 'WebGL', 'Vercel'
   ];
 
-  // Triplicate array to ensure seamless infinite loop translation
   const tickerContent = [...skills, ...skills, ...skills];
 
   return (
