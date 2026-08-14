@@ -753,18 +753,42 @@ const ScrollytellingSection = () => {
 };
 
 /* ==========================================================================
-   PROFESSIONALLY REDESIGNED EXPERTISE 3D MATRIX (BALANCED & FULLY VISIBLE)
+   ULTRA-PROFESSIONAL 3D FLOATING ORBITAL CORE EXPERTISE SECTION
    ================================================================---------- */
-const Expertise3DMatrix = () => {
+const ProfessionalExpertise3D = () => {
   const containerRef = useRef(null);
   const mountRef = useRef(null);
-  const [activeLayer, setActiveLayer] = useState(0);
+  const [activeTab, setActiveTab] = useState(0);
 
-  const capabilitiesData = [
-    { id: '01', title: 'Full-Stack Architecture', tech: 'React / Next.js / Node', color: 0xdc2626, desc: 'High-performance reactive interfaces and scalable server-side infrastructure.' },
-    { id: '02', title: 'Relational Databases', tech: 'PostgreSQL / MySQL / SQL', color: 0x3b82f6, desc: 'Optimized multi-tenant schemas, secure auth pipelines, and ACID compliance.' },
-    { id: '03', title: 'WebGL & 3D Spatial Engines', tech: 'Three.js / Shaders / R3F', color: 0x10b981, desc: 'Immersive browser-based 3D environments, raycasted physics, and 60FPS shaders.' },
-    { id: '04', title: 'Python & AI Pipelines', tech: 'PyTorch / ML / Automation', color: 0xf59e0b, desc: 'Tailored machine learning models and automated contract/data synthesis.' }
+  const capabilities = [
+    {
+      id: '01',
+      title: 'Full-Stack Architecture & React',
+      tag: 'FRONTEND KERNEL',
+      desc: 'Engineered high-performance, reactive interfaces using Next.js, React, and Tailwind CSS with fluid GPU-accelerated micro-interactions.',
+      metrics: '99.9% Performance Index'
+    },
+    {
+      id: '02',
+      title: 'Relational Database Engineering',
+      tag: 'BACKEND INTEGRATION',
+      desc: 'Optimized multi-tenant PostgreSQL schemas, secure token authorization pipelines, and complex relational query structures ensuring strict ACID compliance.',
+      metrics: 'Zero-Latency Query Index'
+    },
+    {
+      id: '03',
+      title: 'WebGL & Immersive 3D Engines',
+      tag: 'SPATIAL GRAPHICS',
+      desc: 'Built custom browser-based 3D environments, particle matrices, and raycasted mouse physics utilizing Three.js and custom GLSL shader pipelines.',
+      metrics: '60 FPS Frame Stability'
+    },
+    {
+      id: '04',
+      title: 'Python Neural & AI Automations',
+      tag: 'INTELLIGENT PIPELINES',
+      desc: 'Developed backend machine learning prediction models, PyTorch data inference wrappers, and serverless automated contract synthesisers.',
+      metrics: 'Autonomous Pipeline Sync'
+    }
   ];
 
   useEffect(() => {
@@ -777,84 +801,65 @@ const Expertise3DMatrix = () => {
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(45, w / h, 0.1, 1000);
-    camera.position.z = 24;
+    camera.position.z = 22;
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: 'high-performance' });
     renderer.setSize(w, h);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     canvasContainer.appendChild(renderer.domElement);
 
-    const prismGroup = new THREE.Group();
-    const layers = [];
+    const group = new THREE.Group();
+    scene.add(group);
 
-    capabilitiesData.forEach((cap, idx) => {
-      const layerGroup = new THREE.Group();
-      
-      const geo = new THREE.CylinderGeometry(4.2 - idx * 0.5, 4.2 - idx * 0.5, 0.4, 6);
-      const mat = new THREE.MeshStandardMaterial({
-        color: cap.color,
-        wireframe: true,
-        transparent: true,
-        opacity: 0.85,
-        roughness: 0.1,
-        metalness: 0.9
+    // Complex multi-layered orbital rings and crystal core
+    const coreGeo = new THREE.IcosahedronGeometry(4.5, 1);
+    const coreMat = new THREE.MeshStandardMaterial({
+      color: 0x050505,
+      roughness: 0.2,
+      metalness: 0.95,
+      wireframe: false
+    });
+    const coreMesh = new THREE.Mesh(coreGeo, coreMat);
+    group.add(coreMesh);
+
+    const wireGeo = new THREE.IcosahedronGeometry(5.2, 1);
+    const wireMat = new THREE.MeshBasicMaterial({ color: 0xdc2626, wireframe: true, transparent: true, opacity: 0.85 });
+    const wireMesh = new THREE.Mesh(wireGeo, wireMat);
+    group.add(wireMesh);
+
+    const ringGeos = [
+      new THREE.TorusGeometry(7.5, 0.03, 16, 100),
+      new THREE.TorusGeometry(9.5, 0.02, 16, 100),
+      new THREE.TorusGeometry(11.5, 0.015, 16, 100)
+    ];
+    const rings = ringGeos.map((geo, i) => {
+      const mat = new THREE.MeshBasicMaterial({ 
+        color: i === 0 ? 0xdc2626 : i === 1 ? 0x3b82f6 : 0xffffff, 
+        transparent: true, 
+        opacity: 0.5 
       });
       const mesh = new THREE.Mesh(geo, mat);
-      
-      const ringGeo = new THREE.TorusGeometry(3.6 - idx * 0.4, 0.03, 16, 50);
-      const ringMat = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.6 });
-      const ring = new THREE.Mesh(ringGeo, ringMat);
-      ring.rotation.x = Math.PI / 2;
-
-      layerGroup.add(mesh);
-      layerGroup.add(ring);
-      
-      layerGroup.position.y = (idx - 1.5) * 1.8;
-      prismGroup.add(layerGroup);
-      layers.push({ group: layerGroup, basePosY: (idx - 1.5) * 1.8 });
+      mesh.rotation.x = Math.random() * Math.PI;
+      mesh.rotation.y = Math.random() * Math.PI;
+      group.add(mesh);
+      return mesh;
     });
-
-    scene.add(prismGroup);
 
     const ambientLight = new THREE.AmbientLight(0xffffff, 2.0);
     scene.add(ambientLight);
-    const pointLight = new THREE.PointLight(0xffffff, 10, 100);
-    pointLight.position.set(10, 20, 15);
+    const pointLight = new THREE.PointLight(0xdc2626, 8, 50);
+    pointLight.position.set(10, 10, 10);
     scene.add(pointLight);
 
     let mouseX = 0;
     let mouseY = 0;
-    let currentScrollProgress = 0;
 
     const handleMouseMove = (e) => {
       const rect = canvasContainer.getBoundingClientRect();
       mouseX = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       mouseY = -((e.clientY - rect.top) / rect.height) * 2 + 1;
     };
-
-    let animationFrameId = null;
-
-    const handleScroll = () => {
-      if (!sectionEl) return;
-      if (animationFrameId) cancelAnimationFrame(animationFrameId);
-
-      animationFrameId = requestAnimationFrame(() => {
-        const rect = sectionEl.getBoundingClientRect();
-        const scrollRange = rect.height - window.innerHeight;
-        if (scrollRange <= 0) return;
-
-        let progress = -rect.top / scrollRange;
-        progress = Math.max(0, Math.min(1, progress));
-        currentScrollProgress = progress;
-
-        const calculatedIndex = Math.min(capabilitiesData.length - 1, Math.floor(progress * capabilitiesData.length));
-        setActiveLayer(calculatedIndex);
-      });
-    };
-
     canvasContainer.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
 
     let rafId;
     const clock = new THREE.Clock();
@@ -863,18 +868,15 @@ const Expertise3DMatrix = () => {
       rafId = requestAnimationFrame(animate);
       const time = clock.getElapsedTime();
 
-      prismGroup.rotation.y += (mouseX * 0.8 - prismGroup.rotation.y) * 0.08 + 0.004;
-      prismGroup.rotation.x += (mouseY * 0.5 - prismGroup.rotation.x) * 0.08;
+      group.rotation.y += (mouseX * 0.6 - group.rotation.y) * 0.08 + 0.005;
+      group.rotation.x += (mouseY * 0.4 - group.rotation.x) * 0.08;
 
-      const targetExplosion = 0.5 + currentScrollProgress * 1.2;
+      wireMesh.rotation.y = -time * 0.3;
+      coreMesh.rotation.z = time * 0.15;
 
-      layers.forEach((layer, idx) => {
-        const isHighlighted = idx === activeLayer;
-        const explosionMultiplier = isHighlighted ? 1.5 : 0.8;
-        const targetPosY = layer.basePosY * targetExplosion * explosionMultiplier;
-        
-        layer.group.position.y += (targetPosY - layer.group.position.y) * 0.1;
-        layer.group.rotation.y = time * (idx % 2 === 0 ? 0.25 : -0.25);
+      rings.forEach((ring, idx) => {
+        ring.rotation.x += (idx + 1) * 0.005;
+        ring.rotation.y += (idx + 1) * 0.008;
       });
 
       renderer.render(scene, camera);
@@ -894,53 +896,72 @@ const Expertise3DMatrix = () => {
     return () => {
       window.removeEventListener('resize', handleResize);
       canvasContainer.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('scroll', handleScroll);
-      if (animationFrameId) cancelAnimationFrame(animationFrameId);
       cancelAnimationFrame(rafId);
       renderer.dispose();
       if (canvasContainer) canvasContainer.innerHTML = '';
     };
-  }, [activeLayer]);
+  }, []);
 
   return (
-    <section ref={containerRef} id="expertise" className="relative h-[600vh] bg-transparent border-b border-white/10">
-      <div className="sticky top-0 h-screen flex flex-col justify-center px-4 sm:px-12 lg:px-20 max-w-7xl mx-auto z-20 overflow-y-auto lg:overflow-hidden py-12">
+    <section ref={containerRef} id="expertise" className="relative py-28 bg-black border-b border-white/10 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8">
         
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border border-white/20 pb-4 pt-4 px-6 mb-6 bg-neutral-950/90 backdrop-blur-2xl rounded shadow-[0_12px_40px_rgba(0,0,0,0.9)] gap-3 shrink-0">
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 border-b border-white/15 pb-6 gap-4">
           <div>
-            <p className="text-[#dc2626] text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-0.5">// SLOW-SCROLL 3D HOLOGRAPHIC MATRIX</p>
-            <h3 className="text-xl sm:text-3xl font-black uppercase tracking-tight text-white drop-shadow">Technical Blueprint & Stack</h3>
+            <p className="text-[#dc2626] text-xs font-bold tracking-[0.3em] uppercase mb-2">// CORE TECHNICAL MATRIX</p>
+            <h3 className="text-3xl sm:text-5xl font-black uppercase tracking-tight text-white drop-shadow">Engineering Expertise</h3>
           </div>
-          <span className="text-[10px] sm:text-xs font-mono text-neutral-300 bg-neutral-950/80 px-3 py-1 border border-white/20">PRISM EXPANSION // 3D INTERACTION</span>
+          <p className="text-xs font-mono text-neutral-400 max-w-md">
+            Interactive breakdown of core production proficiencies, architectural ownership, and high-performance system delivery.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+        {/* Main Split Layout: 3D Core Viewport on Left, Interactive Capability Cards on Right */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           
-          <div className="lg:col-span-5 h-[280px] sm:h-[360px] border border-white/25 bg-neutral-950/95 backdrop-blur-3xl relative rounded overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.95)] flex items-center justify-center shrink-0">
+          {/* Left: 3D Interactive Core Container */}
+          <div className="lg:col-span-5 h-[380px] sm:h-[450px] border border-white/20 bg-neutral-950/90 backdrop-blur-3xl rounded-xl relative overflow-hidden shadow-[0_25px_60px_rgba(0,0,0,0.95)] flex items-center justify-center group">
             <div ref={mountRef} className="absolute inset-0 cursor-grab active:cursor-grabbing" />
-            <div className="absolute bottom-3 left-3 pointer-events-none font-mono text-[9px] text-neutral-400 bg-black/80 px-2.5 py-1 border border-white/10">
-              [SLOW SCROLL TO EXPAND // DRAG TO ROTATE]
+            <div className="absolute top-4 left-4 font-mono text-[10px] text-neutral-400 bg-black/80 px-3 py-1 border border-white/15 rounded backdrop-blur-md">
+              [INTERACTIVE 3D CORE SYSTEM]
+            </div>
+            <div className="absolute bottom-4 right-4 font-mono text-[10px] text-[#dc2626] bg-black/80 px-3 py-1 border border-[#dc2626]/40 rounded backdrop-blur-md animate-pulse">
+              ACTIVE NODE // 0{activeTab + 1}
             </div>
           </div>
 
-          <div className="lg:col-span-7 flex flex-col gap-3">
-            {capabilitiesData.map((cap, idx) => (
+          {/* Right: Interactive Professional Tabbed/Card Stack */}
+          <div className="lg:col-span-7 flex flex-col gap-4">
+            {capabilities.map((cap, idx) => (
               <div 
                 key={idx}
-                onMouseEnter={() => setActiveLayer(idx)}
-                className={`border p-4 sm:p-5 transition-all duration-300 cursor-pointer backdrop-blur-3xl shadow-[0_8px_32px_0_rgba(0,0,0,0.5)] flex items-start gap-4 rounded ${
-                  activeLayer === idx 
-                    ? 'border-[#dc2626] bg-neutral-900/95 shadow-[0_0_30px_rgba(220,38,38,0.4)] translate-x-1' 
-                    : 'border-white/15 bg-neutral-950/80 opacity-70 hover:opacity-100 hover:border-white/40'
+                onClick={() => setActiveTab(idx)}
+                className={`border p-6 sm:p-7 transition-all duration-300 cursor-pointer backdrop-blur-3xl rounded-xl relative overflow-hidden group ${
+                  activeTab === idx 
+                    ? 'border-[#dc2626] bg-neutral-900/95 shadow-[0_10px_40px_rgba(220,38,38,0.25)] translate-x-2' 
+                    : 'border-white/15 bg-neutral-950/70 hover:border-white/40 hover:bg-neutral-950/90'
                 }`}
               >
-                <span className="text-xs font-mono font-bold px-2 py-0.5 bg-black text-white border border-white/20 shrink-0">{cap.id}</span>
-                <div className="w-full">
-                  <div className="flex justify-between items-center mb-1">
-                    <h5 className="text-sm sm:text-base font-black uppercase tracking-tight text-white">{cap.title}</h5>
-                    <span className="text-[10px] font-mono text-[#dc2626] font-bold">{cap.tech}</span>
+                {activeTab === idx && (
+                  <div className="absolute top-0 left-0 w-1.5 h-full bg-[#dc2626] shadow-[0_0_15px_#dc2626]"></div>
+                )}
+                
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-3 gap-2">
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs font-mono font-black text-neutral-400 px-2.5 py-1 bg-black rounded border border-white/10">{cap.id}</span>
+                    <h4 className="text-lg sm:text-xl font-black uppercase tracking-tight text-white group-hover:text-[#dc2626] transition-colors">{cap.title}</h4>
                   </div>
-                  <p className="text-[11px] sm:text-xs text-neutral-300 font-mono leading-relaxed">{cap.desc}</p>
+                  <span className="text-[10px] font-mono text-[#3b82f6] bg-blue-950/40 border border-blue-500/30 px-3 py-1 rounded font-bold">{cap.tag}</span>
+                </div>
+
+                <p className="text-xs sm:text-sm text-neutral-300 font-mono leading-relaxed mb-4 pl-0 sm:pl-11">
+                  {cap.desc}
+                </p>
+
+                <div className="flex justify-between items-center pt-3 border-t border-white/10 pl-0 sm:pl-11 text-[11px] font-mono">
+                  <span className="text-neutral-400">Benchmark Metric:</span>
+                  <span className="text-emerald-400 font-bold bg-emerald-950/50 px-2.5 py-0.5 rounded border border-emerald-500/30">{cap.metrics}</span>
                 </div>
               </div>
             ))}
@@ -966,10 +987,10 @@ const Footer = () => (
         </div>
       </div>
       <div>
-        <form className="flex flex-col gap-4 bg-black/60 p-8 border border-white/15 backdrop-blur-xl shadow-2xl" onSubmit={(e) => { e.preventDefault(); window.location.href = 'mailto:dev@healthcarepk.online'; }}>
-          <input type="email" placeholder="YOUR EMAIL" required className="bg-black/80 border border-white/15 p-4 text-xs font-bold uppercase text-white focus:border-[#dc2626] outline-none transition-colors" />
-          <textarea placeholder="PROJECT DETAILS / MESSAGE" rows="4" required className="bg-black/80 border border-white/15 p-4 text-xs font-bold uppercase text-white focus:border-[#dc2626] outline-none resize-none transition-colors"></textarea>
-          <button type="submit" className="bg-white text-black py-4 text-xs font-black uppercase tracking-widest hover:bg-[#dc2626] hover:text-white transition-colors border border-white shadow-[0_0_20px_rgba(255,255,255,0.2)]">Send Message</button>
+        <form className="flex flex-col gap-4 bg-black/60 p-8 border border-white/15 backdrop-blur-xl shadow-2xl rounded" onSubmit={(e) => { e.preventDefault(); window.location.href = 'mailto:dev@healthcarepk.online'; }}>
+          <input type="email" placeholder="YOUR EMAIL" required className="bg-black/80 border border-white/15 p-4 text-xs font-bold uppercase text-white focus:border-[#dc2626] outline-none transition-colors rounded" />
+          <textarea placeholder="PROJECT DETAILS / MESSAGE" rows="4" required className="bg-black/80 border border-white/15 p-4 text-xs font-bold uppercase text-white focus:border-[#dc2626] outline-none resize-none transition-colors rounded"></textarea>
+          <button type="submit" className="bg-white text-black py-4 text-xs font-black uppercase tracking-widest hover:bg-[#dc2626] hover:text-white transition-colors border border-white shadow-[0_0_20px_rgba(255,255,255,0.2)] rounded">Send Message</button>
         </form>
       </div>
     </div>
@@ -992,7 +1013,7 @@ export default function App() {
         <SkillsTicker />
         <RadialOrbitalScrollytelling />
         <ScrollytellingSection />
-        <Expertise3DMatrix />
+        <ProfessionalExpertise3D />
         <Footer />
       </main>
     </div>
