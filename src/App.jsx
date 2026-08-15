@@ -759,13 +759,14 @@ const Footer = () => (
         <h2 className="text-5xl sm:text-7xl font-black tracking-tighter uppercase text-white drop-shadow">Let's build<br/>something great.</h2>
         <p className="text-xs text-neutral-300 mt-6 tracking-widest uppercase font-bold">Reach out directly to discuss your SaaS or web platform.</p>
         <div className="mt-8 flex flex-col gap-4 text-xs font-bold tracking-widest">
-          <a href="mailto:dev@healthcarepk.online" className="text-neutral-200 hover:text-[#dc2626] transition-colors">DEV@HEALTHCAREPK.ONLINE</a>
-          <a href="https://github.com/usmanubaid396" target="_blank" rel="noopener noreferrer" className="text-neutral-200 hover:text-[#dc2626] transition-colors">GITHUB.COM/USMANUBAID396</a>
-          <a href="https://linkedin.com/in/uu51" target="_blank" rel="noopener noreferrer" className="text-neutral-200 hover:text-[#dc2626] transition-colors">LINKEDIN.COM/IN/UU51</a>
+          <a href="mailto:usman@healthcarepk.online" className="text-neutral-200 hover:text-[#dc2626] transition-colors">usman@healthcarepk.online</a>
+          <a href="https://github.com/usmanubaid396" target="_blank" rel="noopener noreferrer" className="text-neutral-200 hover:text-[#dc2626] transition-colors">github</a>
+          <a href="https://linkedin.com/in/uu51" target="_blank" rel="noopener noreferrer" className="text-neutral-200 hover:text-[#dc2626] transition-colors">linkedin</a>
+          <span className="text-[#3b82f6]">LAHORE, PAKISTAN [31.5204° N, 74.3587° E]</span>
         </div>
       </div>
       <div>
-        <form className="flex flex-col gap-4 bg-black/60 p-8 border border-white/15 backdrop-blur-xl shadow-2xl" onSubmit={(e) => { e.preventDefault(); window.location.href = 'mailto:dev@healthcarepk.online'; }}>
+        <form className="flex flex-col gap-4 bg-black/60 p-8 border border-white/15 backdrop-blur-xl shadow-2xl" onSubmit={(e) => { e.preventDefault(); window.location.href = 'mailto:usman@healthcarepk.online'; }}>
           <input type="email" placeholder="YOUR EMAIL" required className="bg-black/80 border border-white/15 p-4 text-xs font-bold uppercase text-white focus:border-[#dc2626] outline-none transition-colors" />
           <textarea placeholder="PROJECT DETAILS / MESSAGE" rows="4" required className="bg-black/80 border border-white/15 p-4 text-xs font-bold uppercase text-white focus:border-[#dc2626] outline-none resize-none transition-colors"></textarea>
           <button type="submit" className="bg-white text-black py-4 text-xs font-black uppercase tracking-widest hover:bg-[#dc2626] hover:text-white transition-colors border border-white shadow-[0_0_20px_rgba(255,255,255,0.2)]">Send Message</button>
