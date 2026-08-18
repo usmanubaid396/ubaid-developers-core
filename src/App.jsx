@@ -287,7 +287,7 @@ const SystemStatus = () => (
   <div className="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-xl border-b border-white/15 text-[9px] sm:text-xs uppercase flex justify-between items-center px-3 sm:px-4 py-2 sm:py-3 font-light tracking-widest text-neutral-200 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
     <div className="flex items-center gap-2 text-white font-bold truncate">
       <div className="w-2 h-2 bg-[#dc2626] rounded-full animate-pulse shadow-[0_0_15px_#dc2626] shrink-0"></div>
-      <span className="truncate">USMAN_UBAID // SAFARI GLOSSMORPHIC KERNEL</span>
+      <span className="truncate">USMAN_UBAID // FULL STACK DEVELOPER</span>
     </div>
     <div className="text-[#3b82f6] font-bold hidden md:block shrink-0">LAHORE, PK [31.5204° N, 74.3587° E]</div>
   </div>
@@ -353,13 +353,13 @@ const Hero = () => (
   <section id="index" className="relative z-10 w-full px-4 sm:px-8 pt-20 sm:pt-24 pb-24 sm:pb-32 border-b border-white/15 bg-transparent">
     <div className="max-w-6xl">
       <p className="text-[#dc2626] text-xs sm:text-sm tracking-[0.3em] mb-6 sm:mb-8 font-bold flex items-center gap-2 bg-neutral-950/80 backdrop-blur-xl w-fit px-3 sm:px-4 py-1.5 border border-white/20 shadow-xl">
-        <Crosshair size={16} className="shrink-0" /> <span className="truncate">FULL-STACK SaaS & 3D IMMERSIVE WORKSPACE</span>
+        <Crosshair size={16} className="shrink-0" /> <span className="truncate">FULL-STACK SaaS & 3D IMMERSIVE ARCHITECTURE</span>
       </p>
       <h2 className="text-4xl sm:text-7xl md:text-9xl font-black tracking-tighter uppercase leading-[0.9] sm:leading-[0.85] text-white drop-shadow-[0_15px_30px_rgba(0,0,0,0.9)]">
         I build high-end <br /><span className="stroke-text">SaaS products</span> & web apps that scale.
       </h2>
       <p className="mt-6 sm:mt-8 text-xs sm:text-lg text-neutral-200 max-w-2xl font-light tracking-wide leading-relaxed bg-neutral-950/80 p-6 sm:p-8 border border-white/15 backdrop-blur-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
-        I'm Usman Ubaid — a full-stack engineer turning complex startup ideas, medical architectures, and AI/ML model integrations into production-ready web platforms using Next.js, React, SQL, Python, and Vercel.
+        I'm Usman Ubaid — a full-stack web engineer turning complex startup ideas, architectures, and AI/ML model integrations into production-ready web platforms using Next.js, React, SQL, Python, and Vercel.
       </p>
 
       <div className="mt-12 sm:mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 max-w-4xl">
@@ -390,9 +390,9 @@ const Hero = () => (
 );
 
 const worksData = [
-  { id: 'SYS.01', title: 'HealthcarePK', type: 'Healthcare Digital Infrastructure', tech: 'React / Node / PostgreSQL / Python ML', link: 'https://healthcarepk.online' },
-  { id: 'SYS.02', title: 'Contract Maker', type: 'Legal SaaS Platform & Generator', tech: 'Next.js / Tailwind / Vercel Edge', link: 'https://universal-contract-maker.vercel.app/' },
-  { id: 'SYS.03', title: 'UsmanUbaid Portfolio', type: 'Interactive 3D 60fps Web Engine', tech: 'React / Three.js / WebGL / Tailwind', link: '#' },
+  { id: 'SYS.01', title: 'Business Portfolio', type: 'Healthcare Digital Infrastructure', tech: 'React / Node / PostgreSQL / Python ML', link: 'https://healthcarepk.online' },
+  { id: 'SYS.02', title: 'Utility Workflow Tool', type: 'Legal SaaS Platform & Generator', tech: 'Next.js / Tailwind / Vercel Edge', link: 'https://universal-contract-maker.vercel.app/' },
+  { id: 'SYS.03', title: 'Individual Portfolio', type: 'Interactive 3D 60fps Web Engine', tech: 'React / Three.js / WebGL / Tailwind', link: '#' },
 ];
 
 const Works = () => {
