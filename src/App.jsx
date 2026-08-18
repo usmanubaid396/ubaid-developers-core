@@ -364,11 +364,11 @@ const Hero = () => (
 
       <div className="mt-12 sm:mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 max-w-4xl">
         <div className="border border-white/15 bg-neutral-950/80 p-5 sm:p-6 backdrop-blur-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
-          <div className="text-3xl sm:text-5xl font-black text-white mb-1 drop-shadow">4+</div>
+          <div className="text-3xl sm:text-5xl font-black text-white mb-1 drop-shadow">5+</div>
           <div className="text-[10px] sm:text-xs text-neutral-300 uppercase tracking-widest font-bold">Years Shipping Code</div>
         </div>
         <div className="border border-white/15 bg-neutral-950/80 p-5 sm:p-6 backdrop-blur-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
-          <div className="text-3xl sm:text-5xl font-black text-[#dc2626] mb-1 drop-shadow">8+</div>
+          <div className="text-3xl sm:text-5xl font-black text-[#dc2626] mb-1 drop-shadow">20+</div>
           <div className="text-[10px] sm:text-xs text-neutral-300 uppercase tracking-widest font-bold">SaaS & Web Apps Launched</div>
         </div>
         <div className="border border-white/15 bg-neutral-950/80 p-5 sm:p-6 backdrop-blur-2xl shadow-[0_8px_32px_0_rgba(0,0,0,0.37)]">
@@ -390,9 +390,9 @@ const Hero = () => (
 );
 
 const worksData = [
-  { id: 'SYS.01', title: 'Business Portfolio', type: 'Healthcare Digital Infrastructure', tech: 'React / Node / PostgreSQL / Python ML', link: 'https://healthcarepk.online' },
-  { id: 'SYS.02', title: 'Utility Workflow Tool', type: 'Legal SaaS Platform & Generator', tech: 'Next.js / Tailwind / Vercel Edge', link: 'https://universal-contract-maker.vercel.app/' },
-  { id: 'SYS.03', title: 'Individual Portfolio', type: 'Interactive 3D 60fps Web Engine', tech: 'React / Three.js / WebGL / Tailwind', link: '#' },
+  { id: 'SYS.01', title: 'Business Portfolio', type: 'Health Care Pharmaceuticals', tech: 'React / Node / PostgreSQL / Python ML', link: 'https://healthcarepk.online' },
+  { id: 'SYS.02', title: 'Utility Workflow Tool', type: 'Universal Contract Maker', tech: 'Next.js / Tailwind / Vercel Edge', link: 'https://universal-contract-maker.vercel.app/' },
+  { id: 'SYS.03', title: 'Individual Portfolio', type: 'Interactive 3D 60fps Web Portfolio', tech: 'React / Three.js / WebGL / Tailwind', link: '#' },
 ];
 
 const Works = () => {
